@@ -1,0 +1,46 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ToDoList.ViewModels"
+        xmlns:m="using:ToDoList.Models"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:ToDoList.Controls"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="ToDoList.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        x:Name = "Root"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="ToDoList"
+        RequestedThemeVariant="Dark">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Grid RowDefinitions="Auto, *, Auto">
+        <TextBlock Grid.Row="0" TextAlignment="Center">Title?</TextBlock>
+        <ScrollViewer Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding Tasks}">
+                <ItemsControl.DataTemplates>
+                    <DataTemplate DataType="m:Task">
+                        <controls:TaskItem DeleteCommand="{Binding #Root.((vm:MainWindowViewModel)DataContext).DeleteTaskCommand, FallbackValue=Failed to bind}"/>
+                    </DataTemplate>
+                </ItemsControl.DataTemplates>
+            </ItemsControl>
+        </ScrollViewer>
+        <Grid Grid.Row="2" ColumnDefinitions="*, Auto">
+            <TextBox Text="{Binding NewTaskDescription}">
+                <TextBox.InnerRightContent>
+                    <Button Grid.Column="1" Width="70" HorizontalContentAlignment="Center" Command="{Binding AddTaskCommand}">
+                        Add
+                    </Button>
+                </TextBox.InnerRightContent>
+                <TextBox.KeyBindings>
+                    <KeyBinding Command="{Binding AddTaskCommand}" Gesture="Enter"></KeyBinding>
+                </TextBox.KeyBindings>
+            </TextBox>
+        </Grid>
+    </Grid>
+</Window>

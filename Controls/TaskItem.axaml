@@ -1,0 +1,43 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:ToDoList.Controls"
+        xmlns:m="clr-namespace:ToDoList.Models">
+    <Design.PreviewWith>
+        <controls:TaskItem />
+    </Design.PreviewWith>
+
+    <Style Selector="controls|TaskItem">
+        <!-- Set Defaults -->
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Expander HorizontalAlignment="Stretch">
+                    <Expander.Header>
+                        <Grid ColumnDefinitions="Auto, *">
+                            <TextBlock Grid.Column="0"
+                                       Text="{Binding ((m:Task)DataContext).Status, FallbackValue=Unable to bind, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TaskStatusConverter}}" />
+                            <TextBlock Grid.Column="1"
+                                       TextAlignment="Center"
+                                       Text="{Binding ((m:Task)DataContext).Name, FallbackValue=Unable to bind, RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Grid>
+                    </Expander.Header>
+                    <Grid ColumnDefinitions="Auto, *">
+                        <Button Grid.Column="0"
+                                Command="{TemplateBinding DeleteCommand}"
+                                CommandParameter="{TemplateBinding DataContext}">
+                            Del
+                        </Button>
+                        <TextBlock Grid.Column="1">
+                            Some bullshit text;
+                            Some bullshit text;
+                            Some bullshit text;
+                            Some bullshit text;
+                            Some bullshit text;
+                            Some bullshit text;
+                            Some bullshit text;
+                        </TextBlock>
+                    </Grid>
+                </Expander>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

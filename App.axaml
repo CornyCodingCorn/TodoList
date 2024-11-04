@@ -1,0 +1,26 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="ToDoList.App"
+             xmlns:local="using:ToDoList"
+             xmlns:converter="clr-namespace:ToDoList.Converter"
+             RequestedThemeVariant="Dark">
+             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    <Application.DataTemplates>
+        <local:ViewLocator/>
+    </Application.DataTemplates>
+             
+    <Application.Resources>
+        <converter:TaskStatusToString x:Key="TaskStatusConverter"/>
+    </Application.Resources>
+             
+    <Application.Styles>
+        <StyleInclude Source="Controls/ControlsStyles.axaml"/>
+        <FluentTheme>
+            <FluentTheme.Palettes>
+                <ColorPaletteResources x:Key="Light" Accent="#ff51ccc4" AltHigh="White" AltLow="White" AltMedium="White" AltMediumHigh="White" AltMediumLow="White" BaseHigh="Black" BaseLow="#ffbde5ff" BaseMedium="#ff5e9fc0" BaseMediumHigh="#ff1f7196" BaseMediumLow="#ff3f88ab" ChromeAltLow="#ff1f7196" ChromeBlackHigh="Black" ChromeBlackLow="#ffbde5ff" ChromeBlackMedium="#ff1f7196" ChromeBlackMediumLow="#ff5e9fc0" ChromeDisabledHigh="#ffbde5ff" ChromeDisabledLow="#ff5e9fc0" ChromeGray="#ff3f88ab" ChromeHigh="#ffbde5ff" ChromeLow="#ffdbf7ff" ChromeMedium="#ffd5f3ff" ChromeMediumLow="#ffdbf7ff" ChromeWhite="White" ListLow="#ffd5f3ff" ListMedium="#ffbde5ff" RegionColor="#ffeff6ff" />
+                <ColorPaletteResources x:Key="Dark" Accent="#ff53cccc" AltHigh="Black" AltLow="Black" AltMedium="Black" AltMediumHigh="Black" AltMediumLow="Black" BaseHigh="White" BaseLow="#ff3d5e6b" BaseMedium="#ff93b1bd" BaseMediumHigh="#ffa9c6d1" BaseMediumLow="#ff688894" ChromeAltLow="#ffa9c6d1" ChromeBlackHigh="Black" ChromeBlackLow="#ffa9c6d1" ChromeBlackMedium="Black" ChromeBlackMediumLow="Black" ChromeDisabledHigh="#ff3d5e6b" ChromeDisabledLow="#ff93b1bd" ChromeGray="#ff7e9ca8" ChromeHigh="#ff7e9ca8" ChromeLow="#ff0c2d42" ChromeMedium="#ff18394c" ChromeMediumLow="#ff315261" ChromeWhite="White" ListLow="#ff18394c" ListMedium="#ff3d5e6b" RegionColor="#ff1c2b38" />
+            </FluentTheme.Palettes>
+        </FluentTheme>
+    </Application.Styles>
+</Application>

@@ -1,0 +1,17 @@
+Must have:
+ - Tasks with timer to keep track
+ - CRUD Tasks
+ - Keep track of how many task has been done
+ - Total working time
+ - Compile data
+Nice to have:
+ - Reactive UI
+ - Accounts for online
+ - A website
+ 
+ Task item:
+  - Icon to show the status
+  - A name description
+  - Click will show a dropdown
+  - The dropdown will show a full info
+  - If we're doing it then it will stay open
