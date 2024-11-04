@@ -5,10 +5,10 @@ namespace ToDoList.DAL;
 
 public interface IRepository
 {
-    public IEnumerable<Task> GetTasks();
-    public bool SaveTask(Task task);
-    public bool SaveTasks(IEnumerable<Task> tasks);
-    public bool DeleteTask(Task task);
+    public IEnumerable<TaskModel> GetTasks();
+    public bool SaveTask(TaskModel taskModel);
+    public bool SaveTasks(IEnumerable<TaskModel> tasks);
+    public bool DeleteTask(TaskModel taskModel);
     public bool DeleteTask(int id);
 
     public bool Save();

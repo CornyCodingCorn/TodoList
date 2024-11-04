@@ -8,7 +8,7 @@ namespace ToDoList.ViewModels;
 public partial class MainWindowViewModel : ViewModelBase
 {
     [ObservableProperty]
-    private ObservableCollection<Task> _tasks = [];
+    private ObservableCollection<TaskModel> _tasks = [];
     [ObservableProperty] 
     [NotifyCanExecuteChangedFor(nameof(AddTaskCommand))]
     private string _newTaskDescription = string.Empty;
@@ -23,7 +23,7 @@ public partial class MainWindowViewModel : ViewModelBase
     [RelayCommand(CanExecute = nameof(CanAddTask))]
     private void AddTask()
     {
-        Tasks.Add(new Task
+        Tasks.Add(new TaskModel
         {
             Name = "New task",
             Description = NewTaskDescription,
@@ -31,15 +31,15 @@ public partial class MainWindowViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void DeleteTask(Task task)
+    private void DeleteTask(TaskModel taskModel)
     {
-        Tasks.Remove(task);
+        Tasks.Remove(taskModel);
     }
 
     private void LoadTasks()
     {
         // TODO: Add method to load from file for database
-        Tasks.Add(new Task { Id = "0", Description = "Task 1", Status = TaskStatus.Done, Name = "Task done" });
-        Tasks.Add(new Task { Id = "1", Description = "Task 2", Status = TaskStatus.NotStarted, Name = "Not done task"});
+        Tasks.Add(new TaskModel { Id = "0", Description = "Task 1", Status = TaskModelStatus.Done, Name = "Task done" });
+        Tasks.Add(new TaskModel { Id = "1", Description = "Task 2", Status = TaskModelStatus.NotStarted, Name = "Not done task"});
     }
 }

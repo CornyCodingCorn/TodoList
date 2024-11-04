@@ -9,12 +9,12 @@ public class TaskStatusToString : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value is TaskStatus status)
+        if (value is TaskModelStatus status)
             return status switch
             {
-                TaskStatus.NotStarted => "NotStarted",
-                TaskStatus.Started => "Started",
-                TaskStatus.Done => "Done",
+                TaskModelStatus.NotStarted => "NotStarted",
+                TaskModelStatus.Started => "Started",
+                TaskModelStatus.Done => "Done",
                 _ => throw new ArgumentOutOfRangeException()
             };
 

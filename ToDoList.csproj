@@ -26,4 +26,8 @@
     <UpToDateCheckInput Remove="Views\Controls\TaskItem.axaml" />
     <UpToDateCheckInput Remove="Views\Controls\TaskView.axaml" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Assets\Icons\" />
+  </ItemGroup>
 </Project>

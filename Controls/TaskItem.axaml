@@ -1,7 +1,8 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="using:ToDoList.Controls"
-        xmlns:m="clr-namespace:ToDoList.Models">
+        xmlns:m="clr-namespace:ToDoList.Models"
+        x:DataType="m:TaskModel">
     <Design.PreviewWith>
         <controls:TaskItem />
     </Design.PreviewWith>
@@ -28,25 +29,24 @@
                             <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}"/>
                         </Style>
                         <Style Selector="Expander ToggleButton:checked">
-                            <Setter Property="Foreground" Value="{DynamicResource AccentButtonForeground}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}"/>
                         </Style>
                         <Style Selector="Expander ToggleButton:checked > Border">
-                            <Setter Property="Background" Value="{DynamicResource AccentButtonBackground}"/>
+                            <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
                         </Style>
                         <Style Selector="Expander ToggleButton:checked > Border:pointerover">
-                            <Setter Property="Background" Value="{DynamicResource AccentButtonBackgroundPointerOver}"/>
+                            <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}"/>
                         </Style>
                     </Expander.Styles>
                     <Expander.Header>
                         <Grid ColumnDefinitions="Auto, *">
-                            <TextBlock Grid.Column="0"
-                                       Text="{Binding ((m:Task)DataContext).Status, FallbackValue=Unable to bind, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TaskStatusConverter}}" />
+                            <controls:TaskStatusIcon Grid.Column="0" ModelStatus="{Binding ((m:TaskModel)DataContext).Status, FallbackValue=Unable to bind, RelativeSource={RelativeSource TemplatedParent}}" Width="24" Height="24"/>
                             <TextBlock Grid.Column="1"
                                        TextAlignment="Center"
-                                       Text="{Binding ((m:Task)DataContext).Name, FallbackValue=Unable to bind, RelativeSource={RelativeSource TemplatedParent}}" />
+                                       Text="{Binding ((m:TaskModel)DataContext).Name, FallbackValue=Unable to bind, RelativeSource={RelativeSource TemplatedParent}}" />
                         </Grid>
                     </Expander.Header>
-                    <Grid ColumnDefinitions="Auto, *">
+                    <Grid ColumnDefinitions="Auto, *, Auto">
                         <Button Grid.Column="0"
                                 Classes="danger"
                                 Command="{TemplateBinding DeleteCommand}"
@@ -62,6 +62,11 @@
                             Some bullshit text;
                             Some bullshit text;
                         </TextBlock>
+                        <Button Grid.Column="2"
+                                Classes="warning"
+                                Command="{Binding UpdateStatusCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                            Update
+                        </Button>
                     </Grid>
                 </Expander>
             </ControlTemplate>

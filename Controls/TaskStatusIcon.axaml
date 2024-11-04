@@ -1,0 +1,22 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:ToDoList.Controls">
+    <Design.PreviewWith>
+        <controls:TaskStatusIcon />
+    </Design.PreviewWith>
+    
+    <Styles.Resources>
+    </Styles.Resources>
+    
+    <Style Selector="controls|TaskStatusIcon">
+        <!-- Set Defaults -->
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <Image x:Name="Image" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{TemplateBinding Icon}"/>
+                    <Image x:Name="AnimImg" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{TemplateBinding OldIcon}"/>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

@@ -18,13 +18,13 @@
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-
+    
     <Grid RowDefinitions="Auto, *, Auto">
         <TextBlock Grid.Row="0" TextAlignment="Center">Title?</TextBlock>
         <ScrollViewer Grid.Row="1">
             <ItemsControl ItemsSource="{Binding Tasks}">
                 <ItemsControl.DataTemplates>
-                    <DataTemplate DataType="m:Task">
+                    <DataTemplate DataType="m:TaskModel">
                         <controls:TaskItem DeleteCommand="{Binding #Root.((vm:MainWindowViewModel)DataContext).DeleteTaskCommand, FallbackValue=Failed to bind}"/>
                     </DataTemplate>
                 </ItemsControl.DataTemplates>

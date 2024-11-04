@@ -14,5 +14,7 @@ Nice to have:
   - A name description
   - Click will show a dropdown
   - The dropdown will show a full info
-  - If we're doing it then it will stay open
-  - Style the item dropdown
+  - Style the item dropdown - Done
+  
+ Fix bug:
+  - Change animation data type to correct one because C# doesn't automatically type cast object to type

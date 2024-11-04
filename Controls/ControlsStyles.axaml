@@ -38,4 +38,5 @@
         </Style>
         
         <StyleInclude Source="TaskItem.axaml"/>
+        <StyleInclude Source="TaskStatusIcon.axaml"/>
 </Styles>
