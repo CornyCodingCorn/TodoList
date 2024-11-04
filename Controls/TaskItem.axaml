@@ -11,6 +11,32 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <Expander HorizontalAlignment="Stretch">
+                    <Expander.Styles>
+                        <Style Selector="Expander">
+                            <Setter Property="Margin" Value="10, 0, 0, 0"/>
+                        </Style>
+                        <Style Selector="Expander:expanded">
+                            <Setter Property="Margin" Value="0"/>
+                        </Style>
+                        <Style Selector="Expander ToggleButton:unchecked">
+                            <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}"/>
+                        </Style>
+                        <Style Selector="Expander ToggleButton:unchecked > Border">
+                            <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
+                        </Style>
+                        <Style Selector="Expander ToggleButton:unchecked > Border:pointerover">
+                            <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}"/>
+                        </Style>
+                        <Style Selector="Expander ToggleButton:checked">
+                            <Setter Property="Foreground" Value="{DynamicResource AccentButtonForeground}"/>
+                        </Style>
+                        <Style Selector="Expander ToggleButton:checked > Border">
+                            <Setter Property="Background" Value="{DynamicResource AccentButtonBackground}"/>
+                        </Style>
+                        <Style Selector="Expander ToggleButton:checked > Border:pointerover">
+                            <Setter Property="Background" Value="{DynamicResource AccentButtonBackgroundPointerOver}"/>
+                        </Style>
+                    </Expander.Styles>
                     <Expander.Header>
                         <Grid ColumnDefinitions="Auto, *">
                             <TextBlock Grid.Column="0"
@@ -22,6 +48,7 @@
                     </Expander.Header>
                     <Grid ColumnDefinitions="Auto, *">
                         <Button Grid.Column="0"
+                                Classes="danger"
                                 Command="{TemplateBinding DeleteCommand}"
                                 CommandParameter="{TemplateBinding DataContext}">
                             Del

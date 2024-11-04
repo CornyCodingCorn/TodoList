@@ -1,4 +1,41 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        <Styles.Resources>
+                <SolidColorBrush x:Key="WarningButtonBackground" Color="#ffcc00"/>
+                <SolidColorBrush x:Key="WarningButtonBackgroundPointerover" Color="#CC9C00"/>
+                <SolidColorBrush x:Key="WarningButtonBackgroundPressed" Color="#FFDC4C"/>
+                <SolidColorBrush x:Key="WarningButtonForeground" Color="Black"/>
+                <SolidColorBrush x:Key="DangerButtonBackground" Color="#ff5050"/>
+                <SolidColorBrush x:Key="DangerButtonBackgroundPointerover" Color="#D04242"/>
+                <SolidColorBrush x:Key="DangerButtonBackgroundPressed" Color="#FF6F6D"/>
+                <SolidColorBrush x:Key="DangerButtonForeground" Color="White"/>
+        </Styles.Resources>
+        
+        <Style Selector="Button.warning">
+                <Setter Property="Background" Value="{DynamicResource WarningButtonBackground}"/>
+                <Setter Property="Foreground" Value="{DynamicResource WarningButtonForeground}"/>
+        </Style>
+        
+        <Style Selector="Button.warning:pointerover > ContentPresenter">
+                <Setter Property="Background" Value="{DynamicResource WarningButtonBackgroundPointerover}"/>
+        </Style>
+        
+        <Style Selector="Button.warning:pressed > ContentPresenter">
+                <Setter Property="Background" Value="{DynamicResource WarningButtonBackgroundPressed}"/>
+        </Style>
+        
+        <Style Selector="Button.danger">
+                <Setter Property="Background" Value="{DynamicResource DangerButtonBackground}"/>
+                <Setter Property="Foreground" Value="{DynamicResource DangerButtonForeground}"/>
+        </Style>
+        
+        <Style Selector="Button.danger:pointerover > ContentPresenter">
+                <Setter Property="Background" Value="{DynamicResource DangerButtonBackgroundPointerover}"/>
+        </Style>
+        
+        <Style Selector="Button.danger:pressed > ContentPresenter">
+                <Setter Property="Background" Value="{DynamicResource DangerButtonBackgroundPressed}"/>
+        </Style>
+        
         <StyleInclude Source="TaskItem.axaml"/>
 </Styles>
