@@ -40,7 +40,11 @@
                     </Expander.Styles>
                     <Expander.Header>
                         <Grid ColumnDefinitions="Auto, *">
-                            <controls:TaskStatusIcon Grid.Column="0" ModelStatus="{Binding ((m:TaskModel)DataContext).Status, FallbackValue=Unable to bind, RelativeSource={RelativeSource TemplatedParent}}" Width="24" Height="24"/>
+                            <controls:TaskStatusIcon Grid.Column="0"
+                                                     ModelStatus="{Binding ((m:TaskModel)DataContext).Status, FallbackValue=Unable to bind, RelativeSource={RelativeSource TemplatedParent}}"
+                                                     Width="32"
+                                                     Height="32"
+                                                     ImageMargin="3"/>
                             <TextBlock Grid.Column="1"
                                        TextAlignment="Center"
                                        Text="{Binding ((m:TaskModel)DataContext).Name, FallbackValue=Unable to bind, RelativeSource={RelativeSource TemplatedParent}}" />

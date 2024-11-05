@@ -1,40 +1,105 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
-using Avalonia.Media;
+using Avalonia.Interactivity;
+using Avalonia.LogicalTree;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
-using Avalonia.Styling;
+using Avalonia.Threading;
 using ToDoList.Models;
+using Timer = System.Timers.Timer;
 
 namespace ToDoList.Controls;
 
-public class TaskStatusIcon : TemplatedControl
+public partial class TaskStatusIcon : TemplatedControl
 {
     public static readonly StyledProperty<TaskModelStatus> ModelStatusProperty =
-        AvaloniaProperty.Register<TaskStatusIcon, TaskModelStatus>(nameof(ModelStatus), defaultValue: TaskModelStatus.NotStarted);
+        AvaloniaProperty.Register<TaskStatusIcon, TaskModelStatus>(nameof(ModelStatus),
+            defaultValue: TaskModelStatus.NotStarted);
+
     public static readonly StyledProperty<Bitmap> IconProperty =
-        AvaloniaProperty.Register<TaskStatusIcon, Bitmap>(nameof(Icon), defaultValue: new Bitmap(AssetLoader.Open(new Uri(DefaultUri))));
+        AvaloniaProperty.Register<TaskStatusIcon, Bitmap>(nameof(Icon),
+            defaultValue: new Bitmap(AssetLoader.Open(new Uri(DefaultUri))));
+
     public static readonly StyledProperty<Bitmap> OldIconProperty =
-        AvaloniaProperty.Register<TaskStatusIcon, Bitmap>(nameof(OldIcon), defaultValue: new Bitmap(AssetLoader.Open(new Uri(DefaultUri))));
+        AvaloniaProperty.Register<TaskStatusIcon, Bitmap>(nameof(OldIcon),
+            defaultValue: new Bitmap(AssetLoader.Open(new Uri(DefaultUri))));
+
+    public static readonly StyledProperty<Thickness> ImageMarginProperty =
+        AvaloniaProperty.Register<TaskStatusIcon, Thickness>(nameof(ImageMargin), defaultValue: new Thickness(2));
+
+    public static readonly DirectProperty<TaskStatusIcon, double> DefaultScaleProperty =
+        AvaloniaProperty.RegisterDirect<TaskStatusIcon, double>(nameof(DefaultScale), o => o.DefaultScale);
+
+    private static readonly PeriodicTimer AnimationTimer = new(TimeSpan.FromSeconds(30));
+    
+    private static event Action? OnAnimationTick;
+    
+    static TaskStatusIcon()
+    {
+        RunAnimationClock();
+    }
+
+    private static async void RunAnimationClock()
+    {
+        try
+        {
+            while (true)
+            {
+                await AnimationTimer.WaitForNextTickAsync();
+            
+                OnAnimationTick?.Invoke();
+            
+                await Task.Delay(500);
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
+    
+    public double DefaultScale => 1d;
+
+    public Bitmap Icon
+    {
+        get => GetValue(IconProperty);
+        private set => SetValue(IconProperty, value);
+    }
+
+    public Bitmap OldIcon
+    {
+        get => GetValue(OldIconProperty);
+        private set => SetValue(OldIconProperty, value);
+    }
+
+    public Thickness ImageMargin
+    {
+        get => GetValue(ImageMarginProperty);
+        set => SetValue(ImageMarginProperty, value);
+    }
 
     private const string AnimatedImageName = "AnimImg";
     private const string ImageName = "Image";
-    
+
     private Animation _fadeOutAnimation = null!;
     private Animation _fadeInAnimation = null!;
     private Animation _runningAnimation = null!;
+
+    private CancellationTokenSource _cancellationTokenSource = null!;
+    private CancellationToken _cancellationToken;
+
     private Image? _animImg;
     private Image? _image;
-    
+
     private const string DefaultUri = "avares://ToDoList/Assets/Icons/cross-64.png";
-    private readonly string[] _imagesUri = [
+
+    private readonly string[] _imagesUri =
+    [
         "avares://ToDoList/Assets/Icons/cross-64.png",
         "avares://ToDoList/Assets/Icons/gear-64.png",
         "avares://ToDoList/Assets/Icons/accept-64.png"
@@ -44,19 +109,8 @@ public class TaskStatusIcon : TemplatedControl
     {
         CreateFadeInAnimation();
         CreateFadeOutAnimation();
-        CreateRunningAnimation();
-    }
 
-    public Bitmap Icon
-    {
-        get => GetValue(IconProperty);
-        private set => SetValue(IconProperty, value);
-    }
-    
-    public Bitmap OldIcon
-    {
-        get => GetValue(OldIconProperty);
-        private set => SetValue(OldIconProperty, value);
+        CreateNewTokenSource();
     }
 
     public TaskModelStatus ModelStatus
@@ -65,108 +119,73 @@ public class TaskStatusIcon : TemplatedControl
         set => SetValue(ModelStatusProperty, value);
     }
 
-    protected async override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    protected override async void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
-        base.OnPropertyChanged(change);
-        if (change.Property != ModelStatusProperty) return;
+        try
+        {
+            base.OnPropertyChanged(change);
+            if (change.Property != ModelStatusProperty) return;
 
-        OldIcon = Icon;
-        Icon = new Bitmap(AssetLoader.Open(new Uri(_imagesUri[(int)ModelStatus])));
+            OldIcon = Icon;
+            Icon = new Bitmap(AssetLoader.Open(new Uri(_imagesUri[(int)ModelStatus])));
 
-        if (_image is null || _animImg is null) return;
-        await _fadeOutAnimation.RunAsync(this);
+            await _cancellationTokenSource.CancelAsync();
+            CreateNewTokenSource();
+            CreateFadeInAnimation();
+            CreateFadeOutAnimation();
+
+            if (_image is null || _animImg is null) return;
+            var animTask1 = _fadeOutAnimation.RunAsync(_animImg, _cancellationToken);
+            var animTask2 = _fadeInAnimation.RunAsync(_image, _cancellationToken);
+            await Task.WhenAll(animTask1, animTask2);
+        }
+        catch (Exception)
+        {
+            // ignored
+        }
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
-        _animImg = e.NameScope.Find<Image>(AnimatedImageName) ?? throw new Exception($"Can't find control with name {AnimatedImageName}");
+        _animImg = e.NameScope.Find<Image>(AnimatedImageName) ??
+                   throw new Exception($"Can't find control with name {AnimatedImageName}");
         _image = e.NameScope.Find<Image>(ImageName) ?? throw new Exception($"Can't find control with name {ImageName}");
     }
 
-    private void CreateFadeOutAnimation()
+    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
     {
-        _fadeOutAnimation = new Animation
-        {
-            Duration = TimeSpan.FromMilliseconds(5000),
-            IterationCount = new IterationCount(1),
-            SpeedRatio = 1
-        };
-
-        var keyframe1 = new KeyFrame
-        {
-            Cue = new Cue(0),
-        };
-        // keyframe1.Setters.Add(new Setter(ScaleTransform.ScaleXProperty, 1.0));
-        // keyframe1.Setters.Add(new Setter(ScaleTransform.ScaleXProperty, 1.0));
-        keyframe1.Setters.Add(new Setter(RotateTransform.AngleProperty, 0));
-
-        var keyframe2 = new KeyFrame
-        {
-            Cue = new Cue(1)
-        };
-        // keyframe2.Setters.Add(new Setter(ScaleTransform.ScaleXProperty, 0));
-        // keyframe2.Setters.Add(new Setter(ScaleTransform.ScaleYProperty, 0));
-        keyframe2.Setters.Add(new Setter(RotateTransform.AngleProperty, 360));
-        
-        _fadeOutAnimation.Children.Add(keyframe1);
-        _fadeOutAnimation.Children.Add(keyframe2);
+        base.OnAttachedToVisualTree(e);
+        OnAnimationTick += ExecuteRunningAnimation;
     }
 
-    private void CreateFadeInAnimation()
+    protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
     {
-        _fadeInAnimation = new Animation
-        {
-            Duration = TimeSpan.FromMilliseconds(10000),
-        };
-
-        {
-            var keyframe1 = new KeyFrame
-            {
-                Cue = new Cue(0)
-            };
-            keyframe1.Setters.Add(new Setter(ScaleTransform.ScaleXProperty, 0));
-            keyframe1.Setters.Add(new Setter(ScaleTransform.ScaleYProperty, 0));
-            keyframe1.Setters.Add(new Setter(RotateTransform.AngleProperty, 180));
-            _fadeInAnimation.Children.Add(keyframe1);
-        }
-
-        {
-            var keyframe2 = new KeyFrame
-                
-            {
-                Cue = new Cue(0.5)
-            };
-            keyframe2.Setters.Add(new Setter(ScaleTransform.ScaleXProperty, 0));
-            keyframe2.Setters.Add(new Setter(ScaleTransform.ScaleYProperty, 0));
-            keyframe2.Setters.Add(new Setter(RotateTransform.AngleProperty, 180));
-            _fadeInAnimation.Children.Add(keyframe2);
-        }
-
-        {
-            var keyframe3 = new KeyFrame
-            {
-                Cue = new Cue(0.85),
-            };
-            keyframe3.Setters.Add(new Setter(ScaleTransform.ScaleXProperty, 1.3));
-            keyframe3.Setters.Add(new Setter(ScaleTransform.ScaleXProperty, 1.3));
-            keyframe3.Setters.Add(new Setter(RotateTransform.AngleProperty, 360));
-            _fadeInAnimation.Children.Add(keyframe3);
-        }
-
-        {
-            var keyframe4 = new KeyFrame
-            {
-                Cue = new Cue(1)
-            };
-            keyframe4.Setters.Add(new Setter(ScaleTransform.ScaleXProperty, 1));
-            keyframe4.Setters.Add(new Setter(ScaleTransform.ScaleYProperty, 1));
-            _fadeInAnimation.Children.Add(keyframe4);
-        }
+        base.OnDetachedFromVisualTree(e);
+        OnAnimationTick -= ExecuteRunningAnimation;
     }
 
-    private void CreateRunningAnimation()
+    private void CreateNewTokenSource()
     {
-        
+        _cancellationTokenSource = new CancellationTokenSource();
+        _cancellationToken = _cancellationTokenSource.Token;
+    }
+
+    private async void ExecuteRunningAnimation()
+    {
+        try
+        {
+            if (_image is null) return;
+            _image.Classes.Add("RunningAnim");
+            await Task.Delay(5000, _cancellationToken);
+        }
+        catch (Exception)
+        {
+            // Ignore
+        }
+        finally
+        {
+            _image?.Classes.Remove("RunningAnim");
+        }
     }
 }
