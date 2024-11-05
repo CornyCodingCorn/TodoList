@@ -39,7 +39,11 @@ public partial class MainWindowViewModel : ViewModelBase
     private void LoadTasks()
     {
         // TODO: Add method to load from file for database
-        Tasks.Add(new TaskModel { Id = "0", Description = "Task 1", Status = TaskModelStatus.Done, Name = "Task done" });
-        Tasks.Add(new TaskModel { Id = "1", Description = "Task 2", Status = TaskModelStatus.NotStarted, Name = "Not done task"});
+        Tasks.Add(new TaskModel { Id = "0", Description = "This is some random description for this one", Status = TaskModelStatus.Done, Name = "Task done" });
+        Tasks.Add(new TaskModel { Id = "1", Description = "This is some jsdaofjasodfjosdjfosdjfosdjafodsjfosdjfosdjfosdjfodsjfosdjfodsjfodsjfodsjfosdajfosdajfosdjf\njdsfoijsdaofjsdofjodsjfdsofjodsjf\njdsojfosdajfosdjfodsjfojsdf\nfjdsofjsdofjosdjfosdjfosdj", Status = TaskModelStatus.NotStarted, Name = "Not done task"});
+        Tasks.Add(new TaskModel { Id = "2", Description = "This is some jsdaofjasodfjosdjfosdjfosdjafodsjfosdjfosdjfosdjfodsjfosdjfodsjfodsjfodsjfosdajfosdajfosdjf\njdsfoijsdaofjsdofjodsjfdsofjodsjf\njdsojfosdajfosdjfodsjfojsdf\nfjdsofjsdofjosdjfosdjfosdj", Status = TaskModelStatus.Started, Name = "Started task 1"});
+        Tasks.Add(new TaskModel { Id = "3", Description = "This is some jsdaofjasodfjosdjfosdjfosdjafodsjfosdjfosdjfosdjfodsjfosdjfodsjfodsjfodsjfosdajfosdajfosdjf\njdsfoijsdaofjsdofjodsjfdsofjodsjf\njdsojfosdajfosdjfodsjfojsdf\nfjdsofjsdofjosdjfosdjfosdj", Status = TaskModelStatus.Started, Name = "Started task 2"});
+        Tasks.Add(new TaskModel { Id = "4", Description = "This is some jsdaofjasodfjosdjfosdjfosdjafodsjfosdjfosdjfosdjfodsjfosdjfodsjfodsjfodsjfosdajfosdajfosdjf\njdsfoijsdaofjsdofjodsjfdsofjodsjf\njdsojfosdajfosdjfodsjfojsdf\nfjdsofjsdofjosdjfosdjfosdj", Status = TaskModelStatus.NotStarted, Name = "Not done task"});
+        Tasks.Add(new TaskModel { Id = "5", Description = "This is some jsdaofjasodfjosdjfosdjfosdjafodsjfosdjfosdjfosdjfodsjfosdjfodsjfodsjfodsjfosdajfosdajfosdjf\njdsfoijsdaofjsdofjodsjfdsofjodsjf\njdsojfosdajfosdjfodsjfojsdf\nfjdsofjsdofjosdjfosdjfosdj", Status = TaskModelStatus.NotStarted, Name = "Not done task"});
     }
 }

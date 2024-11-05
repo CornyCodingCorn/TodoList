@@ -16,4 +16,5 @@ public partial class TaskModel : ObservableObject
     [ObservableProperty] private string _name = string.Empty;
     [ObservableProperty] private string _description = string.Empty;
     [ObservableProperty] private TaskModelStatus _status = TaskModelStatus.NotStarted;
+    [ObservableProperty] private long _timeSpent = 0;
 }

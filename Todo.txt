@@ -8,6 +8,8 @@ Nice to have:
  - Reactive UI
  - Accounts for online
  - A website
+ - Reminder to get some rest
+ - Prepare task for tomorrow
  
  Task item:
   - Icon to show the status - Done
@@ -17,6 +19,9 @@ Nice to have:
   - Style the item dropdown - Done
   - Update button will update the status
   - Edit button will allow editing 
+  - Textblock and then render as markdown
+  - Change buttons base on state
+  - Store time in miliseconds
   
  Fix bug:
   - Change animation data type to correct one because C# doesn't automatically type cast object to type (Done)

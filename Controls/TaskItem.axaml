@@ -14,7 +14,7 @@
                 <Expander HorizontalAlignment="Stretch" Margin="20, 0, 20, 0">
                     <Expander.Styles>
                         <Style Selector="Expander:expanded">
-                            <Setter Property="Margin" Value="10, 0, 15, 0"/>
+                            <Setter Property="Margin" Value="10, 0, 10, 0"/>
                         </Style>
                         <Style Selector="Expander ToggleButton:unchecked">
                             <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}"/>
@@ -52,9 +52,8 @@
                         <TextBlock Grid.Column="0" 
                                    Grid.Row="1" 
                                    VerticalAlignment="Center"
-                                   x:Name="Clock">
-                            00:20:00
-                        </TextBlock>
+                                   Text="{TemplateBinding TimeString}"
+                                   x:Name="Clock"/>
                         <StackPanel Grid.Column="1" 
                                     Grid.Row="1"
                                     Orientation="Horizontal"
@@ -80,20 +79,12 @@
                         <TextBox Grid.Column="0" 
                                  Grid.Row="0"
                                  Grid.ColumnSpan="2"
-                                 Height="150"
-                                 Margin="0, 0, 0, 10"
-                                 IsReadOnly="True"
+                                 Height="300"
+                                 Margin="0, 0, 0, 15"
                                  TextWrapping="Wrap"
                                  TextAlignment="Justify"
-                                 AcceptsReturn="True">
-                            Some bullshit text;
-                            Some bullshit text;
-                            Some bullshit text;
-                            Some bullshit text;
-                            Some bullshit text;
-                            Some bullshit text;
-                            Some bullshit text;
-                        </TextBox>
+                                 Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 AcceptsReturn="True"/>
                     </Grid>
                 </Expander>
             </ControlTemplate>
