@@ -21,7 +21,12 @@
     
     <Grid RowDefinitions="Auto, *, Auto">
         <TextBlock Grid.Row="0" TextAlignment="Center">Title?</TextBlock>
-        <ScrollViewer Grid.Row="1">
+        <ScrollViewer Grid.Row="1" Padding="5">
+            <ScrollViewer.Styles>
+                <Style Selector="controls|TaskItem">
+                    <Setter Property="Margin" Value="5"/>
+                </Style>
+            </ScrollViewer.Styles>
             <ItemsControl ItemsSource="{Binding Tasks}">
                 <ItemsControl.DataTemplates>
                     <DataTemplate DataType="m:TaskModel">

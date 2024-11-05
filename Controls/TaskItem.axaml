@@ -11,13 +11,10 @@
         <!-- Set Defaults -->
         <Setter Property="Template">
             <ControlTemplate>
-                <Expander HorizontalAlignment="Stretch">
+                <Expander HorizontalAlignment="Stretch" Margin="20, 0, 20, 0">
                     <Expander.Styles>
-                        <Style Selector="Expander">
-                            <Setter Property="Margin" Value="10, 0, 0, 0"/>
-                        </Style>
                         <Style Selector="Expander:expanded">
-                            <Setter Property="Margin" Value="0"/>
+                            <Setter Property="Margin" Value="10, 0, 15, 0"/>
                         </Style>
                         <Style Selector="Expander ToggleButton:unchecked">
                             <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}"/>
@@ -47,30 +44,56 @@
                                                      ImageMargin="3"/>
                             <TextBlock Grid.Column="1"
                                        TextAlignment="Center"
+                                       VerticalAlignment="Center"
                                        Text="{Binding ((m:TaskModel)DataContext).Name, FallbackValue=Unable to bind, RelativeSource={RelativeSource TemplatedParent}}" />
                         </Grid>
                     </Expander.Header>
-                    <Grid ColumnDefinitions="Auto, *, Auto">
-                        <Button Grid.Column="0"
-                                Classes="danger"
-                                Command="{TemplateBinding DeleteCommand}"
-                                CommandParameter="{TemplateBinding DataContext}">
-                            Del
-                        </Button>
-                        <TextBlock Grid.Column="1">
-                            Some bullshit text;
-                            Some bullshit text;
-                            Some bullshit text;
-                            Some bullshit text;
-                            Some bullshit text;
-                            Some bullshit text;
-                            Some bullshit text;
+                    <Grid ColumnDefinitions="Auto, *" RowDefinitions="*, Auto">
+                        <TextBlock Grid.Column="0" 
+                                   Grid.Row="1" 
+                                   VerticalAlignment="Center"
+                                   x:Name="Clock">
+                            00:20:00
                         </TextBlock>
-                        <Button Grid.Column="2"
-                                Classes="warning"
-                                Command="{Binding UpdateStatusCommand, RelativeSource={RelativeSource TemplatedParent}}">
-                            Update
-                        </Button>
+                        <StackPanel Grid.Column="1" 
+                                    Grid.Row="1"
+                                    Orientation="Horizontal"
+                                    FlowDirection="RightToLeft"
+                                    HorizontalAlignment="Stretch">
+                            <StackPanel.Styles>
+                                <Style Selector="Button">
+                                    <Setter Property="Margin" Value="0, 0, 15, 0"/>
+                                    <Setter Property="Width" Value="75"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                </Style>
+                            </StackPanel.Styles>
+                            <Button Classes="danger"
+                                    Command="{TemplateBinding DeleteCommand}"
+                                    CommandParameter="{TemplateBinding DataContext}">
+                                Del
+                            </Button>
+                            <Button Classes="warning"
+                                    Command="{Binding UpdateStatusCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                Update
+                            </Button>
+                        </StackPanel>
+                        <TextBox Grid.Column="0" 
+                                 Grid.Row="0"
+                                 Grid.ColumnSpan="2"
+                                 Height="150"
+                                 Margin="0, 0, 0, 10"
+                                 IsReadOnly="True"
+                                 TextWrapping="Wrap"
+                                 TextAlignment="Justify"
+                                 AcceptsReturn="True">
+                            Some bullshit text;
+                            Some bullshit text;
+                            Some bullshit text;
+                            Some bullshit text;
+                            Some bullshit text;
+                            Some bullshit text;
+                            Some bullshit text;
+                        </TextBox>
                     </Grid>
                 </Expander>
             </ControlTemplate>

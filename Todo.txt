@@ -10,11 +10,13 @@ Nice to have:
  - A website
  
  Task item:
-  - Icon to show the status
-  - A name description
-  - Click will show a dropdown
+  - Icon to show the status - Done
+  - A name description - Done
+  - Click will show a dropdown - Done
   - The dropdown will show a full info
   - Style the item dropdown - Done
+  - Update button will update the status
+  - Edit button will allow editing 
   
  Fix bug:
-  - Change animation data type to correct one because C# doesn't automatically type cast object to type
+  - Change animation data type to correct one because C# doesn't automatically type cast object to type (Done)
