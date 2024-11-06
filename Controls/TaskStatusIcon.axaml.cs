@@ -35,7 +35,7 @@ public partial class TaskStatusIcon : TemplatedControl
     public static readonly DirectProperty<TaskStatusIcon, double> DefaultScaleProperty =
         AvaloniaProperty.RegisterDirect<TaskStatusIcon, double>(nameof(DefaultScale), o => o.DefaultScale);
 
-    private static readonly PeriodicTimer AnimationTimer = new(TimeSpan.FromSeconds(30));
+    private static readonly PeriodicTimer AnimationTimer = new(TimeSpan.FromSeconds(10));
     
     private static event Action? OnAnimationTick;
     

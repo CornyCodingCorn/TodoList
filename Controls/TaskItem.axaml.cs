@@ -1,8 +1,10 @@
 using System;
+using System.ComponentModel;
 using System.Threading;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls.Primitives;
+using Avalonia.LogicalTree;
 using CommunityToolkit.Mvvm.Input;
 using ToDoList.Models;
 using Timer = System.Timers.Timer;
@@ -13,6 +15,12 @@ public partial class TaskItem : TemplatedControl
 {
     public static readonly StyledProperty<ICommand> DeleteCommandProperty =
         AvaloniaProperty.Register<TaskItem, ICommand>(nameof(DeleteCommand), defaultValue: new  RelayCommand(() => {}));
+    
+    public static readonly StyledProperty<TaskModelStatus> ModelStatusProperty =
+        AvaloniaProperty.Register<TaskItem, TaskModelStatus>(nameof(ModelStatus), defaultValue: TaskModelStatus.NotStarted);
+    
+    public static readonly StyledProperty<long> TimeSpentProperty =
+        AvaloniaProperty.Register<TaskItem, long>(nameof(TimeSpent), defaultValue: 0);
 
     public static readonly DirectProperty<TaskItem, string> TimeStringProperty =
         AvaloniaProperty.RegisterDirect<TaskItem, string>(nameof(TimeString), o => o.TimeString);
@@ -25,8 +33,19 @@ public partial class TaskItem : TemplatedControl
         private set => SetAndRaise(TimeStringProperty, ref _timeString, value);
     }
 
+    public long TimeSpent
+    {
+        get => GetValue(TimeSpentProperty);
+        set => SetValue(TimeSpentProperty, value);
+    }
+
+    public TaskModelStatus ModelStatus
+    {
+        get => GetValue(ModelStatusProperty);
+        set => SetValue(ModelStatusProperty, value);
+    }
+
     private string _timeString = "00:00:00";
-    private TaskModel _taskModel = null!;
     private long _lastRecordedTime;
     private readonly PeriodicTimer _periodicTimer = new (TimeSpan.FromMilliseconds(500));
 
@@ -44,15 +63,24 @@ public partial class TaskItem : TemplatedControl
     }
 
     [RelayCommand]
-    private void UpdateStatus()
+    private void UpdateStatus(string isBackward = "False")
     {
-        _taskModel.Status = (TaskModelStatus)((int)(_taskModel.Status + 1) % Enum.GetValues<TaskModelStatus>().Length);
+        if (isBackward == "True")
+        {
+            var statusAsInt = (int)ModelStatus - 1;
+            if (statusAsInt < 0)
+                statusAsInt = Enum.GetValues<TaskModelStatus>().Length - 1;
+            
+            ModelStatus = (TaskModelStatus)statusAsInt;
+            return;
+        }
+        
+        ModelStatus = (TaskModelStatus)((int)(ModelStatus + 1) % Enum.GetValues<TaskModelStatus>().Length);
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
-        _taskModel = DataContext as TaskModel ?? throw new Exception("DataContext of TaskItem is not TaskModel"); 
         SetupTimer();
     }
 
@@ -75,21 +103,18 @@ public partial class TaskItem : TemplatedControl
 
     private void UpdateTime()
     {
-        if (_taskModel.Status != TaskModelStatus.Started)
+        if (ModelStatus != TaskModelStatus.Started)
         {
             _lastRecordedTime = DateTime.Now.Ticks;
             return;
         }
         
         var newRecordedTime = DateTime.Now.Ticks;
-        _taskModel.TimeSpent += newRecordedTime - _lastRecordedTime;
+        TimeSpent += newRecordedTime - _lastRecordedTime;
         
-        var time = new DateTime(_taskModel.TimeSpent);
-        // var oldStr = TimeString;
-        TimeString = time.ToString("HH:mm:ss");
-        Console.WriteLine(TimeString);
-        // RaisePropertyChanged(TimeStringProperty, oldStr, TimeString);
-        
+        var time = new DateTime(TimeSpent);
+        TimeString = time.ToString(time.Hour > 0 ? "HH:mm:ss" : "mm:ss");
+
         _lastRecordedTime = newRecordedTime;
     }
 }

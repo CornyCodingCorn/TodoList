@@ -9,6 +9,10 @@
                 <SolidColorBrush x:Key="DangerButtonBackgroundPointerover" Color="#D04242"/>
                 <SolidColorBrush x:Key="DangerButtonBackgroundPressed" Color="#FF6F6D"/>
                 <SolidColorBrush x:Key="DangerButtonForeground" Color="White"/>
+                <SolidColorBrush x:Key="AcceptButtonBackground" Color="#1DB02C"/>
+                <SolidColorBrush x:Key="AcceptButtonBackgroundPointerover" Color="#17721E"/>
+                <SolidColorBrush x:Key="AcceptButtonBackgroundPressed" Color="#3EAF41"/>
+                <SolidColorBrush x:Key="AcceptButtonForeground" Color="White"/>
         </Styles.Resources>
         
         <Style Selector="Button.warning">
@@ -35,6 +39,19 @@
         
         <Style Selector="Button.danger:pressed > ContentPresenter">
                 <Setter Property="Background" Value="{DynamicResource DangerButtonBackgroundPressed}"/>
+        </Style>
+        
+        <Style Selector="Button.accept">
+                <Setter Property="Background" Value="{DynamicResource AcceptButtonBackground}"/>
+                <Setter Property="Foreground" Value="{DynamicResource AcceptButtonForeground}"/>
+        </Style>
+        
+        <Style Selector="Button.accept:pointerover > ContentPresenter">
+                <Setter Property="Background" Value="{DynamicResource AcceptButtonBackgroundPointerover}"/>
+        </Style>
+        
+        <Style Selector="Button.accept:pressed > ContentPresenter">
+                <Setter Property="Background" Value="{DynamicResource AcceptButtonBackgroundPressed}"/>
         </Style>
         
         <StyleInclude Source="TaskItem.axaml"/>
