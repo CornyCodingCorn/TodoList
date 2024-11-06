@@ -18,6 +18,7 @@ This app aims to fix the lack of app that fit right in the middle of being featu
 
 ## 🕦 DOING
 ### Task item:
+- Split the task item code into view model and control
 - Textblock and then render as markdown
 - Edit button will allow editing
 
