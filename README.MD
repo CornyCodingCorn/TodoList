@@ -1,7 +1,3 @@
-<h1 style='text-align: center;'>
-    TO DO LIST
-</h1>
-
 ## 📖 ABOUT
 A simple todo list app that is cross-platform and simple but still has enough feature for managing daily tasks.</br>
 This app aims to fix the lack of app that fit right in the middle of being features rich and just a simple app that everyone does as a tutorial (I actually don't know, don't quote me ¯\\\_(ツ)_/¯ ). </br>
