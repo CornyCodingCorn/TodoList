@@ -18,7 +18,16 @@ public partial class TaskItem : TemplatedControl
     
     public static readonly StyledProperty<TaskModelStatus> ModelStatusProperty =
         AvaloniaProperty.Register<TaskItem, TaskModelStatus>(nameof(ModelStatus), defaultValue: TaskModelStatus.NotStarted);
+
+    public static readonly StyledProperty<bool> IsEditingProperty =
+        AvaloniaProperty.Register<TaskItem, bool>(nameof(IsEditing));
+
+    public static readonly StyledProperty<string> EditingDescriptionProperty =
+        AvaloniaProperty.Register<TaskItem, string>(nameof(EditingDescription), defaultValue: "");
     
+    public static readonly StyledProperty<string> DescriptionProperty =
+        AvaloniaProperty.Register<TaskItem, string>(nameof(Description), defaultValue: "");
+
     public static readonly StyledProperty<long> TimeSpentProperty =
         AvaloniaProperty.Register<TaskItem, long>(nameof(TimeSpent), defaultValue: 0);
 
@@ -32,17 +41,31 @@ public partial class TaskItem : TemplatedControl
         get => _timeString;
         private set => SetAndRaise(TimeStringProperty, ref _timeString, value);
     }
-
     public long TimeSpent
     {
         get => GetValue(TimeSpentProperty);
         set => SetValue(TimeSpentProperty, value);
     }
-
     public TaskModelStatus ModelStatus
     {
         get => GetValue(ModelStatusProperty);
         set => SetValue(ModelStatusProperty, value);
+    }
+    public bool IsEditing
+    {
+        get => GetValue(IsEditingProperty);
+        set => SetValue(IsEditingProperty, value);
+    }
+    public string EditingDescription
+    {
+        get => GetValue(EditingDescriptionProperty);
+        set => SetValue(EditingDescriptionProperty, value);
+    }
+
+    public string Description
+    {
+        get => GetValue(DescriptionProperty);
+        set => SetValue(DescriptionProperty, value);
     }
 
     private string _timeString = "00:00:00";
@@ -62,6 +85,16 @@ public partial class TaskItem : TemplatedControl
         set => SetValue(DeleteCommandProperty, value);
     }
 
+    [RelayCommand]
+    private void StartEditing()
+    {
+        EditingDescription = Description;
+    }
+    [RelayCommand]
+    private void StopEditing(bool discard = false)
+    {
+        
+    }
     [RelayCommand]
     private void UpdateStatus(string isBackward = "False")
     {

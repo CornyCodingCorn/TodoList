@@ -16,12 +16,10 @@ This app aims to fix the lack of app that fit right in the middle of being featu
 - Reminder to get some rest
 - Prepare task for tomorrow
 
-### Task item:
-- Edit button will allow editing
-
 ## 🕦 DOING
 ### Task item:
 - Textblock and then render as markdown
+- Edit button will allow editing
 
 ## ✅ DONE
 ### Must have:
