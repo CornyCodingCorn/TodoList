@@ -15,43 +15,37 @@
                 <SolidColorBrush x:Key="AcceptButtonForeground" Color="White"/>
         </Styles.Resources>
         
-        <Style Selector="Button.warning">
-                <Setter Property="Background" Value="{DynamicResource WarningButtonBackground}"/>
-                <Setter Property="Foreground" Value="{DynamicResource WarningButtonForeground}"/>
-        </Style>
-        
-        <Style Selector="Button.warning:pointerover > ContentPresenter">
-                <Setter Property="Background" Value="{DynamicResource WarningButtonBackgroundPointerover}"/>
-        </Style>
-        
-        <Style Selector="Button.warning:pressed > ContentPresenter">
-                <Setter Property="Background" Value="{DynamicResource WarningButtonBackgroundPressed}"/>
-        </Style>
-        
-        <Style Selector="Button.danger">
-                <Setter Property="Background" Value="{DynamicResource DangerButtonBackground}"/>
-                <Setter Property="Foreground" Value="{DynamicResource DangerButtonForeground}"/>
-        </Style>
-        
-        <Style Selector="Button.danger:pointerover > ContentPresenter">
-                <Setter Property="Background" Value="{DynamicResource DangerButtonBackgroundPointerover}"/>
-        </Style>
-        
-        <Style Selector="Button.danger:pressed > ContentPresenter">
-                <Setter Property="Background" Value="{DynamicResource DangerButtonBackgroundPressed}"/>
-        </Style>
-        
-        <Style Selector="Button.accept">
-                <Setter Property="Background" Value="{DynamicResource AcceptButtonBackground}"/>
-                <Setter Property="Foreground" Value="{DynamicResource AcceptButtonForeground}"/>
-        </Style>
-        
-        <Style Selector="Button.accept:pointerover > ContentPresenter">
-                <Setter Property="Background" Value="{DynamicResource AcceptButtonBackgroundPointerover}"/>
-        </Style>
-        
-        <Style Selector="Button.accept:pressed > ContentPresenter">
-                <Setter Property="Background" Value="{DynamicResource AcceptButtonBackgroundPressed}"/>
+        <Style Selector="Button">
+                <Style Selector="^.warning">
+                        <Setter Property="Background" Value="{DynamicResource WarningButtonBackground}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource WarningButtonForeground}"/>
+                        <Style Selector="^:pointerover > ContentPresenter">
+                                <Setter Property="Background" Value="{DynamicResource WarningButtonBackgroundPointerover}"/>
+                        </Style>
+                        <Style Selector="^:pressed > ContentPresenter">
+                                <Setter Property="Background" Value="{DynamicResource WarningButtonBackgroundPressed}"/>
+                        </Style>
+                </Style>
+                <Style Selector="^.danger">
+                        <Setter Property="Background" Value="{DynamicResource DangerButtonBackground}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource DangerButtonForeground}"/>
+                        <Style Selector="^:pointerover > ContentPresenter">
+                                <Setter Property="Background" Value="{DynamicResource DangerButtonBackgroundPointerover}"/>
+                        </Style>
+                        <Style Selector="^:pressed > ContentPresenter">
+                                <Setter Property="Background" Value="{DynamicResource DangerButtonBackgroundPressed}"/>
+                        </Style>
+                </Style>
+                <Style Selector="^.accept">
+                        <Setter Property="Background" Value="{DynamicResource AcceptButtonBackground}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource AcceptButtonForeground}"/>
+                        <Style Selector="^:pointerover > ContentPresenter">
+                                <Setter Property="Background" Value="{DynamicResource AcceptButtonBackgroundPointerover}"/>
+                        </Style>
+                        <Style Selector="^:pressed > ContentPresenter">
+                                <Setter Property="Background" Value="{DynamicResource AcceptButtonBackgroundPressed}"/>
+                        </Style>
+                </Style>
         </Style>
         
         <StyleInclude Source="TaskItem.axaml"/>

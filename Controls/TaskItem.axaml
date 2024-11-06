@@ -37,26 +37,28 @@
             <ControlTemplate>
                 <Expander HorizontalAlignment="Stretch" Margin="20, 0, 20, 0">
                     <Expander.Styles>
-                        <Style Selector="Expander:expanded">
-                            <Setter Property="Margin" Value="10, 0, 10, 0"/>
-                        </Style>
-                        <Style Selector="Expander ToggleButton:unchecked">
-                            <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}"/>
-                        </Style>
-                        <Style Selector="Expander ToggleButton:unchecked > Border">
-                            <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
-                        </Style>
-                        <Style Selector="Expander ToggleButton:unchecked > Border:pointerover">
-                            <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}"/>
-                        </Style>
-                        <Style Selector="Expander ToggleButton:checked">
-                            <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}"/>
-                        </Style>
-                        <Style Selector="Expander ToggleButton:checked > Border">
-                            <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
-                        </Style>
-                        <Style Selector="Expander ToggleButton:checked > Border:pointerover">
-                            <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}"/>
+                        <Style Selector="Expander">
+                            <Style Selector="^:expanded">
+                                <Setter Property="Margin" Value="10, 0, 10, 0"/>
+                            </Style>
+                            <Style Selector="^ ToggleButton:unchecked">
+                                <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}"/>
+                                <Style Selector="^ > Border">
+                                    <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
+                                    <Style Selector="^:pointerover">
+                                        <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}"/>
+                                    </Style>
+                                </Style>
+                            </Style>
+                            <Style Selector="^ ToggleButton:checked">
+                                <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}"/>
+                                <Style Selector="^ > Border">
+                                    <Setter Property="Background" Value="{DynamicResource ButtonBackground}"/>
+                                    <Style Selector="^:pointerover">
+                                        <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}"/>
+                                    </Style>
+                                </Style>
+                            </Style>
                         </Style>
                     </Expander.Styles>
                     <Expander.Header>
@@ -111,12 +113,24 @@
                         <TextBox Grid.Column="0" 
                                  Grid.Row="0"
                                  Grid.ColumnSpan="2"
+                                 Background="{DynamicResource SystemListLowColor}"
+                                 SelectionBrush="{DynamicResource SystemBaseLowColor}"
                                  Height="300"
                                  Margin="0, 0, 0, 15"
                                  TextWrapping="Wrap"
-                                 TextAlignment="Justify"
                                  Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                 AcceptsReturn="True"/>
+                                 AcceptsReturn="True">
+                            <TextBox.Styles>
+                                <Style Selector="TextBox">
+                                    <Style Selector="^:pointerover Border#PART_BorderElement">
+                                        <Setter Property="Background" Value="{DynamicResource SystemListLowColor}"/>
+                                    </Style>
+                                    <Style Selector="^:focus Border#PART_BorderElement">
+                                        <Setter Property="Background" Value="{DynamicResource SystemListLowColor}"/>
+                                    </Style>
+                                </Style>
+                            </TextBox.Styles>
+                        </TextBox>
                     </Grid>
                 </Expander>
             </ControlTemplate>
