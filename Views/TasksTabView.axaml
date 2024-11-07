@@ -1,0 +1,47 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:ToDoList.ViewModels"
+             xmlns:controls="clr-namespace:ToDoList.Controls"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ToDoList.Views.TasksTabView"
+             x:DataType="vm:TasksTabViewModel">
+    <Design.DataContext>
+        <vm:TasksTabViewModel/>
+    </Design.DataContext>
+    
+    <UserControl.DataContext>
+        <vm:TasksTabViewModel/>
+        <!-- TODO: Remove this after adding actual data context -->
+    </UserControl.DataContext>
+    
+    <Grid RowDefinitions="*, Auto">
+        <ScrollViewer Grid.Row="0" Padding="5, 20">
+            <ScrollViewer.Styles>
+                <Style Selector="controls|TaskItem">
+                    <Setter Property="Margin" Value="5"/>
+                </Style>
+            </ScrollViewer.Styles>
+            <ItemsControl ItemsSource="{Binding Tasks}">
+                <ItemsControl.DataTemplates>
+                    <DataTemplate DataType="vm:TaskItemViewModel">
+                        <controls:TaskItem/>
+                    </DataTemplate>
+                </ItemsControl.DataTemplates>
+            </ItemsControl>
+        </ScrollViewer>
+        <Grid Grid.Row="1" ColumnDefinitions="*, Auto">
+            <TextBox Text="{Binding NewTaskDescription}">
+                <TextBox.InnerRightContent>
+                    <Button Grid.Column="1" Width="70" HorizontalContentAlignment="Center" Command="{Binding AddTaskCommand}">
+                        Add
+                    </Button>
+                </TextBox.InnerRightContent>
+                <TextBox.KeyBindings>
+                    <KeyBinding Command="{Binding AddTaskCommand}" Gesture="Enter"></KeyBinding>
+                </TextBox.KeyBindings>
+            </TextBox>
+        </Grid>
+    </Grid>
+</UserControl>

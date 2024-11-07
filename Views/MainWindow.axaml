@@ -5,10 +5,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:ToDoList.Controls"
+        xmlns:views="clr-namespace:ToDoList.Views"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ToDoList.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        x:Name = "Root"
+        x:Name="Root"
         Icon="/Assets/avalonia-logo.ico"
         Title="ToDoList"
         RequestedThemeVariant="Dark">
@@ -16,36 +17,21 @@
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel />
     </Design.DataContext>
-    
-    <Grid RowDefinitions="Auto, *, Auto">
-        <TextBlock Grid.Row="0" TextAlignment="Center">Title?</TextBlock>
-        <ScrollViewer Grid.Row="1" Padding="5">
-            <ScrollViewer.Styles>
-                <Style Selector="controls|TaskItem">
-                    <Setter Property="Margin" Value="5"/>
-                </Style>
-            </ScrollViewer.Styles>
-            <ItemsControl ItemsSource="{Binding Tasks}">
-                <ItemsControl.DataTemplates>
-                    <DataTemplate DataType="vm:TaskItemViewModel">
-                        <controls:TaskItem/>
-                    </DataTemplate>
-                </ItemsControl.DataTemplates>
-            </ItemsControl>
-        </ScrollViewer>
-        <Grid Grid.Row="2" ColumnDefinitions="*, Auto">
-            <TextBox Text="{Binding NewTaskDescription}">
-                <TextBox.InnerRightContent>
-                    <Button Grid.Column="1" Width="70" HorizontalContentAlignment="Center" Command="{Binding AddTaskCommand}">
-                        Add
-                    </Button>
-                </TextBox.InnerRightContent>
-                <TextBox.KeyBindings>
-                    <KeyBinding Command="{Binding AddTaskCommand}" Gesture="Enter"></KeyBinding>
-                </TextBox.KeyBindings>
-            </TextBox>
-        </Grid>
+
+    <Grid ColumnDefinitions="Auto, *">
+        <controls:HamburgerMenu x:Name="HamburgerMenu" Grid.Column="0" />
+        <Panel Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid RowDefinitions="Auto, *">
+                <Panel Grid.Row="0" Height="{Binding #HamburgerMenu.HeaderHeight}" HorizontalAlignment="Stretch"
+                       Background="{DynamicResource SystemBaseLowColor}">
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                        Title
+                    </TextBlock>
+                </Panel>
+                <views:TasksTabView Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            </Grid>
+        </Panel>
     </Grid>
 </Window>
