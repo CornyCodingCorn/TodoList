@@ -33,14 +33,13 @@ public partial class TaskItemViewModel : ViewModelBase, IDisposable
     private void StartEditing()
     {
         EditingDescription = Model.Description;
+        IsEditing = true;
     }
     [RelayCommand]
     private void StopEditing(bool discard = false)
     {
-        if (discard)
-        {
-            return;
-        }
+        IsEditing = false;
+        if (discard) return;
         
         Model.Description = EditingDescription;
     }

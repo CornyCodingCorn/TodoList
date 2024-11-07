@@ -4,23 +4,22 @@ This app aims to fix the lack of app that fit right in the middle of being featu
 
 ## 🎯 TO DO
 ### Must have:
-- CRUD Tasks
+- Saving data in yaml file format
+- A dashboard to show compiled data
 - Keep track of how many task has been done
 - Total working time
 - Compile data
 
 ### Nice to have:
-- Reactive UI
-- Accounts for online
-- A website
 - Reminder to get some rest
 - Prepare task for tomorrow
+- A music player that play local songs
+- Allow changing themes
 
 ## 🕦 DOING
-### Task item:
-- Split the task item code into view model and control
-- Textblock and then render as markdown
-- Edit button will allow editing
+### Must have:
+- A menu to add task
+- Hamburger menu for switching windows
 
 ## ✅ DONE
 ### Must have:
@@ -36,3 +35,6 @@ This app aims to fix the lack of app that fit right in the middle of being featu
 - Style the item dropdown
 - Update button will update the status
 - Change buttons base on state
+- Split the task item code into view model and control
+- Textblock and then render as markdown
+- Edit button will allow editing

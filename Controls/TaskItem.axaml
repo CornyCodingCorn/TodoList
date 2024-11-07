@@ -8,45 +8,39 @@
     <Design.PreviewWith>
         <controls:TaskItem />
     </Design.PreviewWith>
+    
+    <Style Selector="controls|TaskItem[ModelStatus=Done]">
+        <Style Selector="^ Button#ForwardUpdateBtn">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^ Button#BackwardUpdateBtn">
+            <Setter Property="Content" Value="Undone" />
+        </Style>
+    </Style>
+    <Style Selector="controls|TaskItem[ModelStatus=NotStarted]">
+        <Style Selector="^ Button#ForwardUpdateBtn">
+            <Setter Property="Content" Value="Start" />
+        </Style>
+        <Style Selector="^ Button#BackwardUpdateBtn">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+    </Style>
+    <Style Selector="controls|TaskItem[ModelStatus=Started]">
+        <Style Selector="^ Button#ForwardUpdateBtn">
+            <Setter Property="Content" Value="Done" />
+        </Style>
+        <Style Selector="^ Button#BackwardUpdateBtn">
+            <Setter Property="Content" Value="Stop" />
+        </Style>
+    </Style>
+    <Style Selector="controls|TaskItem[IsEditing=True] Panel#TaskDescription > md|MarkdownScrollViewer">
+        <Setter Property="IsVisible" Value="False"/>
+    </Style>
+    <Style Selector="controls|TaskItem[IsEditing=False] Panel#TaskDescription > TextBox">
+        <Setter Property="IsVisible" Value="False"/>
+    </Style>    
 
     <Style Selector="controls|TaskItem">
-        <Style Selector="^[ModelStatus=Done]">
-            <Style Selector="^ Button">
-                <Style Selector="^#ForwardUpdateBtn">
-                    <Setter Property="IsVisible" Value="False" />
-                </Style>
-                <Style Selector="^#BackwardUpdateBtn">
-                    <Setter Property="Content" Value="Undone" />
-                </Style>
-            </Style>
-        </Style>
-        <Style Selector="^[ModelStatus=NotStarted]">
-            <Style Selector="^ Button">
-                <Style Selector="^#ForwardUpdateBtn">
-                    <Setter Property="Content" Value="Start" />
-                </Style>
-                <Style Selector="^#BackwardUpdateBtn">
-                    <Setter Property="IsVisible" Value="False" />
-                </Style>
-            </Style>
-        </Style>
-        <Style Selector="^[ModelStatus=Started]">
-            <Style Selector="^ Button">
-                <Style Selector="^#ForwardUpdateBtn">
-                    <Setter Property="Content" Value="Done" />
-                </Style>
-                <Style Selector="^#BackwardUpdateBtn">
-                    <Setter Property="Content" Value="Stop" />
-                </Style>
-            </Style>
-        </Style>
-        <Style Selector="^[IsEditing=True] Panel#TaskDescription > md|MarkdownScrollViewer">
-            <Setter Property="IsVisible" Value="False"/>
-        </Style>
-        <Style Selector="^[IsEditing=False] Panel#TaskDescription > TextBox">
-            <Setter Property="IsVisible" Value="False"/>
-        </Style>    
-
         <Setter Property="ModelStatus" Value="{Binding Model.Status, Mode=TwoWay}" />
         <Setter Property="IsEditing" Value="{Binding IsEditing, Mode=TwoWay}"/>
         <!-- Set Defaults -->
@@ -101,40 +95,58 @@
                                    FontWeight="Bold"
                                    FontSize="18"
                                    x:Name="Clock" />
-                        <StackPanel Grid.Column="1"
-                                    Grid.Row="1"
-                                    x:Name="BtnStackPanel"
-                                    Orientation="Horizontal"
-                                    FlowDirection="RightToLeft"
-                                    HorizontalAlignment="Stretch">
-                            <StackPanel.Styles>
-                                <Style Selector="Button">
-                                    <Setter Property="Margin" Value="0, 0, 15, 0" />
-                                    <Setter Property="Width" Value="75" />
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    <Setter Property="FontWeight" Value="Bold" />
+                        <Panel Grid.Row="1" 
+                               Grid.Column="1"
+                               x:Name="BtnPanel">
+                            <Panel.Styles>
+                                <Style Selector="StackPanel">
+                                    <Setter Property="Orientation" Value="Horizontal"/>
+                                    <Setter Property="FlowDirection" Value="RightToLeft"/>
+                                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                    <Style Selector="^ Button">
+                                        <Setter Property="Margin" Value="0, 0, 15, 0" />
+                                        <Setter Property="Width" Value="75" />
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        <Setter Property="FontWeight" Value="Bold" />
+                                    </Style>
                                 </Style>
-                            </StackPanel.Styles>
-                            <Button Classes="danger"
-                                    Command="{Binding DeleteCommand}"
-                                    CommandParameter="{TemplateBinding DataContext}">
-                                Del
-                            </Button>
-                            <Button x:Name="BackwardUpdateBtn"
-                                    Classes="warning"
-                                    Command="{Binding UpdateStatusCommand}"
-                                    CommandParameter="True">
-                            </Button>
-                            <Button x:Name="ForwardUpdateBtn"
-                                    Classes="accept"
-                                    Command="{Binding UpdateStatusCommand}">
-                            </Button>
-                            <Button x:Name="EditBtn"
-                                    Classes="accent"
-                                    Command="{Binding UpdateStatusCommand}">
-                                Edit
-                            </Button>
-                        </StackPanel>
+                            </Panel.Styles>
+                            <StackPanel x:Name="NormalModePanel"
+                                        IsVisible="{Binding IsEditing, Converter={StaticResource NotBooleanConverter}}">
+                                <Button Classes="danger"
+                                        Command="{Binding DeleteCommand}"
+                                        CommandParameter="{TemplateBinding DataContext}">
+                                    Del
+                                </Button>
+                                <Button x:Name="BackwardUpdateBtn"
+                                        Classes="warning"
+                                        Command="{Binding UpdateStatusCommand}"
+                                        CommandParameter="True">
+                                </Button>
+                                <Button x:Name="ForwardUpdateBtn"
+                                        Classes="accept"
+                                        Command="{Binding UpdateStatusCommand}">
+                                </Button>
+                                <Button x:Name="EditBtn"
+                                        Classes="accent"
+                                        Command="{Binding StartEditingCommand}">
+                                    Edit
+                                </Button>
+                            </StackPanel>
+                            <StackPanel x:Name="EditModePanel"
+                                        IsVisible="{Binding IsEditing}">
+                                <Button Classes="danger"
+                                        Command="{Binding StopEditingCommand}"
+                                        CommandParameter="{StaticResource TrueBoolean}">
+                                    Discard
+                                </Button>
+                                <Button Classes="accept"
+                                        Command="{Binding StopEditingCommand}"
+                                        CommandParameter="{StaticResource FalseBoolean}">
+                                    Accept
+                                </Button>
+                            </StackPanel>
+                        </Panel>
                         <Panel Grid.Column="0"
                                Grid.Row="0"
                                Grid.ColumnSpan="2"

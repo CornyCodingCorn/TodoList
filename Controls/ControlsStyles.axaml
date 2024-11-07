@@ -1,5 +1,7 @@
 <Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:system="clr-namespace:System;assembly=System.Runtime"
+        xmlns:converter="clr-namespace:ToDoList.Converter">
         <Styles.Resources>
                 <SolidColorBrush x:Key="WarningButtonBackground" Color="#ffcc00"/>
                 <SolidColorBrush x:Key="WarningButtonBackgroundPointerover" Color="#CC9C00"/>
@@ -13,6 +15,15 @@
                 <SolidColorBrush x:Key="AcceptButtonBackgroundPointerover" Color="#17721E"/>
                 <SolidColorBrush x:Key="AcceptButtonBackgroundPressed" Color="#3EAF41"/>
                 <SolidColorBrush x:Key="AcceptButtonForeground" Color="White"/>
+                
+                <system:Boolean x:Key="FalseBoolean">
+                    False
+                </system:Boolean>
+                <system:Boolean x:Key="TrueBoolean">
+                    True
+                </system:Boolean>
+                
+                <converter:NotBooleanConverter x:Key="NotBooleanConverter"/>
         </Styles.Resources>
         
         <Style Selector="Button">
