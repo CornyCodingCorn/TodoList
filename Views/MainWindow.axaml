@@ -29,8 +29,8 @@
             </ScrollViewer.Styles>
             <ItemsControl ItemsSource="{Binding Tasks}">
                 <ItemsControl.DataTemplates>
-                    <DataTemplate DataType="m:TaskModel">
-                        <controls:TaskItem DeleteCommand="{Binding #Root.((vm:MainWindowViewModel)DataContext).DeleteTaskCommand, FallbackValue=Failed to bind}"/>
+                    <DataTemplate DataType="vm:TaskItemViewModel">
+                        <controls:TaskItem/>
                     </DataTemplate>
                 </ItemsControl.DataTemplates>
             </ItemsControl>

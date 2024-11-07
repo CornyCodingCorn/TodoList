@@ -1,10 +1,10 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="using:ToDoList.Controls"
-        xmlns:m="clr-namespace:ToDoList.Models"
         xmlns:md="https://github.com/whistyun/Markdown.Avalonia.Tight"
         xmlns:ctxt="clr-namespace:ColorTextBlock.Avalonia;assembly=ColorTextBlock.Avalonia"
-        x:DataType="m:TaskModel">
+        xmlns:vm="clr-namespace:ToDoList.ViewModels"
+        x:DataType="vm:TaskItemViewModel">
     <Design.PreviewWith>
         <controls:TaskItem />
     </Design.PreviewWith>
@@ -40,15 +40,15 @@
                 </Style>
             </Style>
         </Style>
-        <Style Selector="^[IsEditing=True] Panel#TaskDescription > md|MarkdownScrollViewer ">
+        <Style Selector="^[IsEditing=True] Panel#TaskDescription > md|MarkdownScrollViewer">
             <Setter Property="IsVisible" Value="False"/>
         </Style>
         <Style Selector="^[IsEditing=False] Panel#TaskDescription > TextBox">
             <Setter Property="IsVisible" Value="False"/>
         </Style>    
 
-        <Setter Property="ModelStatus" Value="{Binding Status, Mode=TwoWay}" />
-        <Setter Property="TimeSpent" Value="{Binding TimeSpent, Mode=TwoWay}" />
+        <Setter Property="ModelStatus" Value="{Binding Model.Status, Mode=TwoWay}" />
+        <Setter Property="IsEditing" Value="{Binding IsEditing, Mode=TwoWay}"/>
         <!-- Set Defaults -->
         <Setter Property="Template">
             <ControlTemplate>
@@ -83,21 +83,21 @@
                     <Expander.Header>
                         <Grid ColumnDefinitions="Auto, *">
                             <controls:TaskStatusIcon Grid.Column="0"
-                                                     ModelStatus="{Binding ((m:TaskModel)DataContext).Status, FallbackValue=Unable to bind, RelativeSource={RelativeSource TemplatedParent}}"
+                                                     ModelStatus="{Binding Model.Status, FallbackValue=Unable to bind}"
                                                      Width="32"
                                                      Height="32"
                                                      ImageMargin="3" />
                             <TextBlock Grid.Column="1"
                                        TextAlignment="Center"
                                        VerticalAlignment="Center"
-                                       Text="{Binding ((m:TaskModel)DataContext).Name, FallbackValue=Unable to bind, RelativeSource={RelativeSource TemplatedParent}}" />
+                                       Text="{Binding Model.Name, FallbackValue=Unable to bind}" />
                         </Grid>
                     </Expander.Header>
                     <Grid ColumnDefinitions="Auto, *" RowDefinitions="*, Auto">
                         <TextBlock Grid.Row="1"
                                    Grid.Column="0"
                                    VerticalAlignment="Center"
-                                   Text="{TemplateBinding TimeString}"
+                                   Text="{Binding TimeString}"
                                    FontWeight="Bold"
                                    FontSize="18"
                                    x:Name="Clock" />
@@ -116,21 +116,22 @@
                                 </Style>
                             </StackPanel.Styles>
                             <Button Classes="danger"
-                                    Command="{TemplateBinding DeleteCommand}"
+                                    Command="{Binding DeleteCommand}"
                                     CommandParameter="{TemplateBinding DataContext}">
                                 Del
                             </Button>
                             <Button x:Name="BackwardUpdateBtn"
                                     Classes="warning"
-                                    Command="{Binding UpdateStatusCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                    Command="{Binding UpdateStatusCommand}"
                                     CommandParameter="True">
                             </Button>
                             <Button x:Name="ForwardUpdateBtn"
                                     Classes="accept"
-                                    Command="{Binding UpdateStatusCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                    Command="{Binding UpdateStatusCommand}">
                             </Button>
                             <Button x:Name="EditBtn"
-                                    Command="{Binding UpdateStatusCommand, RelativeSource={RelativeSource TemplatedParent}}">
+                                    Classes="accent"
+                                    Command="{Binding UpdateStatusCommand}">
                                 Edit
                             </Button>
                         </StackPanel>
@@ -144,7 +145,7 @@
                                      Height="{Binding $parent.Height}"
                                      Margin="0, 0, 0, 15"
                                      TextWrapping="Wrap"
-                                     Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Text="{Binding EditingDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      AcceptsReturn="True">
                                 <TextBox.Styles>
                                     <Style Selector="TextBox">
@@ -159,7 +160,8 @@
                             </TextBox>
                             <md:MarkdownScrollViewer xml:space="preserve"
                                                      Height="{Binding $parent.Height}" 
-                                                     SelectionEnabled="True">
+                                                     SelectionEnabled="True"
+                                                     Markdown="{Binding Model.Description}">
                                 <md:MarkdownScrollViewer.Styles>
                                     <Style Selector="ctxt|CTextBlock">
                                         <Style Selector="^.Heading1">
@@ -181,12 +183,7 @@
                                         <Setter Property="SelectionBrush" Value="{DynamicResource SystemListLowColor}" />
                                     </Style>
                                 </md:MarkdownScrollViewer.Styles>
-                                # Heading 1
-                                
-                                ## Heading 2
-                                
-                                ### Heading 3
-                                Hello Markdown.Avalonia!
+                                This text is needed otherwise the program will crash before binding start
                             </md:MarkdownScrollViewer>
                         </Panel>
                     </Grid>
