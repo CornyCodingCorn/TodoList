@@ -62,4 +62,6 @@
         <StyleInclude Source="TaskItem.axaml"/>
         <StyleInclude Source="TaskStatusIcon.axaml"/>
         <StyleInclude Source="HamburgerMenu.axaml"/>
+        
+        <StyleInclude Source="../StyleClasses/AllStyleClasses.axaml"/>
 </Styles>

@@ -4,69 +4,182 @@
     <Design.PreviewWith>
         <controls:HamburgerMenu />
     </Design.PreviewWith>
-    
-    <Style Selector="controls|HamburgerMenu[IsExpanded=False] Panel#PART_ExpandablePanel">
-        <Style.Animations>
-            <Animation Duration="0:0:0.4" Easing="CubicEaseInOut" FillMode="Forward">
-                <KeyFrame Cue="0%">
-                    <Setter Property="Width" Value="{Binding ExpandableWidth, RelativeSource={RelativeSource AncestorType={x:Type controls:HamburgerMenu}}}"/>
-                </KeyFrame>
-                <KeyFrame Cue="100%">
-                    <Setter Property="Width" Value="0"/>
-                </KeyFrame>
-            </Animation>
-        </Style.Animations>
+
+    <Style Selector="controls|HamburgerMenu[IsExpanded=False]">
+        <Style Selector="^ Panel#TemplateExpandablePanel">
+            <Style.Animations>
+                <Animation Duration="0:0:0.4" Easing="CubicEaseInOut" FillMode="Forward">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="Width"
+                                Value="{Binding ExpandableWidth, RelativeSource={RelativeSource AncestorType={x:Type controls:HamburgerMenu}}}" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="Width" Value="0" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+        <Style Selector="^ Panel.item-expandable-panel">
+            <Style.Animations>
+                <Animation Duration="0:0:0.4" Easing="CubicEaseInOut" FillMode="Forward">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="Width"
+                                Value="{Binding ExpandableWidth, RelativeSource={RelativeSource AncestorType={x:Type controls:HamburgerMenu}}}" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="Width" Value="0" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
     </Style>
-    <Style Selector="controls|HamburgerMenu[IsExpanded=True] Panel#PART_ExpandablePanel">
-        <Style.Animations>
-            <Animation Duration="0:0:0.4" Easing="CubicEaseInOut" FillMode="Forward">
-                <KeyFrame Cue="0%">
-                    <Setter Property="Width" Value="0"/>
-                </KeyFrame>
-                <KeyFrame Cue="100%">
-                    <Setter Property="Width" Value="{Binding ExpandableWidth, RelativeSource={RelativeSource AncestorType={x:Type controls:HamburgerMenu}}}"/>
-                </KeyFrame>
-            </Animation>
-        </Style.Animations>
+    <Style Selector="controls|HamburgerMenu[IsExpanded=True]">
+        <Style Selector="^ Panel#TemplateExpandablePanel">
+            <Style.Animations>
+                <Animation Duration="0:0:0.4" Easing="CubicEaseInOut" FillMode="Forward">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="Width" Value="0" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="Width"
+                                Value="{Binding ExpandableWidth, RelativeSource={RelativeSource AncestorType={x:Type controls:HamburgerMenu}}}" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+        <Style Selector="^ Panel.item-expandable-panel">
+            <Style.Animations>
+                <Animation Duration="0:0:0.4" Easing="CubicEaseInOut" FillMode="Forward">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="Width" Value="0" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="Width"
+                                Value="{Binding ExpandableWidth, RelativeSource={RelativeSource AncestorType={x:Type controls:HamburgerMenu}}}" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
     </Style>
-    
+
     <Style Selector="controls|HamburgerMenu">
-            
+
         <!-- Set Defaults -->
         <Setter Property="Template">
             <ControlTemplate>
-                <Grid HorizontalAlignment="Stretch" 
+                <Grid HorizontalAlignment="Stretch"
                       Background="{DynamicResource SystemBaseLowColor}"
-                      RowDefinitions="Auto, *, Auto"
+                      RowDefinitions="Auto, *, 5, Auto"
                       ColumnDefinitions="Auto, *">
-                    <Panel Grid.Row="0" 
-                           Grid.Column="0" 
-                           Grid.RowSpan="3"
-                           HorizontalAlignment="Stretch"
-                           VerticalAlignment="Stretch"
+                    <Panel Grid.Row="0"
+                           Grid.Column="0"
+                           x:Name="TemplateNormalWidthPanel"
+                           Classes="v-stretch"
                            Width="{TemplateBinding NormalWidth}"
-                           Background="{DynamicResource SystemBaseLowColor}">
-                        
-                    </Panel>
-                    <Panel Grid.Row="0" 
-                           Grid.Column="1" 
-                           Grid.RowSpan="3" 
-                           x:Name="PART_ExpandablePanel"
-                           VerticalAlignment="Stretch"
-                           Background="{DynamicResource SystemBaseLowColor}">
-                        
-                    </Panel>
+                           Background="{DynamicResource SystemBaseLowColor}" />
+                    <Panel Grid.Row="0"
+                           Grid.Column="1"
+                           x:Name="TemplateExpandablePanel"
+                           Classes="v-stretch"
+                           Background="{DynamicResource SystemBaseLowColor}" />
                     <Panel Grid.Column="0"
                            Grid.Row="0"
+                           x:Name="TemplateButtonPanel"
+                           Classes="stretch"
                            Height="{TemplateBinding HeaderHeight}">
-                        <Button HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
+                        <Button Classes="center"
                                 Command="{TemplateBinding ExpandMenuCommand}"
                                 Height="{TemplateBinding HamburgerMenuButtonSize}"
                                 Width="{TemplateBinding HamburgerMenuButtonSize}">
-                            ||
+                            <Image Width="{TemplateBinding HamburgerMenuIconSize}"
+                                   Height="{TemplateBinding HamburgerMenuIconSize}"
+                                   Source="avares://ToDoList/Assets/Icons/menu-64.png" />
                         </Button>
                     </Panel>
+                    <ListBox Grid.Row="1"
+                             Grid.Column="0"
+                             Grid.ColumnSpan="2"
+                             x:Name="TemplateBodyItemsList"
+                             Classes="stretch" ItemsSource="{TemplateBinding BodyItemsSource}">
+                        <ListBox.Styles>
+                            <Style Selector="ListBoxItem">
+                                <Setter Property="Padding" Value="0" />
+                            </Style>
+                        </ListBox.Styles>
+                        <ListBox.DataTemplates>
+                            <DataTemplate DataType="controls:HamburgerMenuItem">
+                                <StackPanel Orientation="Horizontal">
+                                    <Panel Grid.Column="0"
+                                           Background="Transparent">
+                                        <Panel.Styles>
+                                            <Style Selector="Panel">
+                                                <Setter Property="Width"
+                                                        Value="{Binding NormalWidth, RelativeSource={RelativeSource AncestorType=controls:HamburgerMenu}}" />
+                                                <Setter Property="Height"
+                                                        Value="{Binding BodyItemHeight, RelativeSource={RelativeSource AncestorType=controls:HamburgerMenu}}" />
+                                            </Style>
+                                            <Style Selector="Image">
+                                                <Setter Property="Width"
+                                                        Value="{Binding BodyIconSize, RelativeSource={RelativeSource AncestorType=controls:HamburgerMenu}}" />
+                                            </Style>
+                                        </Panel.Styles>
+
+                                        <Image Height="{Binding $self.Width}"
+                                               RenderOptions.BitmapInterpolationMode="HighQuality"
+                                               Source="{Binding Icon}" />
+                                    </Panel>
+                                    <Panel Grid.Column="1"
+                                           Classes="item-expandable-panel v-stretch">
+                                        <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
+                                    </Panel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.DataTemplates>
+                    </ListBox>
+                    <Rectangle Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                               Classes="stretch"
+                               Fill="{DynamicResource SystemBaseLowColor}" />
+                    <ListBox Grid.Row="3"
+                             Grid.Column="0"
+                             Grid.ColumnSpan="2"
+                             Classes="stretch"
+                             x:Name="TemplateFooterItemsList"
+                             ItemsSource="{TemplateBinding FooterItemsSource}">
+                        <ListBox.Styles>
+                            <Style Selector="ListBoxItem">
+                                <Setter Property="Padding" Value="0" />
+                            </Style>
+                        </ListBox.Styles>
+                        <ListBox.DataTemplates>
+                            <DataTemplate DataType="controls:HamburgerMenuItem">
+                                <StackPanel Orientation="Horizontal">
+                                    <Panel Grid.Column="0"
+                                           Background="Transparent">
+                                        <Panel.Styles>
+                                            <Style Selector="Panel">
+                                                <Setter Property="Width"
+                                                        Value="{Binding NormalWidth, RelativeSource={RelativeSource AncestorType=controls:HamburgerMenu}}" />
+                                                <Setter Property="Height"
+                                                        Value="{Binding FooterItemHeight, RelativeSource={RelativeSource AncestorType=controls:HamburgerMenu}}" />
+                                            </Style>
+                                            <Style Selector="Image">
+                                                <Setter Property="Width"
+                                                        Value="{Binding FooterIconSize, RelativeSource={RelativeSource AncestorType=controls:HamburgerMenu}}" />
+                                            </Style>
+                                        </Panel.Styles>
+
+                                        <Image Height="{Binding $self.Width}"
+                                               RenderOptions.BitmapInterpolationMode="HighQuality"
+                                               Source="{Binding Icon}" />
+                                    </Panel>
+                                    <Panel Grid.Column="1"
+                                           Classes="item-expandable-panel v-stretch">
+                                        <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
+                                    </Panel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.DataTemplates>
+                    </ListBox>
                 </Grid>
             </ControlTemplate>
         </Setter>

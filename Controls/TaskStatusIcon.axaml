@@ -42,9 +42,11 @@
                         </Style>
                     </Panel.Styles>
                     <Image x:Name="Image"
+                           RenderOptions.BitmapInterpolationMode="HighQuality"
                            Margin="{TemplateBinding ImageMargin}"
                            Source="{TemplateBinding Icon}"/>
                     <Image x:Name="AnimImg"
+                           RenderOptions.BitmapInterpolationMode="HighQuality"
                            Margin="{TemplateBinding ImageMargin}"
                            IsVisible="False"
                            Source="{TemplateBinding OldIcon}"/>

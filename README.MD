@@ -19,11 +19,12 @@ This app aims to fix the lack of app that fit right in the middle of being featu
 ## 🕦 DOING
 ### Must have:
 - A menu to add task
-- Hamburger menu for switching windows
+- Create custom expander
 
 ## ✅ DONE
 ### Must have:
 - Tasks with timer to keep track
+- Hamburger menu for switching windows
 
 ### Task item:
 - Change animation data type to correct one because C# doesn't automatically type cast object to type (Done)
