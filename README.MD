@@ -21,6 +21,9 @@ This app aims to fix the lack of app that fit right in the middle of being featu
 - A menu to add task
 - Create custom expander
 
+### Nice to have:
+- Remove expander border(change it to the same color), reduce height and add animation for open and close
+
 ## ✅ DONE
 ### Must have:
 - Tasks with timer to keep track
