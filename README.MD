@@ -19,15 +19,13 @@ This app aims to fix the lack of app that fit right in the middle of being featu
 ## 🕦 DOING
 ### Must have:
 - A menu to add task
-- Create custom expander
-
-### Nice to have:
-- Remove expander border(change it to the same color), reduce height and add animation for open and close
 
 ## ✅ DONE
 ### Must have:
 - Tasks with timer to keep track
 - Hamburger menu for switching windows
+- Create custom expander -> Change the expander to look much better
+- Remove expander border(change it to the same color), reduce height and add animation for open and close
 
 ### Task item:
 - Change animation data type to correct one because C# doesn't automatically type cast object to type (Done)
