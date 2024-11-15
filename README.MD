@@ -1,9 +1,13 @@
 ## 📖 ABOUT
+
 A simple todo list app that is cross-platform and simple but still has enough feature for managing daily tasks.</br>
-This app aims to fix the lack of app that fit right in the middle of being features rich and just a simple app that everyone does as a tutorial (I actually don't know, don't quote me ¯\\\_(ツ)_/¯ ). </br>
+This app aims to fix the lack of app that fit right in the middle of being features rich and just a simple app that
+everyone does as a tutorial (I actually don't know, don't quote me ¯\\\_(ツ)_/¯ ). </br>
 
 ## 🎯 TO DO
+
 ### Must have:
+
 - Saving data in yaml file format
 - A dashboard to show compiled data
 - Keep track of how many task has been done
@@ -11,23 +15,28 @@ This app aims to fix the lack of app that fit right in the middle of being featu
 - Compile data
 
 ### Nice to have:
+
 - Reminder to get some rest
 - Prepare task for tomorrow
 - A music player that play local songs
 - Allow changing themes
 
 ## 🕦 DOING
+
 ### Must have:
-- A menu to add task
 
 ## ✅ DONE
+
 ### Must have:
+
 - Tasks with timer to keep track
 - Hamburger menu for switching windows
 - Create custom expander -> Change the expander to look much better
 - Remove expander border(change it to the same color), reduce height and add animation for open and close
+- A menu to add task
 
 ### Task item:
+
 - Change animation data type to correct one because C# doesn't automatically type cast object to type (Done)
 - Store time in miliseconds
 - Icon to show the status

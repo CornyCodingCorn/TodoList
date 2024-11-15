@@ -8,7 +8,7 @@
     <Design.PreviewWith>
         <controls:TaskItem />
     </Design.PreviewWith>
-    
+
     <Style Selector="controls|TaskItem[ModelStatus=Done]">
         <Style Selector="^ Button#ForwardUpdateBtn">
             <Setter Property="IsVisible" Value="False" />
@@ -34,52 +34,58 @@
         </Style>
     </Style>
     <Style Selector="controls|TaskItem[IsEditing=True] Panel#TaskDescription > md|MarkdownScrollViewer">
-        <Setter Property="IsVisible" Value="False"/>
+        <Setter Property="IsVisible" Value="False" />
     </Style>
     <Style Selector="controls|TaskItem[IsEditing=False] Panel#TaskDescription > TextBox">
-        <Setter Property="IsVisible" Value="False"/>
-    </Style>    
+        <Setter Property="IsVisible" Value="False" />
+    </Style>
 
     <Style Selector="controls|TaskItem">
         <Setter Property="ModelStatus" Value="{Binding Model.Status, Mode=TwoWay}" />
-        <Setter Property="IsEditing" Value="{Binding IsEditing, Mode=TwoWay}"/>
+        <Setter Property="IsEditing" Value="{Binding IsEditing, Mode=TwoWay}" />
+        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
         <!-- Set Defaults -->
         <Setter Property="Template">
             <ControlTemplate>
-                <Expander HorizontalAlignment="Stretch" Margin="20, 0, 20, 0" MinHeight="34" BorderThickness="0">
+                <Expander x:Name="ExpanderPart"
+                          IsExpanded="{TemplateBinding IsExpanded, Mode=TwoWay}"
+                          HorizontalAlignment="Stretch"
+                          Margin="20,0,20,0"
+                          MinHeight="34"
+                          BorderThickness="0">
                     <Expander.Styles>
                         <Style Selector="Expander">
                             <Style Selector="^:expanded">
                                 <Setter Property="Margin" Value="10, 0, 10, 0" />
-                                <Style Selector="^ > DockPanel > Border#ExpanderContent">
-                                    <Setter Property="ClipToBounds" Value="True"/>
-                                    <Style.Animations>
-                                        <Animation Duration="0:0:0.25" Easing="CubicEaseInOut" FillMode="Forward">
-                                            <KeyFrame Cue="0%">
-                                                <Setter Property="IsVisible" Value="True"/>
-                                                <Setter Property="MinHeight" Value="0"/>
-                                                <Setter Property="Height" Value="0"/>
-                                            </KeyFrame>
-                                            <KeyFrame Cue="100%">
-                                                <Setter Property="Height" Value="363"/>
-                                                <Setter Property="IsVisible" Value="True"/>
-                                            </KeyFrame>
-                                        </Animation>
-                                    </Style.Animations>
-                                </Style>
                             </Style>
-                            <Style Selector="^:not(:expanded) > DockPanel > Border#ExpanderContent">
-                                <Setter Property="ClipToBounds" Value="True"/>
+                            <Style Selector="^.runAnim:expanded > DockPanel > Border#ExpanderContent">
+                                <Setter Property="ClipToBounds" Value="True" />
+                                <Style.Animations>
+                                    <Animation Duration="0:0:0.25" Easing="CubicEaseInOut" FillMode="Forward">
+                                        <KeyFrame Cue="0%">
+                                            <Setter Property="IsVisible" Value="True" />
+                                            <Setter Property="MinHeight" Value="0" />
+                                            <Setter Property="Height" Value="0" />
+                                        </KeyFrame>
+                                        <KeyFrame Cue="100%">
+                                            <Setter Property="Height" Value="363" />
+                                            <Setter Property="IsVisible" Value="True" />
+                                        </KeyFrame>
+                                    </Animation>
+                                </Style.Animations>
+                            </Style>
+                            <Style Selector="^.runAnim:not(:expanded) > DockPanel > Border#ExpanderContent">
+                                <Setter Property="ClipToBounds" Value="True" />
                                 <Style.Animations>
                                     <Animation Duration="0:0:0.10" Easing="CubicEaseInOut" FillMode="Forward">
                                         <KeyFrame Cue="0%">
-                                            <Setter Property="Height" Value="363"/>
-                                            <Setter Property="IsVisible" Value="True"/>
+                                            <Setter Property="Height" Value="363" />
+                                            <Setter Property="IsVisible" Value="True" />
                                         </KeyFrame>
                                         <KeyFrame Cue="100%">
-                                            <Setter Property="IsVisible" Value="False"/>
-                                            <Setter Property="MinHeight" Value="0"/>
-                                            <Setter Property="Height" Value="0"/>
+                                            <Setter Property="IsVisible" Value="False" />
+                                            <Setter Property="MinHeight" Value="0" />
+                                            <Setter Property="Height" Value="0" />
                                         </KeyFrame>
                                     </Animation>
                                 </Style.Animations>
@@ -88,22 +94,22 @@
                                 <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}" />
                                 <Style Selector="^ > Border">
                                     <Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
-                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="BorderThickness" Value="0" />
                                     <Style Selector="^:pointerover">
                                         <Setter Property="Background"
                                                 Value="{DynamicResource ButtonBackgroundPointerOver}" />
                                     </Style>
                                     <Style Selector="^ Border#ExpandCollapseChevronBorder">
-                                        <Setter Property="Width" Value="24"/>
-                                        <Setter Property="Height" Value="24"/>
-                                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                        <Setter Property="Width" Value="24" />
+                                        <Setter Property="Height" Value="24" />
+                                        <Setter Property="HorizontalAlignment" Value="Center" />
+                                        <Setter Property="VerticalAlignment" Value="Center" />
                                     </Style>
                                 </Style>
                             </Style>
                             <Style Selector="^ ToggleButton:checked">
                                 <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}" />
-                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="BorderThickness" Value="0" />
                                 <Style Selector="^ > Border">
                                     <Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
                                     <Style Selector="^:pointerover">
@@ -111,18 +117,18 @@
                                                 Value="{DynamicResource ButtonBackgroundPointerOver}" />
                                     </Style>
                                     <Style Selector="^ Border#ExpandCollapseChevronBorder">
-                                        <Setter Property="Width" Value="24"/>
-                                        <Setter Property="Height" Value="24"/>
-                                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                        <Setter Property="Width" Value="24" />
+                                        <Setter Property="Height" Value="24" />
+                                        <Setter Property="HorizontalAlignment" Value="Center" />
+                                        <Setter Property="VerticalAlignment" Value="Center" />
                                         <Style Selector="^ Path">
                                             <Style.Animations>
                                                 <Animation Duration="0:0:0.15" FillMode="Forward">
                                                     <KeyFrame Cue="0%">
-                                                        <Setter Property="RotateTransform.Angle" Value="0"/>
+                                                        <Setter Property="RotateTransform.Angle" Value="0" />
                                                     </KeyFrame>
                                                     <KeyFrame Cue="100%">
-                                                        <Setter Property="RotateTransform.Angle" Value="180"/>
+                                                        <Setter Property="RotateTransform.Angle" Value="180" />
                                                     </KeyFrame>
                                                 </Animation>
                                             </Style.Animations>
@@ -153,14 +159,14 @@
                                    FontWeight="Bold"
                                    FontSize="18"
                                    x:Name="Clock" />
-                        <Panel Grid.Row="1" 
+                        <Panel Grid.Row="1"
                                Grid.Column="1"
                                x:Name="BtnPanel">
                             <Panel.Styles>
                                 <Style Selector="StackPanel">
-                                    <Setter Property="Orientation" Value="Horizontal"/>
-                                    <Setter Property="FlowDirection" Value="RightToLeft"/>
-                                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                    <Setter Property="Orientation" Value="Horizontal" />
+                                    <Setter Property="FlowDirection" Value="RightToLeft" />
+                                    <Setter Property="HorizontalAlignment" Value="Stretch" />
                                     <Style Selector="^ Button">
                                         <Setter Property="Margin" Value="0, 0, 15, 0" />
                                         <Setter Property="Width" Value="75" />
@@ -229,7 +235,7 @@
                                 </TextBox.Styles>
                             </TextBox>
                             <md:MarkdownScrollViewer xml:space="preserve"
-                                                     Height="{Binding $parent.Height}" 
+                                                     Height="{Binding $parent.Height}"
                                                      SelectionEnabled="True"
                                                      Markdown="{Binding Model.Description}">
                                 <md:MarkdownScrollViewer.Styles>
@@ -237,17 +243,20 @@
                                         <Style Selector="^.Heading1">
                                             <Setter Property="Foreground"
                                                     Value="{DynamicResource TextControlForeground}" />
-                                            <Setter Property="SelectionBrush" Value="{DynamicResource SystemListLowColor}" />
+                                            <Setter Property="SelectionBrush"
+                                                    Value="{DynamicResource SystemListLowColor}" />
                                         </Style>
                                         <Style Selector="^.Heading2">
                                             <Setter Property="Foreground"
                                                     Value="{DynamicResource TextControlForeground}" />
-                                            <Setter Property="SelectionBrush" Value="{DynamicResource SystemListLowColor}" />
+                                            <Setter Property="SelectionBrush"
+                                                    Value="{DynamicResource SystemListLowColor}" />
                                         </Style>
                                         <Style Selector="^.Heading3">
                                             <Setter Property="Foreground"
                                                     Value="{DynamicResource TextControlForeground}" />
-                                            <Setter Property="SelectionBrush" Value="{DynamicResource SystemListLowColor}" />
+                                            <Setter Property="SelectionBrush"
+                                                    Value="{DynamicResource SystemListLowColor}" />
                                         </Style>
                                         <Setter Property="Foreground" Value="{DynamicResource TextControlForeground}" />
                                         <Setter Property="SelectionBrush" Value="{DynamicResource SystemListLowColor}" />

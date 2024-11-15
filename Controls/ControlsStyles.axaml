@@ -2,66 +2,66 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:system="clr-namespace:System;assembly=System.Runtime"
         xmlns:converter="clr-namespace:ToDoList.Converter">
-        <Styles.Resources>
-                <SolidColorBrush x:Key="WarningButtonBackground" Color="#ffcc00"/>
-                <SolidColorBrush x:Key="WarningButtonBackgroundPointerover" Color="#CC9C00"/>
-                <SolidColorBrush x:Key="WarningButtonBackgroundPressed" Color="#FFDC4C"/>
-                <SolidColorBrush x:Key="WarningButtonForeground" Color="Black"/>
-                <SolidColorBrush x:Key="DangerButtonBackground" Color="#ff5050"/>
-                <SolidColorBrush x:Key="DangerButtonBackgroundPointerover" Color="#D04242"/>
-                <SolidColorBrush x:Key="DangerButtonBackgroundPressed" Color="#FF6F6D"/>
-                <SolidColorBrush x:Key="DangerButtonForeground" Color="White"/>
-                <SolidColorBrush x:Key="AcceptButtonBackground" Color="#1DB02C"/>
-                <SolidColorBrush x:Key="AcceptButtonBackgroundPointerover" Color="#17721E"/>
-                <SolidColorBrush x:Key="AcceptButtonBackgroundPressed" Color="#3EAF41"/>
-                <SolidColorBrush x:Key="AcceptButtonForeground" Color="White"/>
-                
-                <system:Boolean x:Key="FalseBoolean">
-                    False
-                </system:Boolean>
-                <system:Boolean x:Key="TrueBoolean">
-                    True
-                </system:Boolean>
-                
-                <converter:NotBooleanConverter x:Key="NotBooleanConverter"/>
-        </Styles.Resources>
-        
-        <Style Selector="Button">
-                <Style Selector="^.warning">
-                        <Setter Property="Background" Value="{DynamicResource WarningButtonBackground}"/>
-                        <Setter Property="Foreground" Value="{DynamicResource WarningButtonForeground}"/>
-                        <Style Selector="^:pointerover > ContentPresenter">
-                                <Setter Property="Background" Value="{DynamicResource WarningButtonBackgroundPointerover}"/>
-                        </Style>
-                        <Style Selector="^:pressed > ContentPresenter">
-                                <Setter Property="Background" Value="{DynamicResource WarningButtonBackgroundPressed}"/>
-                        </Style>
-                </Style>
-                <Style Selector="^.danger">
-                        <Setter Property="Background" Value="{DynamicResource DangerButtonBackground}"/>
-                        <Setter Property="Foreground" Value="{DynamicResource DangerButtonForeground}"/>
-                        <Style Selector="^:pointerover > ContentPresenter">
-                                <Setter Property="Background" Value="{DynamicResource DangerButtonBackgroundPointerover}"/>
-                        </Style>
-                        <Style Selector="^:pressed > ContentPresenter">
-                                <Setter Property="Background" Value="{DynamicResource DangerButtonBackgroundPressed}"/>
-                        </Style>
-                </Style>
-                <Style Selector="^.accept">
-                        <Setter Property="Background" Value="{DynamicResource AcceptButtonBackground}"/>
-                        <Setter Property="Foreground" Value="{DynamicResource AcceptButtonForeground}"/>
-                        <Style Selector="^:pointerover > ContentPresenter">
-                                <Setter Property="Background" Value="{DynamicResource AcceptButtonBackgroundPointerover}"/>
-                        </Style>
-                        <Style Selector="^:pressed > ContentPresenter">
-                                <Setter Property="Background" Value="{DynamicResource AcceptButtonBackgroundPressed}"/>
-                        </Style>
-                </Style>
+    <Styles.Resources>
+        <SolidColorBrush x:Key="WarningButtonBackground" Color="#ffcc00" />
+        <SolidColorBrush x:Key="WarningButtonBackgroundPointerover" Color="#CC9C00" />
+        <SolidColorBrush x:Key="WarningButtonBackgroundPressed" Color="#FFDC4C" />
+        <SolidColorBrush x:Key="WarningButtonForeground" Color="Black" />
+        <SolidColorBrush x:Key="DangerButtonBackground" Color="#ff5050" />
+        <SolidColorBrush x:Key="DangerButtonBackgroundPointerover" Color="#D04242" />
+        <SolidColorBrush x:Key="DangerButtonBackgroundPressed" Color="#FF6F6D" />
+        <SolidColorBrush x:Key="DangerButtonForeground" Color="White" />
+        <SolidColorBrush x:Key="AcceptButtonBackground" Color="#1DB02C" />
+        <SolidColorBrush x:Key="AcceptButtonBackgroundPointerover" Color="#17721E" />
+        <SolidColorBrush x:Key="AcceptButtonBackgroundPressed" Color="#3EAF41" />
+        <SolidColorBrush x:Key="AcceptButtonForeground" Color="White" />
+
+        <system:Boolean x:Key="FalseBoolean">
+            False
+        </system:Boolean>
+        <system:Boolean x:Key="TrueBoolean">
+            True
+        </system:Boolean>
+
+        <converter:NotBooleanConverter x:Key="NotBooleanConverter" />
+    </Styles.Resources>
+
+    <Style Selector="Button">
+        <Style Selector="^.warning">
+            <Setter Property="Background" Value="{DynamicResource WarningButtonBackground}" />
+            <Setter Property="Foreground" Value="{DynamicResource WarningButtonForeground}" />
+            <Style Selector="^:pointerover > ContentPresenter">
+                <Setter Property="Background" Value="{DynamicResource WarningButtonBackgroundPointerover}" />
+            </Style>
+            <Style Selector="^:pressed > ContentPresenter">
+                <Setter Property="Background" Value="{DynamicResource WarningButtonBackgroundPressed}" />
+            </Style>
         </Style>
-        
-        <StyleInclude Source="TaskItem.axaml"/>
-        <StyleInclude Source="TaskStatusIcon.axaml"/>
-        <StyleInclude Source="HamburgerMenu.axaml"/>
-        
-        <StyleInclude Source="../StyleClasses/AllStyleClasses.axaml"/>
+        <Style Selector="^.danger">
+            <Setter Property="Background" Value="{DynamicResource DangerButtonBackground}" />
+            <Setter Property="Foreground" Value="{DynamicResource DangerButtonForeground}" />
+            <Style Selector="^:pointerover > ContentPresenter">
+                <Setter Property="Background" Value="{DynamicResource DangerButtonBackgroundPointerover}" />
+            </Style>
+            <Style Selector="^:pressed > ContentPresenter">
+                <Setter Property="Background" Value="{DynamicResource DangerButtonBackgroundPressed}" />
+            </Style>
+        </Style>
+        <Style Selector="^.accept">
+            <Setter Property="Background" Value="{DynamicResource AcceptButtonBackground}" />
+            <Setter Property="Foreground" Value="{DynamicResource AcceptButtonForeground}" />
+            <Style Selector="^:pointerover > ContentPresenter">
+                <Setter Property="Background" Value="{DynamicResource AcceptButtonBackgroundPointerover}" />
+            </Style>
+            <Style Selector="^:pressed > ContentPresenter">
+                <Setter Property="Background" Value="{DynamicResource AcceptButtonBackgroundPressed}" />
+            </Style>
+        </Style>
+    </Style>
+
+    <StyleInclude Source="TaskItem.axaml" />
+    <StyleInclude Source="TaskStatusIcon.axaml" />
+    <StyleInclude Source="HamburgerMenu.axaml" />
+
+    <StyleInclude Source="../StyleClasses/AllStyleClasses.axaml" />
 </Styles>

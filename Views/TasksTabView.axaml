@@ -8,38 +8,38 @@
              x:Class="ToDoList.Views.TasksTabView"
              x:DataType="vm:TasksTabViewModel">
     <Design.DataContext>
-        <vm:TasksTabViewModel/>
+        <vm:TasksTabViewModel />
     </Design.DataContext>
-    
-    <UserControl.DataContext>
-        <vm:TasksTabViewModel/>
-        <!-- TODO: Remove this after adding actual data context -->
-    </UserControl.DataContext>
-    
+
     <Grid RowDefinitions="*, Auto">
-        <ScrollViewer Grid.Row="0" Padding="5, 20">
+        <ScrollViewer Grid.Row="0" Margin="0, 10, 0, 0">
             <ScrollViewer.Styles>
                 <Style Selector="controls|TaskItem">
-                    <Setter Property="Margin" Value="5"/>
+                    <Setter Property="Margin" Value="5" />
                 </Style>
             </ScrollViewer.Styles>
-            <ItemsControl ItemsSource="{Binding Tasks}">
+            <ItemsControl ItemsSource="{Binding Tasks}"
+                          Margin="0, 0, 2, 20">
                 <ItemsControl.DataTemplates>
                     <DataTemplate DataType="vm:TaskItemViewModel">
-                        <controls:TaskItem/>
+                        <controls:TaskItem />
                     </DataTemplate>
                 </ItemsControl.DataTemplates>
             </ItemsControl>
         </ScrollViewer>
         <Grid Grid.Row="1" ColumnDefinitions="*, Auto">
-            <TextBox Text="{Binding NewTaskDescription}">
+            <TextBox Grid.Column="0"
+                     Watermark="New task name"
+                     Margin="15, 10"
+                     Text="{Binding NewTaskName, Mode=TwoWay}">
                 <TextBox.InnerRightContent>
-                    <Button Grid.Column="1" Width="70" HorizontalContentAlignment="Center" Command="{Binding AddTaskCommand}">
+                    <Button Grid.Column="1" Width="70" HorizontalContentAlignment="Center"
+                            Command="{Binding AddTaskCommand}">
                         Add
                     </Button>
                 </TextBox.InnerRightContent>
                 <TextBox.KeyBindings>
-                    <KeyBinding Command="{Binding AddTaskCommand}" Gesture="Enter"></KeyBinding>
+                    <KeyBinding Command="{Binding AddTaskCommand}" Gesture="Enter"/>
                 </TextBox.KeyBindings>
             </TextBox>
         </Grid>

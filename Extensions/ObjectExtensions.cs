@@ -15,14 +15,15 @@ public static class ObjectExtensions
     {
         var property = obj.GetType().GetProperty(propertyName);
         if (property is null) throw new Exception($"Property with name {propertyName} not found");
-        
+
         // If type is nullable then return with type cast to T
         if (typeof(T).IsGenericType && typeof(T).GetGenericTypeDefinition() == typeof(Nullable<>))
             return (T)property.GetValue(obj, null)!;
         // If type is not nullable then cast to nullable and check if it's null or not
         // if null then throw exception to make sure that it's typesafe
         var result = (T?)property.GetValue(obj, null);
-        if (result == null) throw new Exception($"Property with name {propertyName} is not a nullable property but the value is null");
+        if (result == null)
+            throw new Exception($"Property with name {propertyName} is not a nullable property but the value is null");
         return result;
     }
 }

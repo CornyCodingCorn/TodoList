@@ -1,3 +1,4 @@
+using System;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -10,9 +11,9 @@ public partial class TasksTabViewModel : ViewModelBase
     [ObservableProperty] private ObservableCollection<TaskItemViewModel> _tasks = [];
 
     [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(AddTaskCommand))]
-    private string _newTaskDescription = string.Empty;
+    private string _newTaskName = string.Empty;
 
-    private bool CanAddTask => NewTaskDescription != string.Empty;
+    private bool CanAddTask => NewTaskName != string.Empty;
 
     public TasksTabViewModel()
     {
@@ -24,9 +25,11 @@ public partial class TasksTabViewModel : ViewModelBase
     {
         Tasks.Add(new TaskItemViewModel(new TaskModel
         {
-            Name = "New task",
-            Description = NewTaskDescription,
+            Name = NewTaskName,
+            Description = "Edit to add description for this task",
         }, DeleteTaskCommand));
+        
+        NewTaskName = string.Empty;
     }
 
     [RelayCommand]

@@ -11,7 +11,7 @@ public class EnumToBoolConverter<T> : IValueConverter where T : Enum
         if (value is not T enumValue) throw new Exception("Value is not of type enum");
         if (targetType.IsAssignableTo(typeof(bool))) throw new Exception("Target type is not of type boolean");
         if (parameter is not T param) throw new Exception("Parameter is not of type enum");
-        
+
         return enumValue.Equals(param);
     }
 

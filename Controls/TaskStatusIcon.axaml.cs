@@ -36,9 +36,9 @@ public partial class TaskStatusIcon : TemplatedControl
         AvaloniaProperty.RegisterDirect<TaskStatusIcon, double>(nameof(DefaultScale), o => o.DefaultScale);
 
     private static readonly PeriodicTimer AnimationTimer = new(TimeSpan.FromSeconds(10));
-    
+
     private static event Action? OnAnimationTick;
-    
+
     static TaskStatusIcon()
     {
         RunAnimationClock();
@@ -51,9 +51,9 @@ public partial class TaskStatusIcon : TemplatedControl
             while (true)
             {
                 await AnimationTimer.WaitForNextTickAsync();
-            
+
                 OnAnimationTick?.Invoke();
-            
+
                 await Task.Delay(500);
             }
         }
@@ -62,7 +62,7 @@ public partial class TaskStatusIcon : TemplatedControl
             Console.WriteLine(e);
         }
     }
-    
+
     public double DefaultScale => 1d;
 
     public Bitmap Icon

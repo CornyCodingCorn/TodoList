@@ -18,8 +18,9 @@ public sealed partial class HamburgerMenuItem : ObservableObject, IDisposable
     [ObservableProperty] private string _name;
     [ObservableProperty] private string _iconUrl;
     [ObservableProperty] private Type _type;
-    
+
     private Bitmap _icon = null!;
+
     public Bitmap Icon
     {
         get => _icon;
@@ -51,60 +52,73 @@ public partial class HamburgerMenu : TemplatedControl
     private const string FooterItemsListName = "TemplateFooterItemsList";
 
     private ListBox? _bodyList;
+
     private ListBox? _footerList;
+
     // Todo: Remove this temp function
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
-        _bodyList = e.NameScope.Find<ListBox>(BodyItemsListName) ?? throw new Exception($"Could not find List box with name {BodyItemsListName}");
-        _footerList = e.NameScope.Find<ListBox>(FooterItemsListName) ?? throw new Exception($"Could not find List box with name {FooterItemsListName}");
+        _bodyList = e.NameScope.Find<ListBox>(BodyItemsListName) ??
+                    throw new Exception($"Could not find List box with name {BodyItemsListName}");
+        _footerList = e.NameScope.Find<ListBox>(FooterItemsListName) ??
+                      throw new Exception($"Could not find List box with name {FooterItemsListName}");
 
         _bodyList.SelectionChanged += ChangeItemSelection;
         _footerList.SelectionChanged += ChangeItemSelection;
         _bodyList.SelectedIndex = 0;
     }
+
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
-        if (change.Property == SelectedItemProperty || change.Property == BodyItemsSourceProperty || change.Property == FooterItemsSourceProperty)
+        if (change.Property == SelectedItemProperty || change.Property == BodyItemsSourceProperty ||
+            change.Property == FooterItemsSourceProperty)
             UpdateListBox();
     }
+
     private void UpdateListBox()
     {
         if (_bodyList == null || _footerList == null) return;
-        
+
         if (SelectedItem == null)
         {
             SelectedItem = BodyItemsSource?.First() ?? FooterItemsSource?.First();
             return;
         }
-        
-        if (BodyItemsSource != null && BodyItemsSource.Any(x => x == SelectedItem) && _bodyList.SelectedItem != SelectedItem)
+
+        if (BodyItemsSource != null && BodyItemsSource.Any(x => x == SelectedItem) &&
+            _bodyList.SelectedItem != SelectedItem)
             _bodyList.SelectedItem = SelectedItem;
-        
-        if (FooterItemsSource != null && FooterItemsSource.Any(x => x == SelectedItem) && _footerList.SelectedItem != SelectedItem)
+
+        if (FooterItemsSource != null && FooterItemsSource.Any(x => x == SelectedItem) &&
+            _footerList.SelectedItem != SelectedItem)
             _footerList.SelectedItem = SelectedItem;
     }
+
     private void ChangeItemSelection(object? sender, SelectionChangedEventArgs e)
     {
         if (_bodyList == null || _footerList == null) return;
-        
+
         if (sender is not ListBox listBox) throw new Exception("Sender is not a Listbox");
         if (e.AddedItems.Count == 0) return;
         (listBox == _bodyList ? _footerList : _bodyList).SelectedItem = null;
         // Note to self: And it did, this saved my ass
-        SelectedItem = listBox.SelectedItem as HamburgerMenuItem ?? throw new Exception("Selected item is not a HamburgerMenuItem, this can't happen but if it does, it's bad");
+        SelectedItem = listBox.SelectedItem as HamburgerMenuItem ??
+                       throw new Exception(
+                           "Selected item is not a HamburgerMenuItem, this can't happen but if it does, it's bad");
     }
-    
-    public static readonly StyledProperty<HamburgerMenuItem?> SelectedItemProperty = AvaloniaProperty.Register<HamburgerMenu, HamburgerMenuItem?>(
-        nameof(SelectedItem));
+
+    public static readonly StyledProperty<HamburgerMenuItem?> SelectedItemProperty =
+        AvaloniaProperty.Register<HamburgerMenu, HamburgerMenuItem?>(
+            nameof(SelectedItem));
 
     public HamburgerMenuItem? SelectedItem
     {
         get => GetValue(SelectedItemProperty);
         set => SetValue(SelectedItemProperty, value);
     }
-    
+
     public static readonly DirectProperty<HamburgerMenu, ICommand> ExpandMenuCommandProperty =
         AvaloniaProperty.RegisterDirect<HamburgerMenu, ICommand>(nameof(ExpandMenuCommand), o => o.ExpandMenuCommand);
 

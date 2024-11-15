@@ -130,7 +130,7 @@
                                     </Panel>
                                     <Panel Grid.Column="1"
                                            Classes="item-expandable-panel v-stretch">
-                                        <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
+                                        <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
                                     </Panel>
                                 </StackPanel>
                             </DataTemplate>
@@ -174,7 +174,7 @@
                                     </Panel>
                                     <Panel Grid.Column="1"
                                            Classes="item-expandable-panel v-stretch">
-                                        <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
+                                        <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
                                     </Panel>
                                 </StackPanel>
                             </DataTemplate>

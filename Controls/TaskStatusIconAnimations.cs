@@ -48,7 +48,7 @@ public partial class TaskStatusIcon
         _fadeInAnimation = new Animation
         {
             Duration = TimeSpan.FromMilliseconds(700d),
-            IterationCount = new  IterationCount(1u),
+            IterationCount = new IterationCount(1u),
             FillMode = FillMode.Forward,
             SpeedRatio = 1d
         };
@@ -118,7 +118,7 @@ public partial class TaskStatusIcon
             keyframe.Setters.Add(new Setter(ScaleTransform.ScaleXProperty, DefaultScale));
             keyframe.Setters.Add(new Setter(ScaleTransform.ScaleYProperty, DefaultScale));
             keyframe.Setters.Add(new Setter(RotateTransform.AngleProperty, 0d));
-            
+
             _runningAnimation.Children.Add(keyframe);
         }
         {
@@ -129,7 +129,7 @@ public partial class TaskStatusIcon
             keyframe.Setters.Add(new Setter(ScaleTransform.ScaleXProperty, DefaultScale));
             keyframe.Setters.Add(new Setter(ScaleTransform.ScaleYProperty, DefaultScale));
             keyframe.Setters.Add(new Setter(RotateTransform.AngleProperty, -45d));
-            
+
             _runningAnimation.Children.Add(keyframe);
         }
         {
@@ -140,7 +140,7 @@ public partial class TaskStatusIcon
             keyframe.Setters.Add(new Setter(ScaleTransform.ScaleXProperty, DefaultScale * 1.2));
             keyframe.Setters.Add(new Setter(ScaleTransform.ScaleYProperty, DefaultScale * 1.2));
             keyframe.Setters.Add(new Setter(RotateTransform.AngleProperty, 180d));
-            
+
             _runningAnimation.Children.Add(keyframe);
         }
         {
@@ -151,7 +151,7 @@ public partial class TaskStatusIcon
             keyframe.Setters.Add(new Setter(ScaleTransform.ScaleXProperty, DefaultScale));
             keyframe.Setters.Add(new Setter(ScaleTransform.ScaleYProperty, DefaultScale));
             keyframe.Setters.Add(new Setter(RotateTransform.AngleProperty, 360d));
-            
+
             _runningAnimation.Children.Add(keyframe);
         }
     }

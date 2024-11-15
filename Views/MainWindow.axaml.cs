@@ -9,9 +9,9 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        
-        #if DEBUG
+
+#if DEBUG
         this.AttachDevTools(new KeyGesture(Key.F9));
-        #endif
+#endif
     }
 }
