@@ -20,10 +20,15 @@ everyone does as a tutorial (I actually don't know, don't quote me ¯\\\_(ツ)_/
 - Prepare task for tomorrow
 - A music player that play local songs
 - Allow changing themes
+- Context menu for task item
 
 ## 🕦 DOING
 
 ### Must have:
+
+### Nice to have:
+
+- Confirmation popup
 
 ## ✅ DONE
 
@@ -34,6 +39,8 @@ everyone does as a tutorial (I actually don't know, don't quote me ¯\\\_(ツ)_/
 - Create custom expander -> Change the expander to look much better
 - Remove expander border(change it to the same color), reduce height and add animation for open and close
 - A menu to add task
+
+### Nice to have:
 
 ### Task item:
 
