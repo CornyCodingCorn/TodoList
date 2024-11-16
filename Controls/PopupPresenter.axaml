@@ -14,7 +14,7 @@
                         <Setter Property="IsVisible" Value="True"/>
                     </KeyFrame>
                     <KeyFrame Cue="100%">
-                        <Setter Property="Opacity" Value="0.3"/>
+                        <Setter Property="Opacity" Value="0.5"/>
                         <Setter Property="IsVisible" Value="True"/>
                     </KeyFrame>
                 </Animation>
@@ -42,7 +42,7 @@
             <Style.Animations>
                 <Animation Duration="0:0:0.15" FillMode="Forward" Easing="CubicEaseInOut">
                     <KeyFrame Cue="0%">
-                        <Setter Property="Opacity" Value="0.3"/>
+                        <Setter Property="Opacity" Value="0.5"/>
                         <Setter Property="IsVisible" Value="True"/>
                     </KeyFrame>
                     <KeyFrame Cue="100%">

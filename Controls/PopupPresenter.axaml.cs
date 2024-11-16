@@ -71,8 +71,10 @@ public partial class PopupPresenter : TemplatedControlForAnimation
         }
     }
 
-    public static void ShowPopup()
+    public static void ShowPopup(object? content = null)
     {
+        if (content is not null)
+            SetPopupContent(content);
         Instance.StartAnimating();
         Instance.IsShowingDialog = true;
     }
@@ -83,19 +85,20 @@ public partial class PopupPresenter : TemplatedControlForAnimation
         Instance.IsShowingDialog = false;
     }
 
-    [RelayCommand]
-    private void RejectDialog()
+    public static object? GetPopupContent()
     {
-        Console.WriteLine("Rejected dialog option");
-        Instance.IsShowingDialog = false;
+        return Instance.PopupContent;
+    }
+
+    public static bool SetPopupContent(object? content)
+    {
+        if (Instance.IsShowingDialog) return false;
+        Instance.PopupContent = content;
+        return true;
     }
 
     public PopupPresenter()
     {
         Instance = this;
-        var dialog = new PopupDialog();
-        Instance.PopupContent = dialog;
-        dialog.Content = new TextBlock { Text = "Hello this is a text box" };
-        dialog.AcceptCommand = dialog.RejectCommand = Instance.RejectDialogCommand;
     }
 }

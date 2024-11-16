@@ -38,17 +38,25 @@
                                     FlowDirection="RightToLeft"
                                     Background="{DynamicResource SystemBaseLowColor}"
                                     Classes="h-stretch">
-                            <Button Classes="danger" Command="{TemplateBinding RejectCommand}" HotKey="Escape">X</Button>
+                            <Button Classes="danger" Command="{TemplateBinding CancelCommand}" HotKey="Escape">X</Button>
                         </StackPanel>
-                        <ContentControl Grid.Row="1" Content="{TemplateBinding Content}"/>
+                        <TextBlock Grid.Row="0" Text="{TemplateBinding Title}" Classes="center"/>
+                        <ContentControl Grid.Row="1" Margin="5" Content="{TemplateBinding Content}"/>
                         <StackPanel Grid.Row="2" 
                                     x:Name="FooterStackPanel"
                                     Classes="v-stretch"
                                     Orientation="Horizontal"
                                     FlowDirection="RightToLeft"
                                     Background="{DynamicResource SystemBaseLowColor}">
-                            <Button Classes="danger" Command="{TemplateBinding RejectCommand}" HotKey="Enter">Cancel</Button>
-                            <Button Classes="accept" Command="{TemplateBinding AcceptCommand}">Accept</Button>
+                            <Button Classes="danger"
+                                    IsVisible="{TemplateBinding ShowCancelButton}"
+                                    Command="{TemplateBinding CancelCommand}"
+                                    HotKey="Enter"
+                                    Content="{TemplateBinding CancelButtonText}"/>
+                            <Button Classes="accept"
+                                    IsVisible="{TemplateBinding ShowAcceptButton}"
+                                    Command="{TemplateBinding AcceptCommand}"
+                                    Content="{TemplateBinding AcceptButtonText}"/>
                         </StackPanel>
                     </Grid>
                 </Border>

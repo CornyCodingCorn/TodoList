@@ -4,13 +4,25 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:ToDoList.ViewModels"
              xmlns:controls="clr-namespace:ToDoList.Controls"
+             xmlns:views="clr-namespace:ToDoList.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ToDoList.Views.TasksTabView"
-             x:DataType="vm:TasksTabViewModel">
+             x:DataType="vm:TasksTabViewModel"
+             ConfirmationDialog="{Binding ConfirmationDialog, Mode=TwoWay}">
     <Design.DataContext>
-        <vm:TasksTabViewModel />
+        <vm:TasksTabViewModel/>
     </Design.DataContext>
-
+    
+    <UserControl.Resources>
+        <controls:PopupDialog x:Key="ConfirmationDialogPopup"
+                              x:DataType="vm:TasksTabViewModel"
+                              AcceptButtonText="Confirm"
+                              Title="{Binding ConfirmationDialogTitle}"
+                              Content="{Binding ConfirmationDialogMessage}"
+                              AcceptCommand="{Binding DeleteTaskCommand}"
+                              CancelCommand="{Binding CancelDeleteTaskCommand}"/>
+    </UserControl.Resources>
+    
     <Grid RowDefinitions="*, Auto">
         <ScrollViewer Grid.Row="0" Margin="0, 10, 0, 0">
             <ScrollViewer.Styles>

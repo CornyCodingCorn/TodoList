@@ -24,12 +24,6 @@ everyone does as a tutorial (I actually don't know, don't quote me ¯\\\_(ツ)_/
 
 ## 🕦 DOING
 
-### Must have:
-
-### Nice to have:
-
-- Confirmation popup
-
 ## ✅ DONE
 
 ### Must have:
@@ -41,6 +35,8 @@ everyone does as a tutorial (I actually don't know, don't quote me ¯\\\_(ツ)_/
 - A menu to add task
 
 ### Nice to have:
+
+- Confirmation popup
 
 ### Task item:
 

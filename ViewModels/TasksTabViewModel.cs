@@ -1,7 +1,10 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using Avalonia.Logging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ToDoList.Controls;
 using ToDoList.Models;
 
 namespace ToDoList.ViewModels;
@@ -9,9 +12,13 @@ namespace ToDoList.ViewModels;
 public partial class TasksTabViewModel : ViewModelBase
 {
     [ObservableProperty] private ObservableCollection<TaskItemViewModel> _tasks = [];
-
+    [ObservableProperty] private object? _confirmationDialog;
+    [ObservableProperty] private string _confirmationDialogTitle = string.Empty;
+    [ObservableProperty] private string? _confirmationDialogMessage = string.Empty;
     [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(AddTaskCommand))]
+    
     private string _newTaskName = string.Empty;
+    private TaskItemViewModel? _taskToDelete;
 
     private bool CanAddTask => NewTaskName != string.Empty;
 
@@ -27,60 +34,68 @@ public partial class TasksTabViewModel : ViewModelBase
         {
             Name = NewTaskName,
             Description = "Edit to add description for this task",
-        }, DeleteTaskCommand));
-        
+        }, ShowDeleteTaskConfirmationCommand));
+
         NewTaskName = string.Empty;
     }
 
     [RelayCommand]
-    private void DeleteTask(TaskItemViewModel taskViewModel)
+    private void ShowDeleteTaskConfirmation(TaskItemViewModel taskViewModel)
     {
-        Tasks.Remove(taskViewModel);
+        _taskToDelete = taskViewModel;
+        ConfirmationDialogTitle = "Confirmation";
+        ConfirmationDialogMessage = $"Are you sure you want to delete {taskViewModel.Model.Name} task?";
+        if (ConfirmationDialog is null)
+        {
+            Logger.TryGet(LogEventLevel.Warning, "Deleting task without confirmation because dialog is null");
+            DeleteTask();
+            return;
+        }
+        PopupPresenter.ShowPopup(ConfirmationDialog);
+    }
+
+    [RelayCommand]
+    private void DeleteTask()
+    {
+        if (_taskToDelete is not null)
+            Tasks.Remove(_taskToDelete);
+        PopupPresenter.HidePopup();
+    }
+
+    [RelayCommand]
+    private void CancelDeleteTask()
+    {
+        _taskToDelete = null;
+        PopupPresenter.HidePopup();
     }
 
     private void LoadTasks()
     {
         // TODO: Add method to load from file for database
-        Tasks.Add(new TaskItemViewModel(
-            new TaskModel
-            {
-                Id = "0", Description = "This is some random description for this one", Status = TaskModelStatus.Done,
-                Name = "Task done"
-            }, DeleteTaskCommand));
+        AddNewTask("0", "Task done", "This is some random description for this one", TaskModelStatus.Done);
+        AddNewTask("1", "Not Done Task",
+            "This is some jsdaofjasodfjosdjfosdjfosdjafodsjfosdjfosdjfosdjfodsjfosdjfodsjfodsjfodsjfosdajfosdajfosdjf\njdsfoijsdaofjsdofjodsjfdsofjodsjf\njdsojfosdajfosdjfodsjfojsdf\nfjdsofjsdofjosdjfosdjfosdj");
+        AddNewTask("2", "Started Task 1",
+            "This is some jsdaofjasodfjosdjfosdjfosdjafodsjfosdjfosdjfosdjfodsjfosdjfodsjfodsjfodsjfosdajfosdajfosdjf\njdsfoijsdaofjsdofjodsjfdsofjodsjf\njdsojfosdajfosdjfodsjfojsdf\nfjdsofjsdofjosdjfosdjfosdj",
+            TaskModelStatus.Started);
+        AddNewTask("3", "Started Task 2",
+            "This is some jsdaofjasodfjosdjfosdjfosdjafodsjfosdjfosdjfosdjfodsjfosdjfodsjfodsjfodsjfosdajfosdajfosdjf\njdsfoijsdaofjsdofjodsjfdsofjodsjf\njdsojfosdajfosdjfodsjfojsdf\nfjdsofjsdofjosdjfosdjfosdj",
+            TaskModelStatus.Started);
+        AddNewTask("4", "Not Done Task",
+            "This is some jsdaofjasodfjosdjfosdjfosdjafodsjfosdjfosdjfosdjfodsjfosdjfodsjfodsjfodsjfosdajfosdajfosdjf\njdsfoijsdaofjsdofjodsjfdsofjodsjf\njdsojfosdajfosdjfodsjfojsdf\nfjdsofjsdofjosdjfosdjfosdj");
+        AddNewTask("5", "Not Done Task",
+            "This is some jsdaofjasodfjosdjfosdjfosdjafodsjfosdjfosdjfosdjfodsjfosdjfodsjfodsjfodsjfosdajfosdajfosdjf\njdsfoijsdaofjsdofjodsjfdsofjodsjf\njdsojfosdajfosdjfodsjfojsdf\nfjdsofjsdofjosdjfosdjfosdj");
+    }
+
+    private void AddNewTask(string id, string name, string description,
+        TaskModelStatus status = TaskModelStatus.NotStarted)
+    {
         Tasks.Add(new TaskItemViewModel(new TaskModel
         {
-            Id = "1",
-            Description =
-                "This is some jsdaofjasodfjosdjfosdjfosdjafodsjfosdjfosdjfosdjfodsjfosdjfodsjfodsjfodsjfosdajfosdajfosdjf\njdsfoijsdaofjsdofjodsjfdsofjodsjf\njdsojfosdajfosdjfodsjfojsdf\nfjdsofjsdofjosdjfosdjfosdj",
-            Status = TaskModelStatus.NotStarted, Name = "Not done task"
-        }, DeleteTaskCommand));
-        Tasks.Add(new TaskItemViewModel(new TaskModel
-        {
-            Id = "2",
-            Description =
-                "This is some jsdaofjasodfjosdjfosdjfosdjafodsjfosdjfosdjfosdjfodsjfosdjfodsjfodsjfodsjfosdajfosdajfosdjf\njdsfoijsdaofjsdofjodsjfdsofjodsjf\njdsojfosdajfosdjfodsjfojsdf\nfjdsofjsdofjosdjfosdjfosdj",
-            Status = TaskModelStatus.Started, Name = "Started task 1"
-        }, DeleteTaskCommand));
-        Tasks.Add(new TaskItemViewModel(new TaskModel
-        {
-            Id = "3",
-            Description =
-                "This is some jsdaofjasodfjosdjfosdjfosdjafodsjfosdjfosdjfosdjfodsjfosdjfodsjfodsjfodsjfosdajfosdajfosdjf\njdsfoijsdaofjsdofjodsjfdsofjodsjf\njdsojfosdajfosdjfodsjfojsdf\nfjdsofjsdofjosdjfosdjfosdj",
-            Status = TaskModelStatus.Started, Name = "Started task 2"
-        }, DeleteTaskCommand));
-        Tasks.Add(new TaskItemViewModel(new TaskModel
-        {
-            Id = "4",
-            Description =
-                "This is some jsdaofjasodfjosdjfosdjfosdjafodsjfosdjfosdjfosdjfodsjfosdjfodsjfodsjfodsjfosdajfosdajfosdjf\njdsfoijsdaofjsdofjodsjfdsofjodsjf\njdsojfosdajfosdjfodsjfojsdf\nfjdsofjsdofjosdjfosdjfosdj",
-            Status = TaskModelStatus.NotStarted, Name = "Not done task"
-        }, DeleteTaskCommand));
-        Tasks.Add(new TaskItemViewModel(new TaskModel
-        {
-            Id = "5",
-            Description =
-                "This is some jsdaofjasodfjosdjfosdjfosdjafodsjfosdjfosdjfosdjfodsjfosdjfodsjfodsjfodsjfosdajfosdajfosdjf\njdsfoijsdaofjsdofjodsjfdsofjodsjf\njdsojfosdajfosdjfodsjfojsdf\nfjdsofjsdofjosdjfosdjfosdj",
-            Status = TaskModelStatus.NotStarted, Name = "Not done task"
-        }, DeleteTaskCommand));
+            Id = id,
+            Description = description,
+            Status = status,
+            Name = name
+        }, ShowDeleteTaskConfirmationCommand));
     }
 }
