@@ -1,0 +1,58 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:ToDoList.Controls">
+    <Design.PreviewWith>
+        <controls:PopupDialog />
+    </Design.PreviewWith>
+    
+    <Style Selector="controls|PopupDialog StackPanel#FooterStackPanel Button">
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Width" Value="75"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+    
+    <Style Selector="controls|PopupDialog StackPanel#HeaderStackPanel Button">
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Width" Value="16"/>
+        <Setter Property="Height" Value="16"/>
+        <Setter Property="FontSize" Value="8"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+
+    <Style Selector="controls|PopupDialog">
+        <Setter Property="Width" Value="400"/>
+        <Setter Property="Height" Value="200"/>
+        <!-- Set Defaults -->
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border CornerRadius="5" ClipToBounds="True">
+                    <Grid RowDefinitions="Auto, *, Auto" 
+                          Background="{DynamicResource SystemListLowColor}"
+                          Classes="stretch">
+                        <StackPanel Grid.Row="0"
+                                    x:Name="HeaderStackPanel"
+                                    Orientation="Horizontal"
+                                    FlowDirection="RightToLeft"
+                                    Background="{DynamicResource SystemBaseLowColor}"
+                                    Classes="h-stretch">
+                            <Button Classes="danger" Command="{TemplateBinding RejectCommand}" HotKey="Escape">X</Button>
+                        </StackPanel>
+                        <ContentControl Grid.Row="1" Content="{TemplateBinding Content}"/>
+                        <StackPanel Grid.Row="2" 
+                                    x:Name="FooterStackPanel"
+                                    Classes="v-stretch"
+                                    Orientation="Horizontal"
+                                    FlowDirection="RightToLeft"
+                                    Background="{DynamicResource SystemBaseLowColor}">
+                            <Button Classes="danger" Command="{TemplateBinding RejectCommand}" HotKey="Enter">Cancel</Button>
+                            <Button Classes="accept" Command="{TemplateBinding AcceptCommand}">Accept</Button>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

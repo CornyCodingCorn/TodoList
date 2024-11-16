@@ -26,6 +26,7 @@
     <ItemGroup>
         <UpToDateCheckInput Remove="Views\Controls\TaskItem.axaml"/>
         <UpToDateCheckInput Remove="Views\Controls\TaskView.axaml"/>
+        <UpToDateCheckInput Remove="Controls\PopupDialog\.axaml" />
     </ItemGroup>
 
     <ItemGroup>

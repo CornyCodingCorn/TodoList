@@ -1,5 +1,13 @@
+using CommunityToolkit.Mvvm.Input;
+using ToDoList.Controls;
+
 namespace ToDoList.ViewModels;
 
-public class DashboardViewModel : ViewModelBase
+public partial class DashboardViewModel : ViewModelBase
 {
+    [RelayCommand]
+    private void ShowPopupDialog()
+    {
+        PopupPresenter.ShowPopup();
+    }
 }

@@ -20,39 +20,41 @@
         <vm:MainWindowViewModel />
     </Design.DataContext>
 
-    <Grid ColumnDefinitions="Auto, *">
-        <controls:HamburgerMenu Grid.Column="0"
-                                x:Name="HamburgerMenu"
-                                SelectedItem="{Binding SelectedMenuItem, Mode=TwoWay}"
-                                FooterItemsSource="{Binding FooterMenuItems}"
-                                BodyItemsSource="{Binding BodyMenuItems}" />
-        <Panel Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <Grid RowDefinitions="Auto, *">
-                <Panel Grid.Row="0" Height="{Binding #HamburgerMenu.HeaderHeight}" HorizontalAlignment="Stretch"
-                       Background="{DynamicResource SystemBaseLowColor}">
-                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                               Text="{Binding SelectedMenuItem.Name}" />
-                </Panel>
-                <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}">
-                    <ContentControl.DataTemplates>
-                        <DataTemplate DataType="vm:InformationViewModel">
-                            <views:InformationView />
-                        </DataTemplate>
-                        <DataTemplate DataType="vm:PlanningViewModel">
-                            <views:PlanningView />
-                        </DataTemplate>
-                        <DataTemplate DataType="vm:SettingsViewModel">
-                            <views:SettingsView />
-                        </DataTemplate>
-                        <DataTemplate DataType="vm:TasksTabViewModel">
-                            <views:TasksTabView />
-                        </DataTemplate>
-                        <DataTemplate DataType="vm:DashboardViewModel">
-                            <views:DashboardView />
-                        </DataTemplate>
-                    </ContentControl.DataTemplates>
-                </ContentControl>
-            </Grid>
-        </Panel>
-    </Grid>
+    <controls:PopupPresenter>
+        <Grid ColumnDefinitions="Auto, *">
+            <controls:HamburgerMenu Grid.Column="0"
+                                    x:Name="HamburgerMenu"
+                                    SelectedItem="{Binding SelectedMenuItem, Mode=TwoWay}"
+                                    FooterItemsSource="{Binding FooterMenuItems}"
+                                    BodyItemsSource="{Binding BodyMenuItems}" />
+            <Panel Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid RowDefinitions="Auto, *">
+                    <Panel Grid.Row="0" Height="{Binding #HamburgerMenu.HeaderHeight}" HorizontalAlignment="Stretch"
+                           Background="{DynamicResource SystemBaseLowColor}">
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   Text="{Binding SelectedMenuItem.Name}" />
+                    </Panel>
+                    <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}">
+                        <ContentControl.DataTemplates>
+                            <DataTemplate DataType="vm:InformationViewModel">
+                                <views:InformationView />
+                            </DataTemplate>
+                            <DataTemplate DataType="vm:PlanningViewModel">
+                                <views:PlanningView />
+                            </DataTemplate>
+                            <DataTemplate DataType="vm:SettingsViewModel">
+                                <views:SettingsView />
+                            </DataTemplate>
+                            <DataTemplate DataType="vm:TasksTabViewModel">
+                                <views:TasksTabView />
+                            </DataTemplate>
+                            <DataTemplate DataType="vm:DashboardViewModel">
+                                <views:DashboardView />
+                            </DataTemplate>
+                        </ContentControl.DataTemplates>
+                    </ContentControl>
+                </Grid>
+            </Panel>
+        </Grid>
+    </controls:PopupPresenter>
 </Window>
