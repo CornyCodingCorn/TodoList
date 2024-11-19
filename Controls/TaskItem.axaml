@@ -11,7 +11,8 @@
 
     <Style Selector="controls|TaskItem[ModelStatus=Done]">
         <Style Selector="^ Button#ForwardUpdateBtn">
-            <Setter Property="IsVisible" Value="False" />
+            <Setter Property="IsEnabled" Value="False" />
+            <Setter Property="Content" Value=" " />
         </Style>
         <Style Selector="^ Button#BackwardUpdateBtn">
             <Setter Property="Content" Value="Undone" />
@@ -22,7 +23,8 @@
             <Setter Property="Content" Value="Start" />
         </Style>
         <Style Selector="^ Button#BackwardUpdateBtn">
-            <Setter Property="IsVisible" Value="False" />
+            <Setter Property="IsEnabled" Value="False" />
+            <Setter Property="Content" Value=" " />
         </Style>
     </Style>
     <Style Selector="controls|TaskItem[ModelStatus=Started]">
