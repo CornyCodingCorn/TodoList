@@ -30,6 +30,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Assets\Icons\"/>
+        <Folder Include="Assets\Icons\SingleColor\DarkVariance\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Controls\IconButton.axaml.cs">
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
 </Project>

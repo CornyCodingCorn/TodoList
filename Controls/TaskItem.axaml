@@ -4,9 +4,17 @@
         xmlns:md="https://github.com/whistyun/Markdown.Avalonia.Tight"
         xmlns:ctxt="clr-namespace:ColorTextBlock.Avalonia;assembly=ColorTextBlock.Avalonia"
         xmlns:vm="clr-namespace:ToDoList.ViewModels"
+        xmlns:models="clr-namespace:ToDoList.Models"
         x:DataType="vm:TaskItemViewModel">
+    
     <Design.PreviewWith>
-        <controls:TaskItem />
+        <StackPanel Orientation="Vertical" Width="700" Height="500" Margin="10">
+            <controls:TaskItem>
+                <controls:TaskItem.DataContext>
+                    <vm:TaskItemViewModel/>
+                </controls:TaskItem.DataContext>
+            </controls:TaskItem>
+        </StackPanel>
     </Design.PreviewWith>
 
     <Style Selector="controls|TaskItem[ModelStatus=Done]">
@@ -15,12 +23,12 @@
             <Setter Property="Content" Value=" " />
         </Style>
         <Style Selector="^ Button#BackwardUpdateBtn">
-            <Setter Property="Content" Value="Undo" />
+            <Setter Property="ToolTip.Tip" Value="Undo" />
         </Style>
     </Style>
     <Style Selector="controls|TaskItem[ModelStatus=NotStarted]">
         <Style Selector="^ Button#ForwardUpdateBtn">
-            <Setter Property="Content" Value="Start" />
+            <Setter Property="ToolTip.Tip" Value="Start" />
         </Style>
         <Style Selector="^ Button#BackwardUpdateBtn">
             <Setter Property="IsEnabled" Value="False" />
@@ -29,10 +37,10 @@
     </Style>
     <Style Selector="controls|TaskItem[ModelStatus=Started]">
         <Style Selector="^ Button#ForwardUpdateBtn">
-            <Setter Property="Content" Value="Done" />
+            <Setter Property="ToolTip.Tip" Value="Done" />
         </Style>
         <Style Selector="^ Button#BackwardUpdateBtn">
-            <Setter Property="Content" Value="Stop" />
+            <Setter Property="ToolTip.Tip" Value="Stop" />
         </Style>
     </Style>
     <Style Selector="controls|TaskItem[IsEditing=True] Panel#TaskDescription > md|MarkdownScrollViewer">
@@ -144,8 +152,8 @@
                         <Grid ColumnDefinitions="Auto, *">
                             <controls:TaskStatusIcon Grid.Column="0"
                                                      ModelStatus="{Binding Model.Status, FallbackValue=Unable to bind}"
-                                                     Width="32"
-                                                     Height="32"
+                                                     Width="28"
+                                                     Height="28"
                                                      ImageMargin="3" />
                             <TextBlock Grid.Column="1"
                                        TextAlignment="Center"
@@ -171,9 +179,14 @@
                                     <Setter Property="HorizontalAlignment" Value="Stretch" />
                                     <Style Selector="^ Button">
                                         <Setter Property="Margin" Value="0, 0, 15, 0" />
-                                        <Setter Property="Width" Value="50" />
+                                        <Setter Property="Width" Value="75" />
+                                        <Setter Property="Height" Value="30" />
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
                                         <Setter Property="FontWeight" Value="Bold" />
+                                        <Style Selector="^ Image">
+                                            <Setter Property="Width" Value="14" />
+                                            <Setter Property="Height" Value="14" />
+                                        </Style>
                                     </Style>
                                 </Style>
                             </Panel.Styles>
@@ -182,21 +195,27 @@
                                 <Button Classes="danger"
                                         Command="{Binding DeleteCommand}"
                                         CommandParameter="{TemplateBinding DataContext}">
-                                    Del
+                                    <Image
+                                        Source="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/trash-can-32.png" />
                                 </Button>
                                 <Button x:Name="BackwardUpdateBtn"
                                         Classes="warning"
                                         Command="{Binding UpdateStatusCommand}"
                                         CommandParameter="True">
+                                    <Image
+                                        Source="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/caret-down-32.png" />
                                 </Button>
                                 <Button x:Name="ForwardUpdateBtn"
                                         Classes="accept"
                                         Command="{Binding UpdateStatusCommand}">
+                                    <Image
+                                        Source="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/caret-arrow-up-32.png" />
                                 </Button>
                                 <Button x:Name="EditBtn"
                                         Classes="accent"
                                         Command="{Binding StartEditingCommand}">
-                                    Edit
+                                    <Image
+                                        Source="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/pencil-32.png" />
                                 </Button>
                             </StackPanel>
                             <StackPanel x:Name="EditModePanel"
@@ -204,12 +223,14 @@
                                 <Button Classes="danger"
                                         Command="{Binding StopEditingCommand}"
                                         CommandParameter="{StaticResource TrueBoolean}">
-                                    Discard
+                                    <Image
+                                        Source="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/cancel-32.png" />
                                 </Button>
                                 <Button Classes="accept"
                                         Command="{Binding StopEditingCommand}"
                                         CommandParameter="{StaticResource FalseBoolean}">
-                                    Accept
+                                    <Image
+                                        Source="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/check-32.png" />
                                 </Button>
                             </StackPanel>
                         </Panel>
@@ -221,7 +242,7 @@
                             <TextBox Background="{DynamicResource SystemListLowColor}"
                                      SelectionBrush="{DynamicResource SystemBaseLowColor}"
                                      Height="{Binding $parent.Height}"
-                                     Margin="0, 0, 0, 15"
+                                     Margin="0, 0, 0, 10"
                                      TextWrapping="Wrap"
                                      Text="{Binding EditingDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      AcceptsReturn="True">
@@ -244,6 +265,7 @@
                             </TextBox>
                             <md:MarkdownScrollViewer xml:space="preserve"
                                                      Height="{Binding $parent.Height}"
+                                                     Margin="0, 0, 0, 10"
                                                      SelectionEnabled="True"
                                                      Markdown="{Binding Model.Description}">
                                 <md:MarkdownScrollViewer.Styles>

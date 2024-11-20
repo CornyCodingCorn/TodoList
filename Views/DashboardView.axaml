@@ -3,10 +3,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModels="clr-namespace:ToDoList.ViewModels"
+             xmlns:controls="clr-namespace:ToDoList.Controls"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="viewModels:DashboardViewModel"
              x:Class="ToDoList.Views.DashboardView">
     <Panel>
-        <Button Classes="center" Command="{Binding ShowPopupDialogCommand}">Click MEEEEE!!!</Button>
+        <controls:IconButton/>
     </Panel>
 </UserControl>

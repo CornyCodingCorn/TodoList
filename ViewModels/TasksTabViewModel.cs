@@ -81,12 +81,7 @@ public partial class TasksTabViewModel : ViewModelBase
             Status = status,
             Name = name
         }, ShowDeleteTaskConfirmationCommand);
-        taskViewModel.ItemEditDiscarded += HandleItemEditDiscardedEvent;
 
         Tasks.Add(taskViewModel);
-    }
-
-    private void HandleItemEditDiscardedEvent(TaskItemViewModel.EditDiscardedEventArgs e)
-    {
     }
 }

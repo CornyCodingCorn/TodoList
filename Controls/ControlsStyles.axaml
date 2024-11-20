@@ -64,6 +64,7 @@
     <StyleInclude Source="HamburgerMenu.axaml" />
     <StyleInclude Source="PopupPresenter.axaml"/>
     <StyleInclude Source="PopupDialog.axaml"/>
+    <StyleInclude Source="IconButton.axaml"/>
 
     <StyleInclude Source="../StyleClasses/AllStyleClasses.axaml" />
 </Styles>
