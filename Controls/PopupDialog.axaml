@@ -2,7 +2,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="using:ToDoList.Controls">
     <Design.PreviewWith>
-        <controls:PopupDialog />
+        <controls:PopupDialog Title="Test title">
+            <StackPanel Orientation="Horizontal" Classes="center">
+                <Image Source="avares://ToDoList/Assets/Icons/gear-64.png" Width="32" Height="32"/>
+                <TextBlock Classes="v-center" Margin="5">Hi there this is a text block</TextBlock>
+            </StackPanel>
+        </controls:PopupDialog>
     </Design.PreviewWith>
     
     <Style Selector="controls|PopupDialog StackPanel#FooterStackPanel Button">

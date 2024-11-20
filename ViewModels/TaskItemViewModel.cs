@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ToDoList.Models;
@@ -10,14 +11,6 @@ namespace ToDoList.ViewModels;
 
 public partial class TaskItemViewModel : ViewModelBase, IDisposable
 {
-    public class EditDiscardedEventArgs : EventArgs
-    {
-        public string ItemName { get; set; } = string.Empty;
-        public bool IsDiscarded { get; set; } = true;
-    }
-
-    public event Action<EditDiscardedEventArgs>? ItemEditDiscarded;
-
     [ObservableProperty] private TaskModel _model;
     [ObservableProperty] private string _timeString = "00:00:00";
     [ObservableProperty] private bool _isEditing;
@@ -28,6 +21,11 @@ public partial class TaskItemViewModel : ViewModelBase, IDisposable
     private long _lastRecordedTime;
     private readonly PeriodicTimer _periodicTimer = new(TimeSpan.FromMilliseconds(500));
 
+    public TaskItemViewModel() : this(new TaskModel(), new RelayCommand(() => Console.WriteLine("Executing DeleteCommand")))
+    {
+        if (!Design.IsDesignMode) throw new InvalidOperationException("TaskItemViewModel default constructor is only for design mode");
+    }
+    
     public TaskItemViewModel(TaskModel model, ICommand deleteCommand)
     {
         Model = model;

@@ -31,6 +31,7 @@ everyone does as a tutorial (I actually don't know, don't quote me ¯\\\_(ツ)_/
 
 - Add animation for task deletion
 - Change button to Icons and tool tips
+- Change button when window size to too small for icon and text
 
 ## ✅ DONE
 
