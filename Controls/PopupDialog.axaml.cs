@@ -28,6 +28,15 @@ public class PopupDialog : ContentControl
         set => SetValue(AcceptCommandProperty, value);
     }
 
+    public static readonly StyledProperty<object?> AcceptCommandParameterProperty = AvaloniaProperty.Register<PopupDialog, object?>(
+        nameof(AcceptCommandParameter));
+
+    public object? AcceptCommandParameter
+    {
+        get => GetValue(AcceptCommandParameterProperty);
+        set => SetValue(AcceptCommandParameterProperty, value);
+    }
+
     public static readonly StyledProperty<ICommand?> CancelCommandProperty = AvaloniaProperty.Register<PopupDialog, ICommand?>(
         nameof(CancelCommand));
 
@@ -35,6 +44,15 @@ public class PopupDialog : ContentControl
     {
         get => GetValue(CancelCommandProperty);
         set => SetValue(CancelCommandProperty, value);
+    }
+
+    public static readonly StyledProperty<object?> CancelCommandParameterProperty = AvaloniaProperty.Register<PopupDialog, object?>(
+        nameof(CancelCommandParameter));
+
+    public object? CancelCommandParameter
+    {
+        get => GetValue(CancelCommandParameterProperty);
+        set => SetValue(CancelCommandParameterProperty, value);
     }
 
     public static readonly StyledProperty<string> AcceptButtonTextProperty = AvaloniaProperty.Register<PopupDialog, string>(

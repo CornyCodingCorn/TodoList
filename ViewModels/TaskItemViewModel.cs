@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -9,6 +10,14 @@ namespace ToDoList.ViewModels;
 
 public partial class TaskItemViewModel : ViewModelBase, IDisposable
 {
+    public class EditDiscardedEventArgs : EventArgs
+    {
+        public string ItemName { get; set; } = string.Empty;
+        public bool IsDiscarded { get; set; } = true;
+    }
+
+    public event Action<EditDiscardedEventArgs>? ItemEditDiscarded;
+
     [ObservableProperty] private TaskModel _model;
     [ObservableProperty] private string _timeString = "00:00:00";
     [ObservableProperty] private bool _isEditing;
@@ -40,8 +49,10 @@ public partial class TaskItemViewModel : ViewModelBase, IDisposable
     }
 
     [RelayCommand]
-    private void StopEditing(bool discard = false)
+    private async Task StopEditing(bool discard = false)
     {
+        if (discard && Model.Description != EditingDescription && !await GetUserDiscardConfirmation()) return;
+
         IsEditing = false;
         if (discard) return;
 
@@ -96,5 +107,13 @@ public partial class TaskItemViewModel : ViewModelBase, IDisposable
         TimeString = time.ToString("HH:mm:ss");
 
         _lastRecordedTime = newRecordedTime;
+    }
+
+    // Return true if still discard
+    private async Task<bool> GetUserDiscardConfirmation()
+    {
+        var result =
+            await MainWindowViewModel.ShowYesNoDialogAsync("Discard Edit", "Are you sure you want discard this edit?");
+        return result != 0;
     }
 }

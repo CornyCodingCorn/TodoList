@@ -1,0 +1,55 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:ToDoList.Controls"
+             xmlns:views="clr-namespace:ToDoList.Views"
+             xmlns:viewModels="clr-namespace:ToDoList.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:DataType="viewModels:MainViewModel"
+             x:Class="ToDoList.Views.MainView">
+    <Design.DataContext>
+        <viewModels:MainViewModel/>
+    </Design.DataContext>
+    
+    <UserControl.DataContext>
+        <!-- Set view model here because it's a static view, and is not going to change -->
+        <viewModels:MainViewModel/>
+    </UserControl.DataContext>
+    
+    <Grid ColumnDefinitions="Auto, *">
+        <controls:HamburgerMenu Grid.Column="0"
+                                x:Name="HamburgerMenu"
+                                SelectedItem="{Binding SelectedMenuItem, Mode=TwoWay}"
+                                FooterItemsSource="{Binding FooterMenuItems}"
+                                BodyItemsSource="{Binding BodyMenuItems}" />
+        <Panel Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid RowDefinitions="Auto, *">
+                <Panel Grid.Row="0" Height="{Binding #HamburgerMenu.HeaderHeight}" HorizontalAlignment="Stretch"
+                       Background="{DynamicResource SystemBaseLowColor}">
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Text="{Binding SelectedMenuItem.Name}" />
+                </Panel>
+                <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}">
+                    <ContentControl.DataTemplates>
+                        <DataTemplate DataType="viewModels:InformationViewModel">
+                            <views:InformationView />
+                        </DataTemplate>
+                        <DataTemplate DataType="viewModels:PlanningViewModel">
+                            <views:PlanningView />
+                        </DataTemplate>
+                        <DataTemplate DataType="viewModels:SettingsViewModel">
+                            <views:SettingsView />
+                        </DataTemplate>
+                        <DataTemplate DataType="viewModels:TasksTabViewModel">
+                            <views:TasksTabView />
+                        </DataTemplate>
+                        <DataTemplate DataType="viewModels:DashboardViewModel">
+                            <views:DashboardView />
+                        </DataTemplate>
+                    </ContentControl.DataTemplates>
+                </ContentControl>
+            </Grid>
+        </Panel>
+    </Grid>
+</UserControl>

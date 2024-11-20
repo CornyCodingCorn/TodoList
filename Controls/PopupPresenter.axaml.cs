@@ -57,48 +57,22 @@ public partial class PopupPresenter : TemplatedControlForAnimation
         set => SetValue(IsShowingDialogProperty, value);
     }
 
+    public static readonly StyledProperty<bool> IsStartedAnimatingProperty = AvaloniaProperty.Register<PopupPresenter, bool>(
+        nameof(IsStartedAnimating));
+
+    public bool IsStartedAnimating
+    {
+        get => GetValue(IsStartedAnimatingProperty);
+        set => SetValue(IsStartedAnimatingProperty, value);
+    }
     #endregion
 
-    private static PopupPresenter? _instance;
-
-    private static PopupPresenter Instance
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
-        get => _instance ?? throw new NullReferenceException("Popup Presenter instance was not initialized!");
-        set
-        {
-            if (_instance is not null) throw new Exception("Popup Presenter instance was already initialized!");
-            _instance = value;
-        }
-    }
-
-    public static void ShowPopup(object? content = null)
-    {
-        if (content is not null)
-            SetPopupContent(content);
-        Instance.StartAnimating();
-        Instance.IsShowingDialog = true;
-    }
-
-    public static void HidePopup()
-    {
-        Instance.StartAnimating();
-        Instance.IsShowingDialog = false;
-    }
-
-    public static object? GetPopupContent()
-    {
-        return Instance.PopupContent;
-    }
-
-    public static bool SetPopupContent(object? content)
-    {
-        if (Instance.IsShowingDialog) return false;
-        Instance.PopupContent = content;
-        return true;
-    }
-
-    public PopupPresenter()
-    {
-        Instance = this;
+        base.OnPropertyChanged(change);
+        if (change.Property != IsStartedAnimatingProperty)
+            return;
+        
+        StartAnimating();
     }
 }

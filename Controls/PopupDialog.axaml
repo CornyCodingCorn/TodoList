@@ -50,12 +50,15 @@
                                     Background="{DynamicResource SystemBaseLowColor}">
                             <Button Classes="danger"
                                     IsVisible="{TemplateBinding ShowCancelButton}"
+                                    HotKey="Escape"
                                     Command="{TemplateBinding CancelCommand}"
-                                    HotKey="Enter"
+                                    CommandParameter="{TemplateBinding CancelCommandParameter}"
                                     Content="{TemplateBinding CancelButtonText}"/>
                             <Button Classes="accept"
                                     IsVisible="{TemplateBinding ShowAcceptButton}"
+                                    HotKey="Enter"
                                     Command="{TemplateBinding AcceptCommand}"
+                                    CommandParameter="{TemplateBinding AcceptCommandParameter}"
                                     Content="{TemplateBinding AcceptButtonText}"/>
                         </StackPanel>
                     </Grid>

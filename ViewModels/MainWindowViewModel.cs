@@ -1,62 +1,70 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
-using ToDoList.Controls;
+using CommunityToolkit.Mvvm.Input;
 
 namespace ToDoList.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
-    [ObservableProperty] private HamburgerMenuItem _selectedMenuItem = null!;
-    [ObservableProperty] private ObservableCollection<HamburgerMenuItem> _bodyMenuItems = null!;
-    [ObservableProperty] private ObservableCollection<HamburgerMenuItem> _footerMenuItems = null!;
-    [ObservableProperty] private ViewModelBase _currentViewModel = null!;
+    private enum DialogType
+    {
+        YesNo,
+        Confirmation
+    }
+    
+    private static MainWindowViewModel? _instance;
+    public static MainWindowViewModel Instance
+    {
+        get => _instance ?? throw new NullReferenceException("MainWindowViewModel instance was not initialized!");
+        set
+        {
+            if (_instance is not null) throw new Exception("MainWindowViewModel instance was already initialized!");
+            _instance = value;
+        }
+    }
 
-    private readonly List<ViewModelBase> _viewModels = [];
+    [ObservableProperty] private string _popupTitle = "Default title";
+    [ObservableProperty] private string _popupMessage = "Default message";
+    [ObservableProperty] private object? _yesNoPopupDialog;
+    [ObservableProperty] private object? _confirmationPopupDialog;
+    
+    private int _popupResultValue;
+
+    public static async Task<int> ShowConfirmationDialogAsync(string title, string message)
+    {
+        return await Instance.ShowDialogAsync(title, message, DialogType.Confirmation);
+    }
+
+    public static async Task<int> ShowYesNoDialogAsync(string title, string message)
+    {
+        return await Instance.ShowDialogAsync(title, message, DialogType.YesNo);
+    }
 
     public MainWindowViewModel()
     {
-        LoadItems();
+        Instance = this;
     }
 
-    protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+    [RelayCommand]
+    private void HandlePopupConfirmation(int value)
     {
-        base.OnPropertyChanged(e);
-        if (e.PropertyName == nameof(SelectedMenuItem)) HandleSelectedMenuItemChanged();
+        _popupResultValue = value;
+        PopupPresenterViewModel.HidePopup();
     }
-
-    private void HandleSelectedMenuItemChanged()
+    
+    private async Task<int> ShowDialogAsync(string title, string message, DialogType dialogType)
     {
-        if (_viewModels.All(x => x.GetType() != SelectedMenuItem.Type))
+        PopupTitle = title;
+        PopupMessage = message;
+        
+        await PopupPresenterViewModel.ShowPopupAsync(dialogType switch
         {
-            _viewModels.Add(Activator.CreateInstance(SelectedMenuItem.Type) as ViewModelBase
-                            ?? throw new InvalidOperationException(
-                                "HamburgerMenuItem has type that isn't from ViewModelBase"));
-        }
-
-        CurrentViewModel = _viewModels.Single(x => x.GetType() == SelectedMenuItem.Type);
-    }
-
-    private void LoadItems()
-    {
-        BodyMenuItems =
-        [
-            new("Dashboard", GetMenuIconUrl("dashboard-128.png"), typeof(DashboardViewModel)),
-            new("Tasks", GetMenuIconUrl("tasks-128.png"), typeof(TasksTabViewModel)),
-            new("Planning", GetMenuIconUrl("calendar-128.png"), typeof(PlanningViewModel))
-        ];
-        FooterMenuItems =
-        [
-            new("Settings", GetMenuIconUrl("settings-128.png"), typeof(SettingsViewModel)),
-            new("Information", GetMenuIconUrl("information-128.png"), typeof(InformationViewModel))
-        ];
-    }
-
-    private string GetMenuIconUrl(string imageFileName)
-    {
-        return $"avares://ToDoList/Assets/MenuIcons/{imageFileName}";
+            DialogType.YesNo => YesNoPopupDialog,
+            DialogType.Confirmation => ConfirmationPopupDialog,
+            _ => throw new ArgumentOutOfRangeException(nameof(dialogType))
+        });
+        
+        return _popupResultValue;
     }
 }

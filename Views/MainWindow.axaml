@@ -6,55 +6,57 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:ToDoList.Controls"
         xmlns:views="clr-namespace:ToDoList.Views"
+        xmlns:system="clr-namespace:System;assembly=System.Runtime"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ToDoList.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         x:Name="Root"
         Icon="/Assets/avalonia-logo.ico"
         Title="ToDoList"
+        YesNoPopupDialog="{Binding YesNoPopupDialog, Mode=TwoWay}"
+        ConfirmationDialog="{Binding ConfirmationPopupDialog, Mode=TwoWay}"
         RequestedThemeVariant="Dark">
 
     <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel />
     </Design.DataContext>
 
+    <Window.DataContext>
+        <!-- Set view model here because it's a static view, and is not going to change -->
+        <vm:MainWindowViewModel />
+    </Window.DataContext>
+
+    <Window.Resources>
+        <controls:PopupDialog x:Key="YesNoPopupDialog"
+                              x:DataType="vm:MainWindowViewModel"
+                              AcceptButtonText="Confirm"
+                              Title="{Binding PopupTitle}"
+                              Content="{Binding PopupMessage}"
+                              AcceptCommand="{Binding HandlePopupConfirmationCommand}"
+                              CancelCommand="{Binding HandlePopupConfirmationCommand}">
+            <controls:PopupDialog.AcceptCommandParameter>
+                <system:Int32>1</system:Int32>
+            </controls:PopupDialog.AcceptCommandParameter>
+            <controls:PopupDialog.CancelCommandParameter>
+                <system:Int32>0</system:Int32>
+            </controls:PopupDialog.CancelCommandParameter>
+        </controls:PopupDialog>
+        
+        <controls:PopupDialog x:Key="ConfirmationPopupDialog"
+                              x:DataType="vm:MainWindowViewModel"
+                              AcceptButtonText="Confirm"
+                              Title="{Binding PopupTitle}"
+                              Content="{Binding PopupMessage}"
+                              ShowCancelButton="False"
+                              AcceptCommand="{Binding HandlePopupConfirmationCommand}">
+            <controls:PopupDialog.AcceptCommandParameter>
+                <system:Int32>1</system:Int32>
+            </controls:PopupDialog.AcceptCommandParameter>
+        </controls:PopupDialog>
+    </Window.Resources>
+
     <controls:PopupPresenter>
-        <Grid ColumnDefinitions="Auto, *">
-            <controls:HamburgerMenu Grid.Column="0"
-                                    x:Name="HamburgerMenu"
-                                    SelectedItem="{Binding SelectedMenuItem, Mode=TwoWay}"
-                                    FooterItemsSource="{Binding FooterMenuItems}"
-                                    BodyItemsSource="{Binding BodyMenuItems}" />
-            <Panel Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <Grid RowDefinitions="Auto, *">
-                    <Panel Grid.Row="0" Height="{Binding #HamburgerMenu.HeaderHeight}" HorizontalAlignment="Stretch"
-                           Background="{DynamicResource SystemBaseLowColor}">
-                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
-                                   Text="{Binding SelectedMenuItem.Name}" />
-                    </Panel>
-                    <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}">
-                        <ContentControl.DataTemplates>
-                            <DataTemplate DataType="vm:InformationViewModel">
-                                <views:InformationView />
-                            </DataTemplate>
-                            <DataTemplate DataType="vm:PlanningViewModel">
-                                <views:PlanningView />
-                            </DataTemplate>
-                            <DataTemplate DataType="vm:SettingsViewModel">
-                                <views:SettingsView />
-                            </DataTemplate>
-                            <DataTemplate DataType="vm:TasksTabViewModel">
-                                <views:TasksTabView />
-                            </DataTemplate>
-                            <DataTemplate DataType="vm:DashboardViewModel">
-                                <views:DashboardView />
-                            </DataTemplate>
-                        </ContentControl.DataTemplates>
-                    </ContentControl>
-                </Grid>
-            </Panel>
-        </Grid>
+        <!-- Pop up presenter set its own data context -->
+        <views:MainView />
     </controls:PopupPresenter>
 </Window>

@@ -15,7 +15,7 @@
             <Setter Property="Content" Value=" " />
         </Style>
         <Style Selector="^ Button#BackwardUpdateBtn">
-            <Setter Property="Content" Value="Undone" />
+            <Setter Property="Content" Value="Undo" />
         </Style>
     </Style>
     <Style Selector="controls|TaskItem[ModelStatus=NotStarted]">
@@ -45,7 +45,7 @@
     <Style Selector="controls|TaskItem">
         <Setter Property="ModelStatus" Value="{Binding Model.Status, Mode=TwoWay}" />
         <Setter Property="IsEditing" Value="{Binding IsEditing, Mode=TwoWay}" />
-        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
         <!-- Set Defaults -->
         <Setter Property="Template">
             <ControlTemplate>
@@ -171,7 +171,7 @@
                                     <Setter Property="HorizontalAlignment" Value="Stretch" />
                                     <Style Selector="^ Button">
                                         <Setter Property="Margin" Value="0, 0, 15, 0" />
-                                        <Setter Property="Width" Value="75" />
+                                        <Setter Property="Width" Value="50" />
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
                                         <Setter Property="FontWeight" Value="Bold" />
                                     </Style>
@@ -235,6 +235,12 @@
                                         </Style>
                                     </Style>
                                 </TextBox.Styles>
+                                <TextBox.KeyBindings>
+                                    <KeyBinding Gesture="Alt+Enter" Command="{Binding StopEditingCommand}"
+                                                CommandParameter="{StaticResource FalseBoolean}" />
+                                    <KeyBinding Gesture="Escape" Command="{Binding StopEditingCommand}"
+                                                CommandParameter="{StaticResource TrueBoolean}" />
+                                </TextBox.KeyBindings>
                             </TextBox>
                             <md:MarkdownScrollViewer xml:space="preserve"
                                                      Height="{Binding $parent.Height}"

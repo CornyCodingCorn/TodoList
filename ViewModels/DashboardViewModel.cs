@@ -8,6 +8,6 @@ public partial class DashboardViewModel : ViewModelBase
     [RelayCommand]
     private void ShowPopupDialog()
     {
-        PopupPresenter.ShowPopup();
+        PopupPresenterViewModel.ShowPopupAsync();
     }
 }

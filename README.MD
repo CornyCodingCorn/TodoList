@@ -24,6 +24,14 @@ everyone does as a tutorial (I actually don't know, don't quote me ¯\\\_(ツ)_/
 
 ## 🕦 DOING
 
+### Must have:
+
+
+### Nice to have:
+
+- Add animation for task deletion
+- Change button to Icons and tool tips
+
 ## ✅ DONE
 
 ### Must have:
@@ -33,6 +41,8 @@ everyone does as a tutorial (I actually don't know, don't quote me ¯\\\_(ツ)_/
 - Create custom expander -> Change the expander to look much better
 - Remove expander border(change it to the same color), reduce height and add animation for open and close
 - A menu to add task
+- Split popup presenter to viewmodel and view
+- Make show dialog an async Task
 
 ### Nice to have:
 
