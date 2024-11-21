@@ -43,7 +43,16 @@
                                     FlowDirection="RightToLeft"
                                     Background="{DynamicResource SystemBaseLowColor}"
                                     Classes="h-stretch">
-                            <Button Classes="danger" Command="{TemplateBinding CancelCommand}" HotKey="Escape">X</Button>
+                            <Button Classes="danger" 
+                                    Width="15" 
+                                    Height="15" 
+                                    Command="{TemplateBinding CancelCommand}" 
+                                    CommandParameter="{TemplateBinding CancelCommandParameter}"
+                                    HotKey="Escape" 
+                                    Padding="0" 
+                                    HorizontalContentAlignment="Center" 
+                                    VerticalContentAlignment="Center" 
+                                    FontWeight="Bold">X</Button>
                         </StackPanel>
                         <TextBlock Grid.Row="0" Text="{TemplateBinding Title}" Classes="center"/>
                         <ContentControl Grid.Row="1" Margin="5" Content="{TemplateBinding Content}"/>

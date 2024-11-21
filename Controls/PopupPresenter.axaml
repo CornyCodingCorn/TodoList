@@ -90,7 +90,12 @@
             <ControlTemplate>
                 <Panel>
                     <ContentPresenter Classes="stretch" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                    
                     <Rectangle IsVisible="False" x:Name="BackgroundRect" Classes="stretch" Fill="Black" Opacity="0.3"/>
+                    
+                    <!-- prevent tabbing in the background -->
+                    <Button IsEnabled="{TemplateBinding IsShowingDialog}" HotKey="Tab" Width="0" Height="0"/> 
+                    
                     <ContentPresenter IsVisible="False" x:Name="PopupContentPresenter" Classes="center" Content="{TemplateBinding PopupContent}"/>
                 </Panel>
             </ControlTemplate>

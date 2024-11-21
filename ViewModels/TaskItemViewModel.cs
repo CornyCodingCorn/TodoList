@@ -15,6 +15,7 @@ public partial class TaskItemViewModel : ViewModelBase, IDisposable
     [ObservableProperty] private string _timeString = "00:00:00";
     [ObservableProperty] private bool _isEditing;
     [ObservableProperty] private bool _isExpanded;
+    [ObservableProperty] private bool _isDeleting;
     [ObservableProperty] private string _editingDescription = string.Empty;
     [ObservableProperty] private ICommand _deleteCommand;
 

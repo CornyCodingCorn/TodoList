@@ -48,8 +48,11 @@ public partial class TasksTabViewModel : ViewModelBase
                 _taskToDelete = null;
                 break;
             case 1:
-                if (_taskToDelete is not null)
-                    Tasks.Remove(_taskToDelete);
+                if (_taskToDelete is null)
+                    return;
+                _taskToDelete.IsDeleting = true;
+                await Task.Delay(TimeSpan.FromSeconds(0.4));
+                Tasks.Remove(_taskToDelete);
                 break;
         }
     }

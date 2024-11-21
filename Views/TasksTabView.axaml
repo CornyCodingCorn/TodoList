@@ -9,9 +9,35 @@
              x:Class="ToDoList.Views.TasksTabView"
              x:DataType="vm:TasksTabViewModel">
     <Design.DataContext>
-        <vm:TasksTabViewModel/>
+        <vm:TasksTabViewModel />
     </Design.DataContext>
-    
+
+    <UserControl.Styles>
+        <Style Selector="controls|TaskItem[IsDeleting=True]">
+            <Setter Property="IsEnabled" Value="False"/>
+            <Style.Animations>
+                <Animation Duration="0:0:0.35" FillMode="Forward">
+                    <KeyFrame Cue="20%">
+                        <Setter Property="ScaleTransform.ScaleX" Value="1" />
+                        <Setter Property="ScaleTransform.ScaleY" Value="1" />
+                        <Setter Property="Height" Value="397"/>
+                        <Setter Property="MinHeight" Value="0"/>
+                        <Setter Property="Opacity" Value="1"/>
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="ScaleTransform.ScaleX" Value="0" />
+                        <Setter Property="ScaleTransform.ScaleY" Value="0" />
+                        <Setter Property="TranslateTransform.X" Value="1000"/>
+                        <Setter Property="TranslateTransform.Y" Value="-100"/>
+                        <Setter Property="Height" Value="0"/>
+                        <Setter Property="Margin" Value="0"/>
+                        <Setter Property="Opacity" Value="0"/>
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+    </UserControl.Styles>
+
     <Grid RowDefinitions="*, Auto">
         <ScrollViewer Grid.Row="0" Margin="0, 10, 0, 0">
             <ScrollViewer.Styles>
@@ -40,7 +66,7 @@
                     </Button>
                 </TextBox.InnerRightContent>
                 <TextBox.KeyBindings>
-                    <KeyBinding Command="{Binding AddTaskCommand}" Gesture="Enter"/>
+                    <KeyBinding Command="{Binding AddTaskCommand}" Gesture="Enter" />
                 </TextBox.KeyBindings>
             </TextBox>
         </Grid>

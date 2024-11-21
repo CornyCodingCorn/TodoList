@@ -80,12 +80,14 @@
     </Style>
 
     <Style Selector="controls|TaskItem">
+        <Setter Property="IsDeleting" Value="{Binding IsDeleting, Mode=TwoWay}"/>
         <Setter Property="ModelStatus" Value="{Binding Model.Status, Mode=TwoWay}" />
         <Setter Property="IsEditing" Value="{Binding IsEditing, Mode=TwoWay}" />
         <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
         <!-- Set Defaults -->
         <Setter Property="Template">
             <ControlTemplate>
+                <!-- Total thickness after expand will be 34 + 363 = 397, which is calculated by looking at the desired size -->
                 <Expander x:Name="ExpanderPart"
                           IsExpanded="{TemplateBinding IsExpanded, Mode=TwoWay}"
                           HorizontalAlignment="Stretch"
@@ -107,6 +109,7 @@
                                             <Setter Property="Height" Value="0" />
                                         </KeyFrame>
                                         <KeyFrame Cue="100%">
+                                            <!-- This number has to be a literal to animate! -->
                                             <Setter Property="Height" Value="363" />
                                             <Setter Property="IsVisible" Value="True" />
                                         </KeyFrame>

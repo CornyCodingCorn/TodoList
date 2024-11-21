@@ -9,6 +9,15 @@ namespace ToDoList.Controls;
 
 public class TaskItem : TemplatedControl
 {
+    public static readonly StyledProperty<bool> IsDeletingProperty = AvaloniaProperty.Register<TaskItem, bool>(
+        nameof(IsDeleting));
+
+    public bool IsDeleting
+    {
+        get => GetValue(IsDeletingProperty);
+        set => SetValue(IsDeletingProperty, value);
+    }
+    
     public static readonly StyledProperty<TaskModelStatus> ModelStatusProperty =
         AvaloniaProperty.Register<TaskItem, TaskModelStatus>(nameof(ModelStatus),
             defaultValue: TaskModelStatus.NotStarted);
