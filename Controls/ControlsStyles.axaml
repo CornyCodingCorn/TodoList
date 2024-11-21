@@ -26,7 +26,7 @@
         <converter:NotBooleanConverter x:Key="NotBooleanConverter" />
     </Styles.Resources>
 
-    <Style Selector="Button">
+    <Style Selector=":is(Button)">
         <Style Selector="^.warning">
             <Setter Property="Background" Value="{DynamicResource WarningButtonBackground}" />
             <Setter Property="Foreground" Value="{DynamicResource WarningButtonForeground}" />

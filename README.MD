@@ -30,7 +30,6 @@ everyone does as a tutorial (I actually don't know, don't quote me ¯\\\_(ツ)_/
 ### Nice to have:
 
 - Add animation for task deletion
-- Change button to Icons and tool tips
 - Change button when window size to too small for icon and text
 
 ## ✅ DONE
@@ -48,6 +47,7 @@ everyone does as a tutorial (I actually don't know, don't quote me ¯\\\_(ツ)_/
 ### Nice to have:
 
 - Confirmation popup
+- Change button to Icons and tool tips (tool tips flickering on wayland so can't do it)
 
 ### Task item:
 

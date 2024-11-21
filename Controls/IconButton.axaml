@@ -1,14 +1,81 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:controls="using:ToDoList.Controls">
+        xmlns:controls="using:ToDoList.Controls"
+        xmlns:converter="clr-namespace:ToDoList.Converter">
     <Design.PreviewWith>
-        <controls:IconButton>
-            Test
-        </controls:IconButton>
+        <StackPanel>
+            <StackPanel.Styles>
+                <Style Selector="controls|IconButton">
+                    <Setter Property="IconSize" Value="14"/>
+                    <Setter Property="Margin" Value="5"/>
+                    <Setter Property="Width" Value="100"/>
+                    <Setter Property="Content">Text</Setter>
+                </Style>
+            </StackPanel.Styles>
+            <controls:IconButton ImagePosition="Top"
+                                 ImageSource="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/trash-can-32.png"/>
+            <controls:IconButton ImagePosition="Left"
+                                 Classes="accent"
+                                 HorizontalContentAlignment="Left"
+                                 ImageSource="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/trash-can-32.png"/>
+            <controls:IconButton ImagePosition="Bottom"
+                                 IsEnabled="False"
+                                 ImageSource="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/trash-can-32.png"/>
+            <controls:IconButton HorizontalContentAlignment="Right"
+                                 Classes="accent"
+                                 ImagePosition="Right"
+                                 ImageSource="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/trash-can-32.png"/>
+        </StackPanel>
     </Design.PreviewWith>
-    
-    <Style Selector="controls|IconButton[ImagePosition=Top] ">
-        
+
+    <Styles.Resources>
+        <converter:DoubleToThicknessConverter x:Key="DoubleToThicknessConverter" />
+        <converter:DoubleToThicknessType x:Key="ThicknessTop">Top</converter:DoubleToThicknessType>
+        <converter:DoubleToThicknessType x:Key="ThicknessLeft">Left</converter:DoubleToThicknessType>
+        <converter:DoubleToThicknessType x:Key="ThicknessBottom">Bottom</converter:DoubleToThicknessType>
+        <converter:DoubleToThicknessType x:Key="ThicknessRight">Right</converter:DoubleToThicknessType>
+    </Styles.Resources>
+
+    <Style Selector="controls|IconButton[ImagePosition=Top] /template/ StackPanel#PART_StackPanel">
+        <Style Selector="^ Image#PART_AfterPresenterImage">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Margin"
+                    Value="{Binding ImagePadding, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoubleToThicknessConverter}, ConverterParameter={StaticResource ThicknessTop}}" />
+        </Style>
+    </Style>
+
+    <Style Selector="controls|IconButton[ImagePosition=Left] /template/ StackPanel#PART_StackPanel">
+        <Setter Property="Orientation" Value="Horizontal" />
+        <Style Selector="^ Image#PART_AfterPresenterImage">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Margin"
+                    Value="{Binding ImagePadding, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoubleToThicknessConverter}, ConverterParameter={StaticResource ThicknessLeft}}" />
+        </Style>
+    </Style>
+
+    <Style Selector="controls|IconButton[ImagePosition=Bottom] /template/ StackPanel#PART_StackPanel">
+        <Style Selector="^ Image#PART_BeforePresenterImage">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Margin"
+                    Value="{Binding ImagePadding, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoubleToThicknessConverter}, ConverterParameter={StaticResource ThicknessBottom}}" />
+        </Style>
+    </Style>
+
+    <Style Selector="controls|IconButton[ImagePosition=Right] /template/ StackPanel#PART_StackPanel">
+        <Setter Property="Orientation" Value="Horizontal" />
+        <Style Selector="^ Image#PART_BeforePresenterImage">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="^ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Margin"
+                    Value="{Binding ImagePadding, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoubleToThicknessConverter}, ConverterParameter={StaticResource ThicknessRight}}" />
+        </Style>
     </Style>
 
     <Style Selector="controls|IconButton">
@@ -20,6 +87,8 @@
         <Setter Property="Padding" Value="{DynamicResource ButtonPadding}" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="RenderTransform" Value="none" />
         <Setter Property="Transitions">
             <Transitions>
@@ -29,67 +98,108 @@
 
         <Setter Property="Template">
             <ControlTemplate>
-                <StackPanel>
-                    <ContentPresenter x:Name="PART_ContentPresenter"
-                                      Background="{TemplateBinding Background}"
-                                      BorderBrush="{TemplateBinding BorderBrush}"
-                                      BorderThickness="{TemplateBinding BorderThickness}"
-                                      CornerRadius="{TemplateBinding CornerRadius}"
-                                      Content="{TemplateBinding Content}"
-                                      ContentTemplate="{TemplateBinding ContentTemplate}"
-                                      Padding="{TemplateBinding Padding}"
-                                      RecognizesAccessKey="True"
-                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-                </StackPanel>
+                <Border x:Name="PART_Border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        Padding="{TemplateBinding Padding}">
+                    <StackPanel x:Name="PART_StackPanel"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
+                        <Image x:Name="PART_BeforePresenterImage"
+                               Width="{TemplateBinding IconSize}"
+                               Height="{TemplateBinding IconSize}"
+                               Source="{TemplateBinding ImageSource}" />
+                        <ContentPresenter x:Name="PART_ContentPresenter"
+                                          Content="{TemplateBinding Content}"
+                                          RecognizesAccessKey="True"
+                                          HorizontalContentAlignment="Center"
+                                          VerticalContentAlignment="Center"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        <Image x:Name="PART_AfterPresenterImage"
+                               Source="{TemplateBinding ImageSource}"
+                               Width="{TemplateBinding IconSize}"
+                               Height="{TemplateBinding IconSize}" />
+                    </StackPanel>
+                </Border>
             </ControlTemplate>
         </Setter>
 
         <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundPointerOver}" />
+        </Style>
+
+        <Style Selector="^:pointerover /template/ Border#PART_Border">
             <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}" />
             <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPointerOver}" />
-            <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundPointerOver}" />
         </Style>
 
         <Style Selector="^:pressed">
             <Setter Property="RenderTransform" Value="scale(0.98)" />
         </Style>
-
+        
         <Style Selector="^:pressed  /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPressed}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPressed}" />
             <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundPressed}" />
         </Style>
 
+        <Style Selector="^:pressed  /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundPressed}" />
+        </Style>
+
+        <Style Selector="^:pressed  /template/ Border#PART_Border">
+            <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPressed}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPressed}" />
+        </Style>
+
         <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundDisabled}" />
+        </Style>
+
+        <Style Selector="^:disabled /template/ Border#PART_Border">
             <Setter Property="Background" Value="{DynamicResource ButtonBackgroundDisabled}" />
             <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushDisabled}" />
-            <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundDisabled}" />
+        </Style>
+        
+        <Style Selector="^:disabled /template/ Image">
+            <Setter Property="Opacity" Value="{Binding ImageDisabledOpacity, RelativeSource={RelativeSource TemplatedParent}}" />
         </Style>
 
         <Style Selector="^.accent">
             <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
-                <Setter Property="Background" Value="{DynamicResource AccentButtonBackground}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrush}" />
                 <Setter Property="Foreground" Value="{DynamicResource AccentButtonForeground}" />
             </Style>
 
+            <Style Selector="^ /template/ Border#PART_Border">
+                <Setter Property="Background" Value="{DynamicResource AccentButtonBackground}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrush}" />
+            </Style>
+
             <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-                <Setter Property="Background" Value="{DynamicResource AccentButtonBackgroundPointerOver}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrushPointerOver}" />
                 <Setter Property="Foreground" Value="{DynamicResource AccentButtonForegroundPointerOver}" />
             </Style>
 
+            <Style Selector="^:pointerover /template/ Border#PART_Border">
+                <Setter Property="Background" Value="{DynamicResource AccentButtonBackgroundPointerOver}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrushPointerOver}" />
+            </Style>
+
             <Style Selector="^:pressed  /template/ ContentPresenter#PART_ContentPresenter">
-                <Setter Property="Background" Value="{DynamicResource AccentButtonBackgroundPressed}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrushPressed}" />
                 <Setter Property="Foreground" Value="{DynamicResource AccentButtonForegroundPressed}" />
             </Style>
 
+            <Style Selector="^:pressed  /template/ Border#PART_Border">
+                <Setter Property="Background" Value="{DynamicResource AccentButtonBackgroundPressed}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrushPressed}" />
+            </Style>
+
             <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Foreground" Value="{DynamicResource AccentButtonForegroundDisabled}" />
+            </Style>
+
+            <Style Selector="^:disabled /template/ Border#PART_Border">
                 <Setter Property="Background" Value="{DynamicResource AccentButtonBackgroundDisabled}" />
                 <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrushDisabled}" />
-                <Setter Property="Foreground" Value="{DynamicResource AccentButtonForegroundDisabled}" />
             </Style>
         </Style>
     </Style>
