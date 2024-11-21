@@ -14,31 +14,62 @@
             </controls:TaskItem>
         </StackPanel>
     </Design.PreviewWith>
+    
+    <Style Selector="controls|ResponsivePanel controls|TaskItem controls|IconButton">
+        <Setter Property="ImagePadding" Value="0"/>
+    </Style>
+    <Style Selector="controls|ResponsivePanel:md controls|TaskItem controls|IconButton">
+        <Setter Property="ImagePadding" Value="5"/>
+    </Style>
 
     <Style Selector="controls|TaskItem[ModelStatus=Done]">
         <Style Selector="^ :is(Button)#ForwardUpdateBtn">
             <Setter Property="IsEnabled" Value="False" />
-            <Setter Property="Content" Value=" " />
+            <Setter Property="Content">
+                <Template>
+                    <TextBlock Classes="responsive md" Text=" " />
+                </Template>
+            </Setter>
         </Style>
         <Style Selector="^ :is(Button)#BackwardUpdateBtn">
-            <Setter Property="Content" Value="Undo" />
+            <Setter Property="Content">
+                <Template>
+                    <TextBlock Classes="responsive md" Text="Undo" />
+                </Template>
+            </Setter>
         </Style>
     </Style>
     <Style Selector="controls|TaskItem[ModelStatus=NotStarted]">
         <Style Selector="^ :is(Button)#ForwardUpdateBtn">
-            <Setter Property="Content" Value="Start" />
+            <Setter Property="Content">
+                <Template>
+                    <TextBlock Classes="responsive md" Text="Start" />
+                </Template>
+            </Setter>
         </Style>
         <Style Selector="^ :is(Button)#BackwardUpdateBtn">
             <Setter Property="IsEnabled" Value="False" />
-            <Setter Property="Content" Value=" " />
+            <Setter Property="Content">
+                <Template>
+                    <TextBlock Classes="responsive md" Text=" " />
+                </Template>
+            </Setter>
         </Style>
     </Style>
     <Style Selector="controls|TaskItem[ModelStatus=Started]">
         <Style Selector="^ :is(Button)#ForwardUpdateBtn">
-            <Setter Property="Content" Value="Done" />
+            <Setter Property="Content">
+                <Template>
+                    <TextBlock Classes="responsive md" Text="Done" />
+                </Template>
+            </Setter>
         </Style>
         <Style Selector="^ :is(Button)#BackwardUpdateBtn">
-            <Setter Property="Content" Value="Stop" />
+            <Setter Property="Content">
+                <Template>
+                    <TextBlock Classes="responsive md" Text="Stop" />
+                </Template>
+            </Setter>
         </Style>
     </Style>
     <Style Selector="controls|TaskItem[IsEditing=True] Panel#TaskDescription > md|MarkdownScrollViewer">
@@ -179,11 +210,14 @@
                                     <Setter Property="HorizontalAlignment" Value="Stretch" />
                                     <Style Selector="^ controls|IconButton">
                                         <Setter Property="Margin" Value="0, 0, 15, 0" />
-                                        <Setter Property="Width" Value="90" />
                                         <Setter Property="Height" Value="30" />
-                                        <Setter Property="HorizontalContentAlignment" Value="Right"/>
-                                        <Setter Property="ImagePosition" Value="Right"/>
+                                        <Setter Property="HorizontalContentAlignment" Value="Right" />
+                                        <Setter Property="ImagePosition" Value="Right" />
                                         <Setter Property="FontWeight" Value="Bold" />
+                                        <Style Selector="^ TextBlock">
+                                            <Setter Property="TextAlignment" Value="End"/>
+                                            <Setter Property="Width" Value="60" />
+                                        </Style>
                                     </Style>
                                 </Style>
                             </Panel.Styles>
@@ -194,44 +228,44 @@
                                                      ImageSource="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/trash-can-32.png"
                                                      Command="{Binding DeleteCommand}"
                                                      CommandParameter="{TemplateBinding DataContext}">
-                                    Delete
+                                    <TextBlock Classes="responsive md">Delete</TextBlock>
                                 </controls:IconButton>
 
                                 <controls:IconButton x:Name="BackwardUpdateBtn"
-                                        Classes="warning"
-                                        ImageSource="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/caret-down-32.png"
-                                        Command="{Binding UpdateStatusCommand}"
-                                        CommandParameter="True">
+                                                     Classes="warning"
+                                                     ImageSource="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/caret-down-32.png"
+                                                     Command="{Binding UpdateStatusCommand}"
+                                                     CommandParameter="True">
                                 </controls:IconButton>
 
                                 <controls:IconButton x:Name="ForwardUpdateBtn"
-                                        ImageSource="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/caret-arrow-up-32.png"
-                                        Classes="accept"
-                                        Command="{Binding UpdateStatusCommand}">
+                                                     ImageSource="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/caret-arrow-up-32.png"
+                                                     Classes="accept"
+                                                     Command="{Binding UpdateStatusCommand}">
                                 </controls:IconButton>
 
                                 <controls:IconButton x:Name="EditBtn"
-                                        ImageSource="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/pencil-32.png"
-                                        Classes="accent"
-                                        Command="{Binding StartEditingCommand}">
-                                    Edit
+                                                     ImageSource="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/pencil-32.png"
+                                                     Classes="accent"
+                                                     Command="{Binding StartEditingCommand}">
+                                    <TextBlock Classes="responsive md">Edit</TextBlock>
                                 </controls:IconButton>
                             </StackPanel>
 
                             <StackPanel x:Name="EditModePanel"
                                         IsVisible="{Binding IsEditing}">
                                 <controls:IconButton Classes="danger"
-                                        ImageSource="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/cancel-32.png"
-                                        Command="{Binding StopEditingCommand}"
-                                        CommandParameter="{StaticResource TrueBoolean}">
-                                    Discard
+                                                     ImageSource="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/cancel-32.png"
+                                                     Command="{Binding StopEditingCommand}"
+                                                     CommandParameter="{StaticResource TrueBoolean}">
+                                    <TextBlock Classes="responsive md">Discard</TextBlock>
                                 </controls:IconButton>
 
                                 <controls:IconButton Classes="accept"
-                                        ImageSource="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/check-32.png"
-                                        Command="{Binding StopEditingCommand}"
-                                        CommandParameter="{StaticResource FalseBoolean}">
-                                    Accept
+                                                     ImageSource="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/check-32.png"
+                                                     Command="{Binding StopEditingCommand}"
+                                                     CommandParameter="{StaticResource FalseBoolean}">
+                                    <TextBlock Classes="responsive md">Accept</TextBlock>
                                 </controls:IconButton>
                             </StackPanel>
                         </Panel>

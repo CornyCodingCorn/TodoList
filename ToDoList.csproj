@@ -37,5 +37,9 @@
       <Compile Update="Controls\IconButton.axaml.cs">
         <SubType>Code</SubType>
       </Compile>
+      <Compile Update="Controls\ResponsivePanel.axaml.cs">
+        <SubType>Code</SubType>
+        <DependentUpon>ReactiveWindow.axaml</DependentUpon>
+      </Compile>
     </ItemGroup>
 </Project>

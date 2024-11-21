@@ -3,17 +3,17 @@
         xmlns:system="clr-namespace:System;assembly=System.Runtime"
         xmlns:converter="clr-namespace:ToDoList.Converter">
     <Styles.Resources>
-        <SolidColorBrush x:Key="WarningButtonBackground" Color="#ffcc00" />
-        <SolidColorBrush x:Key="WarningButtonBackgroundPointerover" Color="#CC9C00" />
-        <SolidColorBrush x:Key="WarningButtonBackgroundPressed" Color="#FFDC4C" />
-        <SolidColorBrush x:Key="WarningButtonForeground" Color="Black" />
+        <SolidColorBrush x:Key="WarningButtonBackground" Color="#DFAD00" />
+        <SolidColorBrush x:Key="WarningButtonBackgroundPressed" Color="#B88900" />
+        <SolidColorBrush x:Key="WarningButtonBackgroundPointerover" Color="#E5C346" />
+        <SolidColorBrush x:Key="WarningButtonForeground" Color="White" />
         <SolidColorBrush x:Key="DangerButtonBackground" Color="#ff5050" />
-        <SolidColorBrush x:Key="DangerButtonBackgroundPointerover" Color="#D04242" />
-        <SolidColorBrush x:Key="DangerButtonBackgroundPressed" Color="#FF6F6D" />
+        <SolidColorBrush x:Key="DangerButtonBackgroundPressed" Color="#D04242" />
+        <SolidColorBrush x:Key="DangerButtonBackgroundPointerover" Color="#FF6F6D" />
         <SolidColorBrush x:Key="DangerButtonForeground" Color="White" />
         <SolidColorBrush x:Key="AcceptButtonBackground" Color="#1DB02C" />
-        <SolidColorBrush x:Key="AcceptButtonBackgroundPointerover" Color="#17721E" />
-        <SolidColorBrush x:Key="AcceptButtonBackgroundPressed" Color="#3EAF41" />
+        <SolidColorBrush x:Key="AcceptButtonBackgroundPressed" Color="#17721E" />
+        <SolidColorBrush x:Key="AcceptButtonBackgroundPointerover" Color="#3FC542" />
         <SolidColorBrush x:Key="AcceptButtonForeground" Color="White" />
 
         <system:Boolean x:Key="FalseBoolean">
@@ -26,7 +26,7 @@
         <converter:NotBooleanConverter x:Key="NotBooleanConverter" />
     </Styles.Resources>
 
-    <Style Selector=":is(Button)">
+    <Style Selector="Button">
         <Style Selector="^.warning">
             <Setter Property="Background" Value="{DynamicResource WarningButtonBackground}" />
             <Setter Property="Foreground" Value="{DynamicResource WarningButtonForeground}" />
@@ -65,6 +65,7 @@
     <StyleInclude Source="PopupPresenter.axaml"/>
     <StyleInclude Source="PopupDialog.axaml"/>
     <StyleInclude Source="IconButton.axaml"/>
+    <StyleInclude Source="ResponsivePanel.axaml"/>
 
     <StyleInclude Source="../StyleClasses/AllStyleClasses.axaml" />
 </Styles>

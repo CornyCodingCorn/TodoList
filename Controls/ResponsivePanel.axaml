@@ -1,0 +1,51 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:ToDoList.Controls">
+    <Style Selector="controls|ResponsivePanel :is(Control).responsive">
+        <Setter Property="IsVisible" Value="False" />
+        <Setter Property="IsEnabled" Value="False" />
+    </Style>
+
+    <Style Selector="controls|ResponsivePanel:xxl :is(Control).responsive.xxl">
+        <Setter Property="IsVisible" Value="True" />
+        <Setter Property="IsEnabled" Value="True" />
+    </Style>
+
+    <Style Selector="controls|ResponsivePanel:xl :is(Control).responsive.xl">
+        <Setter Property="IsVisible" Value="True" />
+        <Setter Property="IsEnabled" Value="True" />
+    </Style>
+
+    <Style Selector="controls|ResponsivePanel:lg :is(Control).responsive.lg">
+        <Setter Property="IsVisible" Value="True" />
+        <Setter Property="IsEnabled" Value="True" />
+    </Style>
+
+    <Style Selector="controls|ResponsivePanel:md :is(Control).responsive.md">
+        <Setter Property="IsVisible" Value="True" />
+        <Setter Property="IsEnabled" Value="True" />
+    </Style>
+
+    <Style Selector="controls|ResponsivePanel:sm :is(Control).responsive.sm">
+        <Setter Property="IsVisible" Value="True" />
+        <Setter Property="IsEnabled" Value="True" />
+    </Style>
+
+    <Style Selector="controls|ResponsivePanel:xs :is(Control).responsive.xs">
+        <Setter Property="IsVisible" Value="True" />
+        <Setter Property="IsEnabled" Value="True" />
+    </Style>
+
+    <Style Selector="controls|ResponsivePanel">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <ContentPresenter Name="PART_ContentPresenter"
+                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  Content="{TemplateBinding Content}"
+                                  Margin="{TemplateBinding Padding}"
+                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

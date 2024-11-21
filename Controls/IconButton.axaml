@@ -6,25 +6,33 @@
         <StackPanel>
             <StackPanel.Styles>
                 <Style Selector="controls|IconButton">
-                    <Setter Property="IconSize" Value="14"/>
-                    <Setter Property="Margin" Value="5"/>
-                    <Setter Property="Width" Value="100"/>
+                    <Setter Property="IconSize" Value="14" />
+                    <Setter Property="Margin" Value="5" />
+                    <Setter Property="Width" Value="100" />
                     <Setter Property="Content">Text</Setter>
                 </Style>
             </StackPanel.Styles>
             <controls:IconButton ImagePosition="Top"
-                                 ImageSource="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/trash-can-32.png"/>
+                                 ImageSource="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/trash-can-32.png" />
             <controls:IconButton ImagePosition="Left"
                                  Classes="accent"
                                  HorizontalContentAlignment="Left"
-                                 ImageSource="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/trash-can-32.png"/>
+                                 ImageSource="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/trash-can-32.png" />
             <controls:IconButton ImagePosition="Bottom"
                                  IsEnabled="False"
-                                 ImageSource="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/trash-can-32.png"/>
+                                 ImageSource="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/trash-can-32.png" />
             <controls:IconButton HorizontalContentAlignment="Right"
-                                 Classes="accent"
+                                 Classes="warning"
                                  ImagePosition="Right"
-                                 ImageSource="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/trash-can-32.png"/>
+                                 ImageSource="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/trash-can-32.png" />
+            <controls:IconButton HorizontalContentAlignment="Right"
+                                 Classes="danger"
+                                 ImagePosition="Right"
+                                 ImageSource="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/trash-can-32.png" />
+            <controls:IconButton HorizontalContentAlignment="Right"
+                                 Classes="accept"
+                                 ImagePosition="Right"
+                                 ImageSource="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/trash-can-32.png" />
         </StackPanel>
     </Design.PreviewWith>
 
@@ -138,7 +146,7 @@
         <Style Selector="^:pressed">
             <Setter Property="RenderTransform" Value="scale(0.98)" />
         </Style>
-        
+
         <Style Selector="^:pressed  /template/ ContentPresenter#PART_ContentPresenter">
             <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundPressed}" />
         </Style>
@@ -160,9 +168,10 @@
             <Setter Property="Background" Value="{DynamicResource ButtonBackgroundDisabled}" />
             <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushDisabled}" />
         </Style>
-        
+
         <Style Selector="^:disabled /template/ Image">
-            <Setter Property="Opacity" Value="{Binding ImageDisabledOpacity, RelativeSource={RelativeSource TemplatedParent}}" />
+            <Setter Property="Opacity"
+                    Value="{Binding ImageDisabledOpacity, RelativeSource={RelativeSource TemplatedParent}}" />
         </Style>
 
         <Style Selector="^.accent">
@@ -200,6 +209,58 @@
             <Style Selector="^:disabled /template/ Border#PART_Border">
                 <Setter Property="Background" Value="{DynamicResource AccentButtonBackgroundDisabled}" />
                 <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrushDisabled}" />
+            </Style>
+        </Style>
+
+
+        <Style Selector="^.warning">
+            <Setter Property="Background" Value="{DynamicResource WarningButtonBackground}" />
+            <Setter Property="Foreground" Value="{DynamicResource WarningButtonForeground}" />
+            <Style Selector="^:pointerover /template/ Border#PART_Border">
+                <Setter Property="Background" Value="{DynamicResource WarningButtonBackgroundPointerover}" />
+            </Style>
+            <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Foreground" Value="{DynamicResource WarningButtonForeground}" />
+            </Style>
+            <Style Selector="^:pressed /template/ Border#PART_Border">
+                <Setter Property="Background" Value="{DynamicResource WarningButtonBackgroundPressed}" />
+            </Style>
+            <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Foreground" Value="{DynamicResource WarningButtonForeground}" />
+            </Style>
+        </Style>
+        
+        <Style Selector="^.danger">
+            <Setter Property="Background" Value="{DynamicResource DangerButtonBackground}" />
+            <Setter Property="Foreground" Value="{DynamicResource DangerButtonForeground}" />
+            <Style Selector="^:pointerover /template/ Border#PART_Border">
+                <Setter Property="Background" Value="{DynamicResource DangerButtonBackgroundPointerover}" />
+            </Style>
+            <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Foreground" Value="{DynamicResource DangerButtonForeground}" />
+            </Style>
+            <Style Selector="^:pressed /template/ Border#PART_Border">
+                <Setter Property="Background" Value="{DynamicResource DangerButtonBackgroundPressed}" />
+            </Style>
+            <Style Selector="^:press /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Foreground" Value="{DynamicResource DangerButtonForeground}" />
+            </Style>
+        </Style>
+        
+        <Style Selector="^.accept">
+            <Setter Property="Background" Value="{DynamicResource AcceptButtonBackground}" />
+            <Setter Property="Foreground" Value="{DynamicResource AcceptButtonForeground}" />
+            <Style Selector="^:pointerover /template/ Border#PART_Border">
+                <Setter Property="Background" Value="{DynamicResource AcceptButtonBackgroundPointerover}" />
+            </Style>
+            <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Foreground" Value="{DynamicResource AcceptButtonForeground}" />
+            </Style>
+            <Style Selector="^:pressed /template/ Border#PART_Border">
+                <Setter Property="Background" Value="{DynamicResource AcceptButtonBackgroundPressed}" />
+            </Style>
+            <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Foreground" Value="{DynamicResource AcceptButtonForeground}" />
             </Style>
         </Style>
     </Style>

@@ -30,7 +30,7 @@
         </ScrollViewer>
         <Grid Grid.Row="1" ColumnDefinitions="*, Auto">
             <TextBox Grid.Column="0"
-                     Watermark="New task name"
+                     Watermark="New task name (Implement Ctrl + N later)"
                      Margin="15, 10"
                      Text="{Binding NewTaskName, Mode=TwoWay}">
                 <TextBox.InnerRightContent>
