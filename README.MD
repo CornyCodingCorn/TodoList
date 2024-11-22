@@ -21,11 +21,15 @@ everyone does as a tutorial (I actually don't know, don't quote me ¯\\\_(ツ)_/
 - A music player that play local songs
 - Allow changing themes
 - Context menu for task item
+- Sort task
 
 ## 🕦 DOING
 
 ### Must have:
 
+- Add task to achieve archive when done and leave there for 5 minutes and record done datetime
+- Archive tasks will be showed by date
+- Have test project
 
 ### Nice to have:
 
@@ -52,7 +56,7 @@ everyone does as a tutorial (I actually don't know, don't quote me ¯\\\_(ツ)_/
 ### Task item:
 
 - Change animation data type to correct one because C# doesn't automatically type cast object to type (Done)
-- Store time in miliseconds
+- Store time in milliseconds
 - Icon to show the status
 - A name description
 - Click will show a dropdown
