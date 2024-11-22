@@ -21,6 +21,7 @@ public partial class TaskItemViewModel : ViewModelBase, IDisposable
     [ObservableProperty] private ICommand _deleteCommand;
 
     public event Action<TaskItemViewModel>? Archived;
+    public event Action<TaskItemViewModel>? Unarchived;
     public int TimeBeforeArchiving { get; set; } = 5000;
 
     private long _lastRecordedTime;
@@ -31,18 +32,21 @@ public partial class TaskItemViewModel : ViewModelBase, IDisposable
         Id = "0",
         Name = "Design task",
         Description = "Description for design task to use",
-        CompleteDate = DateTime.Now,
-        IsArchived = true
+        CompleteDate = DateTimeOffset.Now,
     }, new RelayCommand(() => Console.WriteLine("Executing DeleteCommand")))
     {
-        if (!Design.IsDesignMode) throw new InvalidOperationException("TaskItemViewModel default constructor is only for design mode");
+        if (!Design.IsDesignMode)
+            throw new InvalidOperationException("TaskItemViewModel default constructor is only for design mode");
     }
-    
+
     public TaskItemViewModel(TaskModel model, ICommand deleteCommand)
     {
         Model = model;
         DeleteCommand = deleteCommand;
+
         SetupTimer();
+        // To make sure that newly loaded one are mark for archive
+        CheckCompletion();
     }
 
     public void Dispose()
@@ -82,7 +86,7 @@ public partial class TaskItemViewModel : ViewModelBase, IDisposable
         }
         else
             Model.Status = (TaskModelStatus)((int)(Model.Status + 1) % Enum.GetValues<TaskModelStatus>().Length);
-        
+
         CheckCompletion();
     }
 
@@ -90,13 +94,24 @@ public partial class TaskItemViewModel : ViewModelBase, IDisposable
     {
         try
         {
-            if (Model.Status != TaskModelStatus.Done) return;
-        
-            Model.CompleteDate = DateTime.Now;
+            if (Model.Status != TaskModelStatus.Done)
+            {
+                if (!Model.IsArchived) return;
+
+                Model.IsArchived = false;
+                Model.CompleteDate = null;
+                Unarchived?.Invoke(this);
+                return;
+            }
+
+            if (Model.IsArchived)
+                return;
+
+            Model.CompleteDate = DateTimeOffset.Now;
             await Task.Delay(TimeBeforeArchiving);
             if (Model.Status != TaskModelStatus.Done) return;
             Model.IsArchived = true;
-            
+
             Archived?.Invoke(this);
         }
         catch (Exception e)
@@ -109,7 +124,7 @@ public partial class TaskItemViewModel : ViewModelBase, IDisposable
     {
         try
         {
-            _lastRecordedTime = DateTime.Now.Ticks;
+            _lastRecordedTime = DateTimeOffset.Now.Ticks;
             while (true)
             {
                 await _periodicTimer.WaitForNextTickAsync();
@@ -126,14 +141,14 @@ public partial class TaskItemViewModel : ViewModelBase, IDisposable
     {
         if (Model.Status != TaskModelStatus.Started)
         {
-            _lastRecordedTime = DateTime.Now.Ticks;
+            _lastRecordedTime = DateTimeOffset.Now.Millisecond;
             return;
         }
 
-        var newRecordedTime = DateTime.Now.Ticks;
+        var newRecordedTime = DateTimeOffset.Now.Millisecond;
         Model.TimeSpent += newRecordedTime - _lastRecordedTime;
 
-        var time = new DateTime(Model.TimeSpent);
+        var time = DateTimeOffset.FromUnixTimeMilliseconds(Model.TimeSpent);
         TimeString = time.ToString("HH:mm:ss");
 
         _lastRecordedTime = newRecordedTime;

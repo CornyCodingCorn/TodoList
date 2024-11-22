@@ -199,8 +199,7 @@
                                        Height="16"/>
                                 <TextBlock TextAlignment="Center"
                                            Text="{Binding Model.Name, FallbackValue=Unable to bind}" />
-                                <TextBlock IsVisible="{TemplateBinding IsArchived}"
-                                           Classes="responsive md"
+                                <TextBlock Classes="responsive md"
                                            Text="{Binding Model.CompleteDate, StringFormat='{}{0:dd/MM/yy HH:mm}'}"/>
                             </StackPanel>
                         </Grid>
@@ -260,6 +259,7 @@
                                 </controls:IconButton>
 
                                 <controls:IconButton x:Name="EditBtn"
+                                                     IsEnabled="{TemplateBinding IsArchived, Converter={StaticResource NotBooleanConverter}}"
                                                      ImageSource="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/pencil-32.png"
                                                      Classes="accent"
                                                      Command="{Binding StartEditingCommand}">

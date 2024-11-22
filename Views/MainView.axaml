@@ -47,6 +47,9 @@
                         <DataTemplate DataType="viewModels:DashboardViewModel">
                             <views:DashboardView />
                         </DataTemplate>
+                        <DataTemplate DataType="viewModels:ArchiveViewModel">
+                            <views:ArchiveView />
+                        </DataTemplate>
                     </ContentControl.DataTemplates>
                 </ContentControl>
             </Grid>

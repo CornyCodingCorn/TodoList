@@ -3,7 +3,7 @@ using System.Globalization;
 using Avalonia.Data.Converters;
 using ToDoList.Models;
 
-namespace ToDoList.Converter;
+namespace ToDoList.Helper.Converter;
 
 public class TaskStatusToString : IValueConverter
 {

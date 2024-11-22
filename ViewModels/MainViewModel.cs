@@ -46,7 +46,8 @@ public partial class MainViewModel : ViewModelBase
         [
             new("Dashboard", GetMenuIconUrl("dashboard-128.png"), typeof(DashboardViewModel)),
             new("Tasks", GetMenuIconUrl("tasks-128.png"), typeof(TasksTabViewModel)),
-            new("Planning", GetMenuIconUrl("calendar-128.png"), typeof(PlanningViewModel))
+            new("Planning", GetMenuIconUrl("calendar-128.png"), typeof(PlanningViewModel)),
+            new("Archive", GetMenuIconUrl("archive-128.png"), typeof(ArchiveViewModel)),
         ];
         FooterMenuItems =
         [

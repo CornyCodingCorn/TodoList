@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="ToDoList.App"
              xmlns:local="using:ToDoList"
-             xmlns:converter="clr-namespace:ToDoList.Converter"
+             xmlns:converter1="clr-namespace:ToDoList.Helper.Converter"
              RequestedThemeVariant="Dark">
     <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
@@ -11,7 +11,7 @@
     </Application.DataTemplates>
 
     <Application.Resources>
-        <converter:TaskStatusToString x:Key="TaskStatusConverter" />
+        <converter1:TaskStatusToString x:Key="TaskStatusConverter" />
     </Application.Resources>
 
     <Application.Styles>

@@ -1,6 +1,6 @@
 using System;
 
-namespace ToDoList.Extensions;
+namespace ToDoList.Helper.Extensions;
 
 public static class ObjectExtensions
 {

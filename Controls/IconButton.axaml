@@ -1,7 +1,7 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="using:ToDoList.Controls"
-        xmlns:converter="clr-namespace:ToDoList.Converter">
+        xmlns:converter="clr-namespace:ToDoList.Helper.Converter">
     <Design.PreviewWith>
         <StackPanel>
             <StackPanel.Styles>

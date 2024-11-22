@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
 
-namespace ToDoList.Converter;
+namespace ToDoList.Helper.Converter;
 
 public class EnumToBoolConverter<T> : IValueConverter where T : Enum
 {

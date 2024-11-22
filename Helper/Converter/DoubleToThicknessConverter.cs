@@ -1,10 +1,9 @@
 using System;
 using System.Globalization;
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Data.Converters;
 
-namespace ToDoList.Converter;
+namespace ToDoList.Helper.Converter;
 
 [Flags]
 public enum DoubleToThicknessType
