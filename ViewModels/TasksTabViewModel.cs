@@ -14,9 +14,12 @@ public partial class TasksTabViewModel : ViewModelBase
     private const string DefaultTaskDescription = "Edit this task to add description";
 
     [ObservableProperty] private ObservableCollection<TaskItemViewModel> _tasks = [];
+
     [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(AddTaskCommand))]
     private string _newTaskName = string.Empty;
 
+    private const int TimeBeforeMovingTaskToArchive = 5000;
+    private const int TimeForRemoveAnimation = 400;
     private TaskItemViewModel? _taskToDelete;
 
     private bool CanAddTask => NewTaskName != string.Empty;
@@ -51,7 +54,7 @@ public partial class TasksTabViewModel : ViewModelBase
                 if (_taskToDelete is null)
                     return;
                 _taskToDelete.IsDeleting = true;
-                await Task.Delay(TimeSpan.FromSeconds(0.4));
+                await Task.Delay(TimeForRemoveAnimation);
                 Tasks.Remove(_taskToDelete);
                 break;
         }
@@ -82,9 +85,18 @@ public partial class TasksTabViewModel : ViewModelBase
             Id = id,
             Description = description,
             Status = status,
-            Name = name
+            Name = name,
         }, ShowDeleteTaskConfirmationCommand);
+        taskViewModel.Archived += HandleTaskArchivedEvent;
+        taskViewModel.TimeBeforeArchiving = TimeBeforeMovingTaskToArchive;
 
         Tasks.Add(taskViewModel);
+    }
+
+    private async void HandleTaskArchivedEvent(TaskItemViewModel viewmodel)
+    {
+        await Task.Delay(TimeForRemoveAnimation);
+        // Change later to actually moving it to archive
+        Tasks.Remove(viewmodel);
     }
 }

@@ -7,4 +7,5 @@
     </Design.PreviewWith>
 
     <StyleInclude Source="Alignments.axaml" />
+    <StyleInclude Source="Content.axaml"/>
 </Styles>

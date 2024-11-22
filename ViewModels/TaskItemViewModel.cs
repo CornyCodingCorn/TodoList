@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ExCSS;
 using ToDoList.Models;
 
 namespace ToDoList.ViewModels;
@@ -19,10 +20,20 @@ public partial class TaskItemViewModel : ViewModelBase, IDisposable
     [ObservableProperty] private string _editingDescription = string.Empty;
     [ObservableProperty] private ICommand _deleteCommand;
 
+    public event Action<TaskItemViewModel>? Archived;
+    public int TimeBeforeArchiving { get; set; } = 5000;
+
     private long _lastRecordedTime;
     private readonly PeriodicTimer _periodicTimer = new(TimeSpan.FromMilliseconds(500));
 
-    public TaskItemViewModel() : this(new TaskModel(), new RelayCommand(() => Console.WriteLine("Executing DeleteCommand")))
+    public TaskItemViewModel() : this(new TaskModel
+    {
+        Id = "0",
+        Name = "Design task",
+        Description = "Description for design task to use",
+        CompleteDate = DateTime.Now,
+        IsArchived = true
+    }, new RelayCommand(() => Console.WriteLine("Executing DeleteCommand")))
     {
         if (!Design.IsDesignMode) throw new InvalidOperationException("TaskItemViewModel default constructor is only for design mode");
     }
@@ -68,10 +79,30 @@ public partial class TaskItemViewModel : ViewModelBase, IDisposable
                 statusAsInt = Enum.GetValues<TaskModelStatus>().Length - 1;
 
             Model.Status = (TaskModelStatus)statusAsInt;
-            return;
         }
+        else
+            Model.Status = (TaskModelStatus)((int)(Model.Status + 1) % Enum.GetValues<TaskModelStatus>().Length);
+        
+        CheckCompletion();
+    }
 
-        Model.Status = (TaskModelStatus)((int)(Model.Status + 1) % Enum.GetValues<TaskModelStatus>().Length);
+    private async void CheckCompletion()
+    {
+        try
+        {
+            if (Model.Status != TaskModelStatus.Done) return;
+        
+            Model.CompleteDate = DateTime.Now;
+            await Task.Delay(TimeBeforeArchiving);
+            if (Model.Status != TaskModelStatus.Done) return;
+            Model.IsArchived = true;
+            
+            Archived?.Invoke(this);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
     }
 
     private async void SetupTimer()

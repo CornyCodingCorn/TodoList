@@ -9,6 +9,15 @@ namespace ToDoList.Controls;
 
 public class TaskItem : TemplatedControl
 {
+    public static readonly StyledProperty<bool> IsArchivedProperty = AvaloniaProperty.Register<TaskItem, bool>(
+        nameof(IsArchived));
+
+    public bool IsArchived
+    {
+        get => GetValue(IsArchivedProperty);
+        set => SetValue(IsArchivedProperty, value);
+    }
+    
     public static readonly StyledProperty<bool> IsDeletingProperty = AvaloniaProperty.Register<TaskItem, bool>(
         nameof(IsDeleting));
 

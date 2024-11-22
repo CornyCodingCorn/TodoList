@@ -22,6 +22,8 @@
         <Setter Property="ImagePadding" Value="5"/>
     </Style>
 
+    
+    
     <Style Selector="controls|TaskItem[ModelStatus=Done]">
         <Style Selector="^ :is(Button)#ForwardUpdateBtn">
             <Setter Property="IsEnabled" Value="False" />
@@ -84,6 +86,7 @@
         <Setter Property="ModelStatus" Value="{Binding Model.Status, Mode=TwoWay}" />
         <Setter Property="IsEditing" Value="{Binding IsEditing, Mode=TwoWay}" />
         <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+        <Setter Property="IsArchived" Value="{Binding Model.IsArchived, Mode=TwoWay}"/>
         <!-- Set Defaults -->
         <Setter Property="Template">
             <ControlTemplate>
@@ -187,10 +190,19 @@
                                                      Width="28"
                                                      Height="28"
                                                      ImageMargin="3" />
-                            <TextBlock Grid.Column="1"
-                                       TextAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="{Binding Model.Name, FallbackValue=Unable to bind}" />
+                            <StackPanel Grid.Column="1"
+                                        Classes="center content-pad-5"
+                                        Orientation="Horizontal">
+                                <Image IsVisible="{TemplateBinding IsArchived}"
+                                       Source="avares://ToDoList/Assets/Icons/SingleColor/DarkVariance/archive-32.png"
+                                       Width="16"
+                                       Height="16"/>
+                                <TextBlock TextAlignment="Center"
+                                           Text="{Binding Model.Name, FallbackValue=Unable to bind}" />
+                                <TextBlock IsVisible="{TemplateBinding IsArchived}"
+                                           Classes="responsive md"
+                                           Text="{Binding Model.CompleteDate, StringFormat='{}{0:dd/MM/yy HH:mm}'}"/>
+                            </StackPanel>
                         </Grid>
                     </Expander.Header>
 
