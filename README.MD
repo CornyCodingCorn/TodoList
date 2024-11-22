@@ -14,7 +14,6 @@ everyone does as a tutorial (I actually don't know, don't quote me ¯\\\_(ツ)_/
 - Total working time
 - Compile data
 - Have test project
-- When program is opened, all task will be checked to trigger archiving countdown if it's completed
 
 ### Nice to have:
 
@@ -26,13 +25,13 @@ everyone does as a tutorial (I actually don't know, don't quote me ¯\\\_(ツ)_/
 - Sort task
 - Allow user to datetime format
 - Allow user to set time before moving to archive
+- Mark how many task was done in the datetime picker
 
 ## 🕦 DOING
 
 ### Must have:
-
-- Add task to achieve archive when done and leave there for 5 minutes and record done datetime
-- Archive tasks will be shown by date
+- Add DI to the project and use it for all viewmodel that will only have 1 instance
+- Add a middle man to handle transferring task from TaskTab to Archive
 
 ### Nice to have:
 
@@ -48,6 +47,9 @@ everyone does as a tutorial (I actually don't know, don't quote me ¯\\\_(ツ)_/
 - A menu to add task
 - Split popup presenter to viewmodel and view
 - Make show dialog an async Task
+- When program is opened, all task will be checked to trigger archiving countdown if it's completed
+- Add task to achieve archive when done and leave there for 5 minutes and record done datetime
+- Archive tasks will be shown by date
 
 ### Nice to have:
 
