@@ -24,6 +24,7 @@ public partial class TaskItemViewModel : ViewModelBase, IDisposable
     public event Action<TaskItemViewModel>? Unarchived;
     public int TimeBeforeArchiving { get; set; } = 5000;
 
+    private readonly MainWindowViewModel _mainWindowViewModel;
     private long _lastRecordedTime;
     private readonly PeriodicTimer _periodicTimer = new(TimeSpan.FromMilliseconds(500));
 
@@ -33,14 +34,15 @@ public partial class TaskItemViewModel : ViewModelBase, IDisposable
         Name = "Design task",
         Description = "Description for design task to use",
         CompleteDate = DateTimeOffset.Now,
-    }, new RelayCommand(() => Console.WriteLine("Executing DeleteCommand")))
+    }, new RelayCommand(() => Console.WriteLine("Executing DeleteCommand")), new MainWindowViewModel())
     {
         if (!Design.IsDesignMode)
             throw new InvalidOperationException("TaskItemViewModel default constructor is only for design mode");
     }
 
-    public TaskItemViewModel(TaskModel model, ICommand deleteCommand)
+    public TaskItemViewModel(TaskModel model, ICommand deleteCommand, MainWindowViewModel mainWindowViewModel)
     {
+        _mainWindowViewModel = mainWindowViewModel;
         Model = model;
         DeleteCommand = deleteCommand;
 
@@ -158,7 +160,7 @@ public partial class TaskItemViewModel : ViewModelBase, IDisposable
     private async Task<bool> GetUserDiscardConfirmation()
     {
         var result =
-            await MainWindowViewModel.ShowYesNoDialogAsync("Discard Edit", "Are you sure you want discard this edit?");
+            await _mainWindowViewModel.ShowYesNoDialogAsync("Discard Edit", "Are you sure you want discard this edit?");
         return result != 0;
     }
 }

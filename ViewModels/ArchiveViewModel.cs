@@ -8,12 +8,13 @@ using Avalonia.Logging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ToDoList.Models;
+using ToDoList.ViewModels.Helpers;
+using ToDoList.Views;
 
 namespace ToDoList.ViewModels;
 
 public partial class ArchiveViewModel : ViewModelBase, ITaskManagingViewModel
 {
-    public static ArchiveViewModel? Instance { get; private set; }
     private const int DelayForAnimation = 400;
 
     [ObservableProperty] private DateTimeOffset _selectedDate = DateTimeOffset.Now;
@@ -23,16 +24,19 @@ public partial class ArchiveViewModel : ViewModelBase, ITaskManagingViewModel
 
     // This is for loaded task so the app don't have to load it again
     private readonly List<TaskItemViewModel> _loadedTasks = [];
+    private MainWindowViewModel _mainWindowViewModel = null!;
+    private TasksTabViewModel _tasksTabViewModel = null!;
 
-    public ArchiveViewModel()
+    public override void Initialize(ImmutableDictionary<Type, IService> services)
     {
+        _mainWindowViewModel = services.Get<MainWindowViewModel>(typeof(MainWindowViewModel));
+        _tasksTabViewModel = services.Get<TasksTabViewModel>(typeof(TasksTabViewModel));
         LoadTasks();
-        Instance = this;
     }
 
     public void AddTask(TaskModel task)
     {
-        var taskViewModel = new TaskItemViewModel(task, DeleteTaskCommand);
+        var taskViewModel = new TaskItemViewModel(task, DeleteTaskCommand, _mainWindowViewModel);
         taskViewModel.Unarchived += HandleUnarchivingTask;
         _loadedTasks.Add(taskViewModel);
         UpdateArchivedTasks();
@@ -91,7 +95,7 @@ public partial class ArchiveViewModel : ViewModelBase, ITaskManagingViewModel
     [RelayCommand]
     public async Task DeleteTaskAsync(TaskItemViewModel task)
     {
-        var result = await MainWindowViewModel.ShowYesNoDialogAsync("Confirmation",
+        var result = await _mainWindowViewModel.ShowYesNoDialogAsync("Confirmation",
             $"Are you sure you want to remove archived task named {task.Model.Name}");
         if (result == 0)
             return;
@@ -123,7 +127,7 @@ public partial class ArchiveViewModel : ViewModelBase, ITaskManagingViewModel
         {
             // Move it to task tab
             await Task.Delay(DelayForAnimation);
-            TasksTabViewModel.Instance?.AddTask(task.Model);
+            _tasksTabViewModel.AddTask(task.Model);
             ArchivedTasks.Remove(task);
             _loadedTasks.Remove(task);
         }

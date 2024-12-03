@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ToDoList.Controls;
+using ToDoList.ViewModels.Helpers;
 
 namespace ToDoList.ViewModels;
 
@@ -12,38 +14,30 @@ public partial class MainWindowViewModel : ViewModelBase
         YesNo,
         Confirmation
     }
-    
-    private static MainWindowViewModel? _instance;
-    public static MainWindowViewModel Instance
-    {
-        get => _instance ?? throw new NullReferenceException("MainWindowViewModel instance was not initialized!");
-        set
-        {
-            if (_instance is not null) throw new Exception("MainWindowViewModel instance was already initialized!");
-            _instance = value;
-        }
-    }
 
     [ObservableProperty] private string _popupTitle = "Default title";
     [ObservableProperty] private string _popupMessage = "Default message";
     [ObservableProperty] private object? _yesNoPopupDialog;
     [ObservableProperty] private object? _confirmationPopupDialog;
+    [ObservableProperty] private PopupPresenterViewModel _popupPresenterViewModel = null!;
+    [ObservableProperty] private MainViewModel _mainViewModel = null!;
     
     private int _popupResultValue;
 
-    public static async Task<int> ShowConfirmationDialogAsync(string title, string message)
+    public async Task<int> ShowConfirmationDialogAsync(string title, string message)
     {
-        return await Instance.ShowDialogAsync(title, message, DialogType.Confirmation);
+        return await ShowDialogAsync(title, message, DialogType.Confirmation);
     }
 
-    public static async Task<int> ShowYesNoDialogAsync(string title, string message)
+    public async Task<int> ShowYesNoDialogAsync(string title, string message)
     {
-        return await Instance.ShowDialogAsync(title, message, DialogType.YesNo);
+        return await ShowDialogAsync(title, message, DialogType.YesNo);
     }
 
-    public MainWindowViewModel()
+    public override void Initialize(ImmutableDictionary<Type, IService> services)
     {
-        Instance = this;
+        PopupPresenterViewModel = services.Get(typeof(PopupPresenterViewModel)) as PopupPresenterViewModel ?? throw new NullReferenceException("PopupPresenter was not initialized!");
+        MainViewModel = services.Get<MainViewModel>(typeof(MainViewModel));
     }
 
     [RelayCommand]

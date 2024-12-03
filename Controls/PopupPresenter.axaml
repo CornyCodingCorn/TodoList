@@ -77,11 +77,6 @@
     </Style>
     
     <Style Selector="controls|PopupPresenter">
-        <Setter Property="DataContext">
-            <Setter.Value>
-                <viewModels:PopupPresenterViewModel/>
-            </Setter.Value>
-        </Setter>
         <Setter Property="IsShowingDialog" Value="{Binding IsShowingDialog, Mode=TwoWay}"/>
         <Setter Property="PopupContent" Value="{Binding PopupContent, Mode=TwoWay}"/>
         <Setter Property="IsStartedAnimating" Value="{Binding IsStartedAnimating}"/>

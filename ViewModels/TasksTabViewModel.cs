@@ -6,12 +6,12 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ToDoList.Controls;
 using ToDoList.Models;
+using ToDoList.ViewModels.Helpers;
 
 namespace ToDoList.ViewModels;
 
 public partial class TasksTabViewModel : ViewModelBase, ITaskManagingViewModel
 {
-    public static TasksTabViewModel? Instance { get; private set; } 
     private const string DefaultTaskDescription = "Edit this task to add description";
 
     [ObservableProperty] private ObservableCollection<TaskItemViewModel> _tasks = [];
@@ -22,13 +22,29 @@ public partial class TasksTabViewModel : ViewModelBase, ITaskManagingViewModel
     private const int TimeBeforeMovingTaskToArchive = 300000;
     private const int TimeForRemoveAnimation = 400;
     private TaskItemViewModel? _taskToDelete;
+    
+    private MainWindowViewModel? _mainWindowViewModel;
+    private MainWindowViewModel MainWindowViewModel
+    {
+        get => _mainWindowViewModel ?? throw new NullReferenceException("The main window viewModel in tasks tab view model is null.");
+        set => _mainWindowViewModel = value;
+    }
+    
+    private ArchiveViewModel? _archiveViewModel;
+
+    private ArchiveViewModel ArchiveViewModel
+    {
+        get => _archiveViewModel ?? throw new NullReferenceException("The archive viewModel in tasks tab view model is null.");
+        set => _archiveViewModel = value;
+    }
 
     private bool CanAddTask => NewTaskName != string.Empty;
 
-    public TasksTabViewModel()
+    public override void Initialize(ImmutableDictionary<Type, IService> services)
     {
+        MainWindowViewModel = services.Get(typeof(MainWindowViewModel)) as MainWindowViewModel ?? throw new NullReferenceException("Main Window Viewmodel is not initialized");
+        ArchiveViewModel = services.Get<ArchiveViewModel>(typeof(ArchiveViewModel));
         LoadTasks();
-        Instance = this;
     }
     
     public void LoadTasks()
@@ -53,7 +69,7 @@ public partial class TasksTabViewModel : ViewModelBase, ITaskManagingViewModel
     {
         Tasks.Remove(task);
     }
-    
+
     [RelayCommand]
     public async Task DeleteTaskAsync(TaskItemViewModel task)
     {
@@ -79,7 +95,7 @@ public partial class TasksTabViewModel : ViewModelBase, ITaskManagingViewModel
 
     public void AddTask(TaskModel task)
     {
-        var taskViewModel = new TaskItemViewModel(task, DeleteTaskCommand);
+        var taskViewModel = new TaskItemViewModel(task, DeleteTaskCommand, MainWindowViewModel);
         taskViewModel.Archived += HandleTaskArchivedEvent;
         taskViewModel.TimeBeforeArchiving = TimeBeforeMovingTaskToArchive;
 
@@ -114,7 +130,7 @@ public partial class TasksTabViewModel : ViewModelBase, ITaskManagingViewModel
         {
             await Task.Delay(TimeForRemoveAnimation);
             // Change later to actually moving it to archive
-            ArchiveViewModel.Instance?.AddTask(viewmodel.Model);
+            ArchiveViewModel.AddTask(viewmodel.Model);
             Tasks.Remove(viewmodel);
             Logger.Sink?.Log(LogEventLevel.Information, "Task", this, $"Task with name {viewmodel.Model.Name} has been archived");
         }

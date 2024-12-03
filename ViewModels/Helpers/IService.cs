@@ -4,5 +4,5 @@ namespace ToDoList.ViewModels.Helpers;
 
 public interface IService
 {
-    public void Initialize(ImmutableDictionary<Type, IService> dependencyInjector) {}
+    public void Initialize(ImmutableDictionary<Type, IService> services);
 }

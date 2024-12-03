@@ -12,11 +12,6 @@
         <viewModels:MainViewModel/>
     </Design.DataContext>
     
-    <UserControl.DataContext>
-        <!-- Set view model here because it's a static view, and is not going to change -->
-        <viewModels:MainViewModel/>
-    </UserControl.DataContext>
-    
     <Grid ColumnDefinitions="Auto, *">
         <controls:HamburgerMenu Grid.Column="0"
                                 x:Name="HamburgerMenu"

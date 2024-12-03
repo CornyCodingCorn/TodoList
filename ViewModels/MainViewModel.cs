@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ToDoList.Controls;
+using ToDoList.ViewModels.Helpers;
 
 namespace ToDoList.ViewModels;
 
@@ -13,13 +14,15 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty] private HamburgerMenuItem _selectedMenuItem = null!;
     [ObservableProperty] private ObservableCollection<HamburgerMenuItem> _bodyMenuItems = null!;
     [ObservableProperty] private ObservableCollection<HamburgerMenuItem> _footerMenuItems = null!;
-    [ObservableProperty] private ViewModelBase _currentViewModel = null!;
+    [ObservableProperty] private IService _currentViewModel = null!;
 
-    private readonly List<ViewModelBase> _viewModels = [];
+    private readonly Dictionary<Type, IService> _viewModels = new();
 
-    public MainViewModel()
+    public override void Initialize(ImmutableDictionary<Type, IService> services)
     {
         LoadItems();
+        foreach(var item in BodyMenuItems.Concat(FooterMenuItems))
+            _viewModels.Add(item.Type, services.Get(item.Type));
     }
 
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
@@ -30,14 +33,9 @@ public partial class MainViewModel : ViewModelBase
 
     private void HandleSelectedMenuItemChanged()
     {
-        if (_viewModels.All(x => x.GetType() != SelectedMenuItem.Type))
-        {
-            _viewModels.Add(Activator.CreateInstance(SelectedMenuItem.Type) as ViewModelBase
-                            ?? throw new InvalidOperationException(
-                                "HamburgerMenuItem has type that isn't from ViewModelBase"));
-        }
-
-        CurrentViewModel = _viewModels.Single(x => x.GetType() == SelectedMenuItem.Type);
+        if (!_viewModels.TryGetValue(SelectedMenuItem.Type, out var viewModel))
+            throw new Exception("No view model fit the current selected item");
+        CurrentViewModel = viewModel;
     }
 
     private void LoadItems()

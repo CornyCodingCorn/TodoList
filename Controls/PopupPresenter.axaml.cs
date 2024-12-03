@@ -9,6 +9,7 @@ using Avalonia.Metadata;
 using Avalonia.Rendering;
 using CommunityToolkit.Mvvm.Input;
 using ShimSkiaSharp;
+using ToDoList.ViewModels;
 
 namespace ToDoList.Controls;
 
@@ -66,6 +67,11 @@ public partial class PopupPresenter : TemplatedControlForAnimation
         set => SetValue(IsStartedAnimatingProperty, value);
     }
     #endregion
+
+    public PopupPresenter()
+    {
+        DataContext = Program.DependencyInjector.Services.Get(typeof(PopupPresenterViewModel));
+    }
 
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
