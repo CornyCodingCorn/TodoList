@@ -30,8 +30,6 @@ everyone does as a tutorial (I actually don't know, don't quote me ¯\\\_(ツ)_/
 ## 🕦 DOING
 
 ### Must have:
-- Add DI to the project and use it for all viewmodel that will only have 1 instance
-- Add a middle man to handle transferring task from TaskTab to Archive
 
 ### Nice to have:
 
@@ -40,6 +38,7 @@ everyone does as a tutorial (I actually don't know, don't quote me ¯\\\_(ツ)_/
 
 ### Must have:
 
+- Add DI to the project and use it for all viewmodel that will only have 1 instance
 - Tasks with timer to keep track
 - Hamburger menu for switching windows
 - Create custom expander -> Change the expander to look much better
